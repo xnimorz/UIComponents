@@ -1,0 +1,111 @@
+/*
+Стили для календаря.
+*/
+.ui-calendar-font-white-color
+{
+color:#eee;
+}
+
+.ui-calendar-font {
+        font-family:'Segoe UI';
+        font-size:.8em;
+}
+
+.ui-calendar-margin {
+    margin:1px;
+}
+
+
+.ui-calendar-div {
+    border: 1px solid #aaa;
+    background-color: #fff;
+    color: #222;
+    width:220px;
+
+}
+
+.ui-calendar-head {
+    border:1px solid #aaa;
+    padding: 3px;
+    background: #cccccc url(images/ui-calendar-line.png) 50% 50% repeat-x;
+}
+
+.ui-calendar-move {
+
+    color:#444;
+    width:10px;
+}
+
+.ui-calendar-list {
+    list-style:none;
+    position:relative;
+    left:-40px;
+    top:-10px;
+    width:220px;
+    color: #222;
+}
+
+.ui-calendar-clear {
+    clear:both;
+}
+
+.ui-calendar-select
+{
+    color: #1111ee;
+    font-weight: bold;
+}
+
+.ui-calendar-selectable {
+}
+
+    .ui-calendar-selectable:hover {
+        opacity:0.7;
+    }
+
+
+.ui-calendar-list-up {
+    top:-25px;
+}
+
+.ui-calendar-list-item {
+    display:block;
+    width:20px;
+    height:20px;
+    margin:2px;
+    padding:3px;
+
+
+}
+
+.ui-calendar-text-left-side
+{
+	text-align:right;
+}
+
+.ui-calendar-cursor:hover
+{
+ cursor:pointer;
+}
+
+.ui-calendar-move:hover {
+       
+    color:#111;
+    background-color:#fff;
+    opacity:0.7;
+
+}
+
+.ui-calendar-daterange {
+ 
+    text-align:center;
+    position:relative;
+    left:50px;
+}
+
+.left-side {
+    float:left;
+}
+
+.right-side {
+    float:right;
+}

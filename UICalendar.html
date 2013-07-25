@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" 
+	  http-equiv="Content-Type"/>
+  <title>Text Input Demo</title>
+	<link rel="stylesheet" type="text/css" href="UICalendar.css"/>
+      <script type="text/javascript" src="http://yandex.st/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="UICalendar.js"></script>
+      <style>
+          #AnotherCalendar
+          {
+            position: absolute;
+             left: 500px;
+              top:50px;
+          }
+      </style>
+      <script>
+
+
+          ///Пример использования календаря.
+
+          var ExampleCalendar,ExampleCalendar2;
+          $(function()
+          {
+
+              ExampleCalendar = new UICalendar("#WeekCalendar",true);
+              ExampleCalendar2 = new UICalendar("#AnotherCalendar",false);
+          });
+
+          function show()
+          {
+              //залогируем выбранные даты первого календаря
+              console.log(ExampleCalendar.getSelectedDates().join(","));
+          }
+
+      </script>
+</head>
+<body>
+    <div id="WeekCalendar">
+       
+    </div>
+<button onclick="show()">Показать</button>
+<div id="AnotherCalendar"></div>
+</body>
+</html>
