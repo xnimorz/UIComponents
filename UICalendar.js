@@ -2,14 +2,26 @@
  * Создает экземпляр нового виджета календарь
  * @param {String} jquerySelector - css селектор DOM элемента, внутри которого расположится календарь
  * @param multipleSelect - разрешение на мультивыборку (по умолчанию запрешена)
+ * @param startYear - год отображения
+ * @param startMounth - месяц отображения
  * @constructor
  */
-function UICalendar(jquerySelector, multipleSelect) {
+function UICalendar(jquerySelector, multipleSelect, startYear, startMounth) {
     this.target = $(jquerySelector);
     this.targetSelector = jquerySelector;
     this.ctrlKey = multipleSelect;
-    this.firstMounthDate;
-    this.currentDate;
+   this.currentDate = new Date();
+    if (startYear)
+    {
+        this.currentDate.setYear(startYear);
+    }
+    if (startMounth)
+    {
+        this.currentDate.setMonth(startMounth);
+    }
+
+    this.firstMounthDate = this.currentDate;
+    this.firstMounthDate.setDate(1);
     this.mounth = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
     this.calendarListDiv = $("<div></div>");
     this.dateRange;
@@ -96,9 +108,7 @@ UICalendar.prototype.init = function () {
     var leftSpan = $("<span class='ui-calendar-cursor ui-calendar-move left-side'>&lt</span>");
     var rightSpan = $("<span class='ui-calendar-cursor ui-calendar-move right-side'>&gt</span>");
     this.dateRange = $("<span class='ui-calendar-daterange'></span>");
-    this.currentDate = new Date();
-    this.firstMounthDate = this.currentDate;
-    this.firstMounthDate.setDate(1);
+
 
 
 
@@ -134,6 +144,26 @@ UICalendar.prototype.init = function () {
 
 
 };
+
+/**
+ * Задает месяц для отображения
+ * @param mounth - месяц, необходимый для отображения
+ */
+UICalendar.prototype.setMounth = function(mounth)
+{
+    this.setMonth(mounth);
+    this.initMounth();
+}
+
+/**
+ * Задает год для отображения
+ * @param year
+ */
+UICalendar.prototype.setYear = function(year)
+{
+    this.firstMounthDate.setYear(year);
+    this.initMounth();
+}
 
 /**
  * Переход на другой месяц
