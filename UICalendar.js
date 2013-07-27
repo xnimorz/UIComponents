@@ -11,10 +11,9 @@ function UICalendar(jquerySelector, multipleSelect, calendarType, autoSwitch, st
     this.targetSelector = jquerySelector;
     this.ctrlKey = multipleSelect;
 	this.mounth = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-   this.currentDate = new Date();
 	this.calendar;
 	this.daysDiv = $('<div class="ui-calendar-margin"></div>');
-	this.firstMonthDate = this.currentDate;
+	this.firstMonthDate = new Date();
 	this.firstMonthDate.setDate(1);
 	this.autoSwitch = autoSwitch;
 	this.calendarListDiv = $("<div></div>");
@@ -33,11 +32,11 @@ function UICalendar(jquerySelector, multipleSelect, calendarType, autoSwitch, st
 
     if (startYear)
     {
-        this.currentDate.setYear(startYear);
+        this.firstMonthDate.setYear(startYear);
     }
     if (startMonth)
     {
-        this.currentDate.setMonth(startMonth);
+        this.firstMonthDate.setMonth(startMonth);
     }
 
 
@@ -62,12 +61,13 @@ UICalendar.prototype.getSelectedDates = function () {
  */
 UICalendar.prototype.dateClick = function(currentObject,selectedDate,e)
 {
+	//item уже был выбран
 	if ($(this).hasClass('ui-calendar-select'))
 	{
 		$(this).removeClass('ui-calendar-select');
 		for (var i = 0 ; i < currentObject.selectedDates.length; i++)
 		{
-
+			//удаляем его из массива выбранных
 			if (currentObject.selectedDates[i].toString() == selectedDate.toString())
 			{
 				currentObject.selectedDates.splice(i,1);
@@ -76,22 +76,24 @@ UICalendar.prototype.dateClick = function(currentObject,selectedDate,e)
 		}
 	}
 	else
-	{
+	{   //Если не мульти-селект, затираем предыдущие значения
 		if (!e.ctrlKey || !currentObject.ctrlKey)
 		{
 			$(currentObject.targetSelector +" .ui-calendar-select").removeClass('ui-calendar-select');
 			currentObject.selectedDates = [];
 		}
+		//Добаляем новое
 		$(this).addClass('ui-calendar-select');
 		currentObject.selectedDates.push(selectedDate);
 	}
 }
 
 /**
- * Инициализация блока календаря
+ * Инициализация блока календаря (верхняя полоса, блоки)
  */
 UICalendar.prototype.init = function ()
 {
+	//Верхний блок
 	var calendar = $("<div class='ui-calendar-font ui-calendar-div'></div>");
 	var calendarHead = $("<div class='ui-calendar-head ui-calendar-margin'></div>");
 	var leftSpan = $("<span class='ui-calendar-cursor ui-calendar-move left-side'>&lt</span>");
@@ -106,6 +108,7 @@ UICalendar.prototype.init = function ()
 
 	var currentObject = this;
 
+	//Реакция на переключение (влево вправо)
 	leftSpan.bind("click", function () {
 
 		currentObject.calendar.move(-1);
@@ -114,7 +117,7 @@ UICalendar.prototype.init = function ()
 		currentObject.calendar.move(1);
 	});
 
-
+	//Описание дней недели
 	this.weekDescription = $('<ol class="ui-calendar-list">\
                 <li class="left-side ui-calendar-list-item ui-calendar-list-item-width" title="Понедельник">Пн</li>\
                 <li class="left-side ui-calendar-list-item ui-calendar-list-item-width" title="Вторник">Вт</li>\
@@ -283,6 +286,7 @@ function UICalendarMonthProvider(UICalendarItem)
 		var startMounthDay = this.UICalendarItem.firstMonthDate;
 		this.UICalendarItem.dateRange.html(this.UICalendarItem.firstMonthDate.getFullYear());
 
+		//Инициализация месяцев в году. Выводим первые три буквы месяца, вычисляем нужный месяц по аттрибуту index
 		for (var i = 0; i < this.UICalendarItem.mounth.length ; i++) {
 			daysList += "<li class='left-side ui-calendar-cursor ui-calendar-list-item  ui-calendar-selectable' index="+i+">"+this.UICalendarItem.mounth[i].slice(0,3)+"</li>";
 		}
