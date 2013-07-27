@@ -12,7 +12,7 @@
           {
             position: absolute;
              left: 500px;
-              top:50px;
+              top:80px;
           }
       </style>
       <script>
@@ -20,27 +20,39 @@
 
           ///Пример использования календаря.
 
-          var ExampleCalendar,ExampleCalendar2;
+          var ExampleCalendar,ExampleCalendar2,test;
           $(function()
           {
 
-              ExampleCalendar = new UICalendar("#WeekCalendar",true);
-              ExampleCalendar2 = new UICalendar("#AnotherCalendar",false,1993);
+              ExampleCalendar = new UICalendar("#WeekCalendar",true,"year",false,1976);
+              ExampleCalendar2 = new UICalendar("#AnotherCalendar",false,"month",false,1993);
+              test = new UICalendar("#test",true,"year",true,1980);
           });
 
           function show()
           {
               //залогируем выбранные даты первого календаря
               console.log(ExampleCalendar.getSelectedDates().join(","));
+              console.log(ExampleCalendar2.getSelectedDates());
+              console.log(test.getSelectedDates());
           }
 
       </script>
 </head>
 <body>
+Выбирать много значений можно с помощью кнопки ctrl. (если в конструктор передано вторым параметром true)
+<br/>
+Возвращаться на предыдущий уровень можно нажатием на дату сверху (если в констукторе 4-м параметром true-  по умолчанию запрещено)
+<br/>
+Можно запретить спускаться до даты и остановить выбор только месяца\года (4-й параметр в конструктор false - установлен по усолчанию)
     <div id="WeekCalendar">
        
     </div>
-<button onclick="show()">Показать</button>
+<button onclick="show()">Показать в консоль</button>
+<br/>
+В этом примере в года будет идти "спуск" до выбора даты. Подняться на уровень выше можно, нажав на интервал.<br/>
+Здесь разрешено выбирать несколько дат:
 <div id="AnotherCalendar"></div>
+    <div id="test"></div>
 </body>
 </html>

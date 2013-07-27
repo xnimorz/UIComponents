@@ -64,17 +64,27 @@ color:#eee;
 
 
 .ui-calendar-list-up {
-    top:-25px;
+    top:-15px;
+}
+
+.ui-calendar-list-item-width
+{
+    width:20px;
 }
 
 .ui-calendar-list-item {
     display:block;
-    width:20px;
     height:20px;
     margin:2px;
     padding:3px;
 
 
+}
+
+.ui-calendar-daterange-clickable:hover
+{
+    cursor: pointer;
+    opacity: 0.5;
 }
 
 .ui-calendar-text-left-side
