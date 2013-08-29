@@ -20,13 +20,15 @@
 
           ///Пример использования календаря.
 
-          var ExampleCalendar,ExampleCalendar2,test;
+          var ExampleCalendar,ExampleCalendar2,test,eventTest;
           $(function()
           {
 
               ExampleCalendar = new UICalendar("#WeekCalendar",true,"year",false,1976);
               ExampleCalendar2 = new UICalendar("#AnotherCalendar",false,"month",false,1993);
               test = new UICalendar("#test",true,"year",true,1980);
+              eventTest = new UICalendar("#event-test",false,"date",true);
+              eventTest.addEvents({names:["Никита","Егор"], description:"событие"},new Date(2013,7,10));
           });
 
           function show()
@@ -54,5 +56,7 @@
 Здесь разрешено выбирать несколько дат:
 <div id="AnotherCalendar"></div>
     <div id="test"></div>
+ Пример сохранненных событий (10 августа 2013 года)
+<div id="event-test"></div>
 </body>
 </html>

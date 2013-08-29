@@ -15,6 +15,20 @@ color:#eee;
     margin:1px;
 }
 
+.ui-calendar-today
+{
+    background-color: #efefef;
+}
+
+.ui-calendar-events
+{
+   background-color: #c2e4fe;
+}
+
+.ui-calendar-month-control
+{
+    color:#777;
+}
 
 .ui-calendar-div {
     border: 1px solid #aaa;

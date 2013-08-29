@@ -5,10 +5,18 @@
  * @param startYear - год отображения
  * @param startMonth - месяц отображения
  * @constructor
+ * @attribute target - целевой JQuery объект
+ * @attribute targetSelector - заданный селектор
+ * @attribute events - ассоциативный массив событий
+ * @attribute ctrlKey - multi select возможность
+ * @attribute firstMonthDate - отображаемая дата (год\месяц)
+ * @attribute dateRange - выбранные даты
+ * @attribute calendar - текущий календарь (месяцев,годов, дат)
  */
 function UICalendar(jquerySelector, multipleSelect, calendarType, autoSwitch, startYear, startMonth) {
     this.target = $(jquerySelector);
     this.targetSelector = jquerySelector;
+	this.events = [];
     this.ctrlKey = multipleSelect;
 	this.mounth = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 	this.calendar;
@@ -42,6 +50,7 @@ function UICalendar(jquerySelector, multipleSelect, calendarType, autoSwitch, st
 
     this.calendar.initValues();
     this.selectedDates = [];
+
 }
 
 /**
@@ -52,6 +61,54 @@ UICalendar.prototype.getSelectedDates = function () {
 	return this.selectedDates;
 };
 
+/**
+ * Возврашает массив событий определенного дня
+ * @param {Date} date - выбранный день
+ * @returns {Array} массив со всеми событиями выбранного дня
+ */
+UICalendar.prototype.getEvents = function(date)
+{
+	var index = date.getFullYear()+"/"+date.getMonth()+"/"+date.getDate();
+
+	if (this.events[index])
+		return this.events[index];
+	else
+		return null;
+}
+
+/**
+ * Добавляет события для выбранного (либо выделенных) дня\дней
+ * @param eventDescription - событие
+ * @param concreteDates - выбранный день
+ */
+UICalendar.prototype.addEvents = function(eventDescription, concreteDates)
+{
+	var addEvent = function(eventArray,eventDescription,date)
+	{
+		var index = date.getFullYear()+"/"+date.getMonth()+"/"+date.getDate();
+		if (eventArray[index])
+		{
+			eventArray[index].push(eventDescription);
+		}
+		else
+		{
+			eventArray[index] = [eventDescription];
+		}
+	};
+
+	var dates =  concreteDates || this.selectedDates;
+	if (dates instanceof Array)
+	{
+		for(var i in dates)
+			addEvent(this.events,eventDescription,dates[i]);
+	}
+	else
+	{
+		addEvent(this.events,eventDescription,dates);
+	}
+	this.calendar.initValues();
+
+};
 
 /**
  * Общая реакция для всех классов реакция на клик по дате\месяцу\году
@@ -357,18 +414,42 @@ function UICalendarDateProvider(UICalendarItem)
 	 */
 	this.initValues = function()
 	{
+
 		this.UICalendarItem.calendarListDiv.html("");
 		var daysList = '<ol class="ui-calendar-list-mounth ui-calendar-list ui-calendar-list-up ui-calendar-font-white-color ui-calendar-text-left-side">';
 		var startMounthDay = this.UICalendarItem.firstMonthDate;
 		this.UICalendarItem.dateRange.html(this.UICalendarItem.mounth[this.UICalendarItem.firstMonthDate.getMonth()] + ' ' + this.UICalendarItem.firstMonthDate.getFullYear());
 		var startIndex = startMounthDay.getDay() - 1;
 		if (startIndex < 0) startIndex = 6;
+		//Количество дней в предыдущем месяце
+		var monthBefore = new Date(startMounthDay.getFullYear(),startMounthDay.getMonth(),startMounthDay.getDate());
+		monthBefore.setMonth(monthBefore.getMonth()-1);
+		var dayInMonthBefore = monthBefore.getDaysInMonth();
+
 		for (var i = 0; i < startIndex; i++) {
-			daysList += "<li class='left-side ui-calendar-list-item ui-calendar-list-item-width'></li>";
+			daysList += "<li class='left-side ui-calendar-list-item ui-calendar-list-item-width ui-calendar-cursor ui-calendar-selectable ui-calendar-month-control ui-calendar-prev-month'>"+(dayInMonthBefore-startIndex+i+1)+"</li>";
 		}
+		var today = new Date();
 		for (var i = 0; i < startMounthDay.getDaysInMonth() ; i++) {
-			daysList += "<li class='left-side ui-calendar-cursor ui-calendar-list-item  ui-calendar-selectable ui-calendar-list-item-width'>"+(i+1)+"</li>";
+			var currentEvents = this.UICalendarItem.getEvents(new Date(startMounthDay.getFullYear(),startMounthDay.getMonth(),i+1));
+			if (today.getFullYear() == startMounthDay.getFullYear() && today.getMonth() == startMounthDay.getMonth() && today.getDate() == i+1)
+			{
+				daysList += "<li class='left-side ui-calendar-cursor ui-calendar-list-item  ui-calendar-selectable ui-calendar-list-item-width ui-calendar-today'>"+(i+1)+"</li>";
+			}
+			else
+				if (currentEvents)
+					daysList += "<li class='left-side ui-calendar-cursor ui-calendar-list-item  ui-calendar-selectable ui-calendar-list-item-width ui-calendar-events'>"+(i+1)+"</li>";
+				else
+					daysList += "<li class='left-side ui-calendar-cursor ui-calendar-list-item  ui-calendar-selectable ui-calendar-list-item-width'>"+(i+1)+"</li>";
+
 		}
+		//Заполним окончание недели следующим месяцем
+		var lastsDaysInWeek = 7 - (startMounthDay.getDaysInMonth() - (7- startIndex))%7;
+
+		if (lastsDaysInWeek < 7)
+			for (var i = 0; i < lastsDaysInWeek ; i++) {
+					daysList += "<li class='left-side ui-calendar-cursor ui-calendar-list-item  ui-calendar-selectable ui-calendar-list-item-width ui-calendar-month-control ui-calendar-next-month'>"+(i+1)+"</li>";
+			}
 		daysList += '</ol><div class=ui-calendar-clear></div>';
 		this.UICalendarItem.calendarListDiv.append($(daysList));
 
@@ -381,8 +462,21 @@ function UICalendarDateProvider(UICalendarItem)
 		 */
 		$(this.UICalendarItem.targetSelector + " .ui-calendar-list-mounth li").bind("click",function(e)
 		{
+			if ($(this).hasClass("ui-calendar-month-control"))
+			{
+				if ($(this).hasClass("ui-calendar-prev-month"))
+				{
+					currentObject.calendar.move(-1);
+
+				}
+				else
+					currentObject.calendar.move(1);
+				return;
+			}
+
 			var selectedDate = new Date(currentObject.firstMonthDate.getFullYear(),currentObject.firstMonthDate.getMonth(), $(this).html());
 			currentObject.dateClick.call(this,currentObject,selectedDate,e);
+
 
 		});
 	}
