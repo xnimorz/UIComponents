@@ -53,6 +53,53 @@ function UICalendar(jquerySelector, multipleSelect, calendarType, autoSwitch, st
 
 }
 
+UICalendar.prototype.checkLocalStorage = function()
+{
+		try {
+			return 'localStorage' in window && window['localStorage'] !== null && localStorage != undefined;
+		} catch (e) {
+			console.log("localStorage недоступен");
+			return false;
+		}
+}
+
+UICalendar.prototype.loadEventsFromLocalStorage  = function()
+{
+	if (!this.checkLocalStorage()) return false;
+	for (var i in localStorage)
+	{
+		if (i.match(/[0-9]+\/[0-9]+\/[0-9]+/))
+		{
+			this.events[i] = JSON.parse(localStorage[i]);
+		}
+	}
+	this.calendar.initValues();
+}
+
+UICalendar.prototype.syncWithLocalStorage = function()
+{
+	if (!this.checkLocalStorage()) return false;
+	for (var i in this.events)
+	{
+		var t = JSON.stringify(this.events[i]);
+		if (!localStorage[i] || localStorage[i] != t)
+		{
+			localStorage.setItem(i,t);
+		}
+	}
+	for (var i in localStorage)
+	{
+		if (i.match(/[0-9]+\/[0-9]+\/[0-9]+/))
+		{
+			if (!this.events[i])
+				localStorage.removeItem(i);
+		}
+	}
+
+
+
+}
+
 /**
  * Перевод календаря к выбранной дате
  * @param {Date} date - выбранная дата

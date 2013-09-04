@@ -28,7 +28,16 @@
               ExampleCalendar2 = new UICalendar("#AnotherCalendar",false,"month",false,1993);
               test = new UICalendar("#test",true,"year",true,1980);
               eventTest = new UICalendar("#event-test",false,"date",true);
-              eventTest.addEvents({names:["Никита","Егор"], description:"событие"},new Date(2013,7,10));
+
+
+              //Можно добавлять события программно
+              eventTest.addEvents({users:["Jack","Smit"], description:"событие"},new Date(2013,8,10));
+            eventTest.addEvents("Событие, описанное строкой",new Date(2013,8,14));
+              //Сохранять уже записанные в localStorage (синхронизировать)
+              eventTest.syncWithLocalStorage();
+
+              //Либо загружать сохраненные из localStorage
+              eventTest.loadEventsFromLocalStorage();
           });
 
           function show()
@@ -59,4 +68,5 @@
  Пример сохранненных событий (10 августа 2013 года)
 <div id="event-test"></div>
 </body>
+
 </html>
