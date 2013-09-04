@@ -54,6 +54,18 @@ function UICalendar(jquerySelector, multipleSelect, calendarType, autoSwitch, st
 }
 
 /**
+ * Перевод календаря к выбранной дате
+ * @param {Date} date - выбранная дата
+ */
+UICalendar.prototype.toDate = function(date)
+{
+	this.firstMonthDate = date;
+	this.firstMonthDate.setDate(1);
+	this.calendar = new UICalendarDateProvider(this);
+	this.calendar.initValues();
+}
+
+/**
  * Возвращает выбранные даты
  * @returns {Array}
  */
@@ -68,12 +80,36 @@ UICalendar.prototype.getSelectedDates = function () {
  */
 UICalendar.prototype.getEvents = function(date)
 {
+	if (!date) return null;
+
 	var index = date.getFullYear()+"/"+date.getMonth()+"/"+date.getDate();
 
 	if (this.events[index])
 		return this.events[index];
 	else
 		return null;
+}
+
+/**
+ * Удаление события календаря
+ * @param {Date} date - дата, с которой будет удалено событие
+ * @param  event - если определено - удаление конкретной записи, а не событий всего дня
+ */
+UICalendar.prototype.deleteEvent = function(date,event)
+{
+	var index = date.getFullYear()+"/"+date.getMonth()+"/"+date.getDate();
+
+	if (this.events[index])
+	{
+		if (event)
+			for (var i in this.events[index])
+			{
+				if (event == this.events[index][i])
+					delete this.events[index][i];
+			}
+		else
+			delete this.events[index];
+	}
 }
 
 /**
