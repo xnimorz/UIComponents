@@ -56,7 +56,7 @@ function UICalendar(jquerySelector, multipleSelect, calendarType, autoSwitch, st
 UICalendar.prototype.checkLocalStorage = function()
 {
 		try {
-			return 'localStorage' in window && window['localStorage'] !== null && localStorage != undefined;
+			return 'localStorage' in window && window['localStorage'] != null && localStorage != undefined;
 		} catch (e) {
 			console.log("localStorage недоступен");
 			return false;
