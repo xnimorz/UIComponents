@@ -18,17 +18,26 @@ function UITimeLine(selector,days, startDate, intervalInMinutes, rightTimeLine, 
 {
 	this.selector = selector;
 	this.target = $(selector);
-	this.target.html("");
+
 	this.interval = intervalInMinutes || 30;
 	this.interval = this.interval < 30 ? 30:this.interval;
 	this.pxPerItem = widgetSizeInPx?(widgetSizeInPx / Math.ceil(24*60/intervalInMinutes)) : 12;
+    this.eventsTime = [];
 	this.days = days || 1;
 	this.date;
 	this.itemsContainer;
-	this.itemsCount = this.init(useChangeDatesButtons?-1:undefined);
+    this.changeDatesButtons = useChangeDatesButtons
+	this.itemsCount = this.init(this.changeDatesButtons?-1:undefined);
 	this.setDate(startDate);
     this.selectedTime = [];
-    this.eventsTime = [];
+
+
+}
+
+UITimeLine.prototype.updateWidget = function()
+{
+    this.init(this.changeDatesButtons);
+    this.setDate(this.date);
 
 }
 
@@ -40,6 +49,7 @@ UITimeLine.prototype.setDate = function(date)
 
 UITimeLine.prototype.init = function(direction)
 {
+    this.target.html("");
 	var divGeneral = $("<div class='ui-timeline-font ui-timeline-div'></div>");
 	var divText = $("<div class='ui-timeline-textbar'></div>");
 	this.itemsContainer = $("<div class='ui-timeline-items ui-timeline-nonselectable'></div>");
@@ -73,7 +83,7 @@ UITimeLine.prototype.initDates = function()
 {
 
 	var dayTemplate = "<div class=ui-timeline-items__bar>{0}</div>";
-	var template = "<div class='ui-timeline-items__bar__item' time='{0}' style='top:{1}px; height:{2}px'></div>";
+	var template = "<div class='ui-timeline-items__bar__item {3}' time='{0}' style='top:{1}px; height:{2}px'></div>";
     this.date.setDate(this.date.getDate() - 1);
     for (var i = 0; i < this.days; i++)
     {
@@ -83,13 +93,31 @@ UITimeLine.prototype.initDates = function()
         {
             var hour = (j*this.interval/60 >> 0);
             var min = (j*this.interval%60);
+            var timeLeft = hour*60 + min;
+            var timeRight = timeLeft + this.interval;
+            var asEvent = false
+           for (var index = 0; index < this.eventsTime.length && !asEvent; index++)
+            {
+
+                if (this.eventsTime[index].date.getFullYear() == this.date.getFullYear() &&
+                        this.date.getMonth() == this.eventsTime[index].date.getMonth() &&
+                        this.date.getDate() == this.eventsTime[index].date.getDate())
+                {
+                    var eventTimeLeft = this.eventsTime[index].date.getHours()*60 + this.eventsTime[index].date.getMinutes();;
+                    var eventTimeRight = eventTimeLeft + this.eventsTime[index].long
+                    if ((timeLeft <= eventTimeLeft && timeRight > eventTimeLeft) || (timeLeft < eventTimeRight && timeRight >= eventTimeRight))
+                        asEvent = true;
+                }
+            }
             currentDay.append($(template
                 .replace('{0}',this.date.getFullYear() + "." +  this.date.getMonth() + "." + this.date.getDate() + " " +
                         (hour >= 10? hour : '0' + hour) +":" + (min >= 10? min:'0'+min)).replace('{1}',10*j)
-                .replace('{2}',this.pxPerItem - 1)));
+                .replace('{2}',this.pxPerItem - 1)
+                .replace('{3}',asEvent?"ui-timeline-event":"")));
         }
         this.itemsContainer.append(currentDay);
     }
+    this.date.setDate(this.date.getDate() - this.days + 1);
 
     var selectItem = function(item)
     {
