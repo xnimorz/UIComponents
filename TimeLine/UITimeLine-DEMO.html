@@ -12,7 +12,8 @@
           var test
           $(function()
           {
-          test = new UITimeLine("#time",3);
+          test = new UITimeLine("#time",3,new Date(),30,true,true);
+          test.loadEventsFromLocalStorage();
           })
 
           function addEvent()
@@ -31,13 +32,18 @@
               test.updateWidget();
               console.log(test.getEvents());
           }
+
+          function saveToLocalStorage()
+          {
+              test.saveEventsToLocalStorage();
+          }
       </script>
 </head>
 <body>
 <button onclick="javascript: console.log(test.getSortedSelectedTimes());">click me to look in console</button>
 <input type="text" id="event-text"/>
 <button onclick="addEvent()">click me to add event</button>
-
+<button onclick="saveToLocalStorage()">click me to save events to localStorage</button>
 <div id="time">lol</div>
 </body>
 

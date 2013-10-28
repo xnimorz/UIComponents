@@ -14,7 +14,7 @@
  * @param {Boolean} useChangeDatesButtons - по умолчанию true
  * @constructor создание и отображение виджета
  */
-function UITimeLine(selector,days, startDate, intervalInMinutes, rightTimeLine, widgetSizeInPx, useChangeDatesButtons)
+function UITimeLine(selector,days, startDate, intervalInMinutes, rightTimeLine, useChangeDatesButtons, widgetSizeInPx)
 {
 	this.selector = selector;
 	this.target = $(selector);
@@ -26,8 +26,9 @@ function UITimeLine(selector,days, startDate, intervalInMinutes, rightTimeLine, 
 	this.days = days || 1;
 	this.date;
 	this.itemsContainer;
-    this.changeDatesButtons = useChangeDatesButtons
-	this.itemsCount = this.init(this.changeDatesButtons?-1:undefined);
+    this.rightTimeLine = rightTimeLine || false;
+    this.changeDatesButtons = useChangeDatesButtons || false;
+	this.itemsCount = this.init(this.changeDatesButtons,this.rightTimeLine);
 	this.setDate(startDate);
     this.selectedTime = [];
 
@@ -36,7 +37,6 @@ function UITimeLine(selector,days, startDate, intervalInMinutes, rightTimeLine, 
 
 UITimeLine.prototype.updateWidget = function()
 {
-    this.init(this.changeDatesButtons);
     this.setDate(this.date);
 
 }
@@ -44,26 +44,72 @@ UITimeLine.prototype.updateWidget = function()
 UITimeLine.prototype.setDate = function(date)
 {
 	this.date = date || new Date();
+    this.itemsContainer.html("");
 	this.initDates();
 }
 
-UITimeLine.prototype.init = function(direction)
+UITimeLine.prototype.init = function(useChangeButtons, rightTimeLine)
 {
     this.target.html("");
 	var divGeneral = $("<div class='ui-timeline-font ui-timeline-div'></div>");
-	var divText = $("<div class='ui-timeline-textbar'></div>");
+	var divText = "<div class='ui-timeline-textbar'></div>";
+    var leftText = $(divText);
 	this.itemsContainer = $("<div class='ui-timeline-items ui-timeline-nonselectable'></div>");
-	divGeneral.append(divText,this.itemsContainer);
+	divGeneral.append(leftText,this.itemsContainer);
 	this.target.append(divGeneral);
-	return this.initText(divText,this.interval,this.pxPerItem);
+	var res = this.initText(leftText,this.interval,this.pxPerItem, useChangeButtons, false);
+    if (rightTimeLine)
+    {
+        var rightText = $(divText);
+        this.initText(rightText,this.interval,this.pxPerItem,useChangeButtons,rightTimeLine);
+        rightText.css({
+            border:"none",
+            marginLeft:"1px"
+        });
+        divGeneral.append(rightText);
+    }
+
+    var currentObj = this;
+    function move(direct)
+    {
+        console.log(currentObj.days,currentObj.date);
+        currentObj.date.setDate(currentObj.date.getDate() + currentObj.days*direct);
+        currentObj.setDate(currentObj.date);
+        console.log(currentObj.date);
+    }
+
+    $(".ui-timeline-button__right").live("click keypress",function()
+    {
+        move(1);
+    });
+
+    $(".ui-timeline-button__left").live("click keypress",function()
+    {
+        move(-1);
+    });
+
+    return res;
 };
 
-UITimeLine.prototype.initText = function(target, interval, px)
+UITimeLine.prototype.initText = function(target, interval, px, useChangeButtons, rightTimeLine)
 {
 	var hour = 0;
 	var minutes = 0;
 	var counter = 0;
 	var template = "<div class='ui-timeline-textbar__item' style='height:{1}px;'>{0}</div>";
+    if (useChangeButtons)
+    {
+        target.append("<div class='ui-timeline-button " +
+            (rightTimeLine?"ui-timeline-button__right'>&gt":
+                           "ui-timeline-button__left'>&lt") +
+            "</div>");
+    }
+    else
+    {
+        $(".ui-timeline-textbar").css({
+            marginTop:"10px"
+        });
+    }
 	while (hour < 24)
 	{
 		var label = $(template.replace("{0}",(hour >= 10? hour : '0' + hour)+":"+(minutes >= 10 ? minutes:"0"+minutes)).replace('{1}',px));
@@ -81,7 +127,6 @@ UITimeLine.prototype.initText = function(target, interval, px)
 
 UITimeLine.prototype.initDates = function()
 {
-
 	var dayTemplate = "<div class=ui-timeline-items__bar>{0}</div>";
 	var template = "<div class='ui-timeline-items__bar__item {3}' time='{0}' style='top:{1}px; height:{2}px'></div>";
     this.date.setDate(this.date.getDate() - 1);
@@ -95,7 +140,7 @@ UITimeLine.prototype.initDates = function()
             var min = (j*this.interval%60);
             var timeLeft = hour*60 + min;
             var timeRight = timeLeft + this.interval;
-            var asEvent = false
+            var asEvent = false;
            for (var index = 0; index < this.eventsTime.length && !asEvent; index++)
             {
 
@@ -129,6 +174,7 @@ UITimeLine.prototype.initDates = function()
         $(".ui-timeline-selected").removeClass("ui-timeline-selected");
     }
 
+
     var currentObject = this;
     $(".ui-timeline-items__bar__item").bind("mouseover",function(e)
     {
@@ -141,13 +187,19 @@ UITimeLine.prototype.initDates = function()
     }).bind('click keypress mousedown', function(e)
         {
             e = e || window.event;
+            var addNewItem = true;
             if (!e.ctrlKey && !e.altKey && !e.shiftKey)
             {
+                if ($(this).hasClass("ui-timeline-selected")) addNewItem = false;
                 currentObject.selectedTime = [];
                 releaseItems();
             }
-                currentObject.selectedTime.push($(this).attr('time'));
-                selectItem($(this));
+                if (addNewItem)
+                {
+                    currentObject.selectedTime.push($(this).attr('time'));
+                    selectItem($(this));
+                }
+
 
         });
 };
@@ -210,6 +262,8 @@ UITimeLine.prototype.loadEventsFromLocalStorage = function()
     while (("timeEvent"+i) in localStorage && localStorage["timeEvent"+i] != null)
     {
         this.eventsTime.push(JSON.parse(localStorage["timeEvent" + i]));
+        this.eventsTime[this.eventsTime.length - 1].date = new Date(Date.parse(this.eventsTime[this.eventsTime.length - 1].date));
         i++;
     }
+    this.setDate(this.date);
 };

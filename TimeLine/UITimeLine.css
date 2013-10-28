@@ -16,8 +16,18 @@
     font-size: 0.8em;
     width: 25px;
     border-right: 1px solid #aaa;
-    margin-top: 10px;
+
 }
+
+.ui-timeline-button
+{
+    text-align: center;
+}
+.ui-timeline-button:hover
+{
+    cursor: pointer;
+}
+
 
 .ui-timeline-textbar__item
 {
