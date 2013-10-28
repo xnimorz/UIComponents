@@ -1,4 +1,7 @@
-﻿Date.prototype.getFullString = function()
+﻿/**
+ * Расширение строки - получение форматного вывода ДД.ММ.ГГ
+ */
+Date.prototype.getFullString = function()
 {
     return this.getDate() + "." + this.getMonth() + "." + this.getFullYear().toString().substr(2,2);
 }
@@ -35,12 +38,19 @@ function UITimeLine(selector,days, startDate, intervalInMinutes, rightTimeLine, 
 
 }
 
+/**
+ * Обновление отображения виджета (бинд изменений\событий)
+ */
 UITimeLine.prototype.updateWidget = function()
 {
     this.setDate(this.date);
 
 }
 
+/**
+ * Установка новой даты, обновление отображения виджета
+ * @param date
+ */
 UITimeLine.prototype.setDate = function(date)
 {
 	this.date = date || new Date();
@@ -48,6 +58,12 @@ UITimeLine.prototype.setDate = function(date)
 	this.initDates();
 }
 
+/**
+ * Изначальная инциализация виджета, установка DOM модели
+ * @param useChangeButtons - флаг использования кнопок перехода по датам (влево\вправо)
+ * @param rightTimeLine - добавить правый timeLine
+ * @returns {Number} количество строк (по времени)
+ */
 UITimeLine.prototype.init = function(useChangeButtons, rightTimeLine)
 {
     this.target.html("");
@@ -70,12 +86,15 @@ UITimeLine.prototype.init = function(useChangeButtons, rightTimeLine)
     }
 
     var currentObj = this;
+
+    /**
+     * Переход на следующие дни
+     * @param direct
+     */
     function move(direct)
     {
-        console.log(currentObj.days,currentObj.date);
         currentObj.date.setDate(currentObj.date.getDate() + currentObj.days*direct);
         currentObj.setDate(currentObj.date);
-        console.log(currentObj.date);
     }
 
     $(".ui-timeline-button__right").live("click keypress",function()
@@ -91,6 +110,15 @@ UITimeLine.prototype.init = function(useChangeButtons, rightTimeLine)
     return res;
 };
 
+/**
+ * инициализация текстовых данных (временных шкал)
+ * @param target - JQuery Object цели
+ * @param interval - интервал в минутах для одного деления
+ * @param px - размер в пикселах одного деления
+ * @param useChangeButtons - использование кнопок перехода
+ * @param rightTimeLine - флаг использования правой временной шкалы
+ * @returns {number} количество делений
+ */
 UITimeLine.prototype.initText = function(target, interval, px, useChangeButtons, rightTimeLine)
 {
 	var hour = 0;
@@ -125,15 +153,21 @@ UITimeLine.prototype.initText = function(target, interval, px, useChangeButtons,
 	return counter;
 };
 
+/**
+ * Инициализирование блоков, добавление DOM модели, установка событий выбора временных интервалов
+ */
 UITimeLine.prototype.initDates = function()
 {
+    //задаем шаблоны
 	var dayTemplate = "<div class=ui-timeline-items__bar>{0}</div>";
 	var template = "<div class='ui-timeline-items__bar__item {3}' time='{0}' style='top:{1}px; height:{2}px'></div>";
     this.date.setDate(this.date.getDate() - 1);
+    //Для всех дней добавляем временные блоки
     for (var i = 0; i < this.days; i++)
     {
         this.date.setDate(this.date.getDate() + 1);
         var currentDay = $(dayTemplate.replace("{0}", this.date.getFullString()));
+        //подготавливаем линию блоков для очередного дня
         for (var j = 0; j < this.itemsCount; j++)
         {
             var hour = (j*this.interval/60 >> 0);
@@ -141,6 +175,7 @@ UITimeLine.prototype.initDates = function()
             var timeLeft = hour*60 + min;
             var timeRight = timeLeft + this.interval;
             var asEvent = false;
+            //Проверяем, установлено событие на данных блок
            for (var index = 0; index < this.eventsTime.length && !asEvent; index++)
             {
 
@@ -154,6 +189,7 @@ UITimeLine.prototype.initDates = function()
                         asEvent = true;
                 }
             }
+            //Добавляем очередной блок в DOM модель
             currentDay.append($(template
                 .replace('{0}',this.date.getFullYear() + "." +  this.date.getMonth() + "." + this.date.getDate() + " " +
                         (hour >= 10? hour : '0' + hour) +":" + (min >= 10? min:'0'+min)).replace('{1}',10*j)
@@ -164,11 +200,18 @@ UITimeLine.prototype.initDates = function()
     }
     this.date.setDate(this.date.getDate() - this.days + 1);
 
+    /**
+     * Помечает блок, как выделенный пользователем
+     * @param item
+     */
     var selectItem = function(item)
     {
         item.addClass("ui-timeline-selected");
     }
 
+    /**
+     * Снимаем все выделенные блоки
+     */
     var releaseItems = function()
     {
         $(".ui-timeline-selected").removeClass("ui-timeline-selected");
@@ -176,6 +219,9 @@ UITimeLine.prototype.initDates = function()
 
 
     var currentObject = this;
+    /**
+     * Обаботка выбора даты
+     */
     $(".ui-timeline-items__bar__item").bind("mouseover",function(e)
     {
         e = e || window.event;
@@ -204,6 +250,12 @@ UITimeLine.prototype.initDates = function()
         });
 };
 
+/**
+ * Добавление события
+ * @param {Date} date - дата события (с учетом времени)
+ * @param {Number} longInMinutes - продолжительность события в минутах
+ * @param {Object} event - описание события
+ */
 UITimeLine.prototype.setEvent = function(date, longInMinutes, event)
 {
     this.eventsTime.push(
@@ -215,27 +267,46 @@ UITimeLine.prototype.setEvent = function(date, longInMinutes, event)
     );
 };
 
-UITimeLine.prototype.clearEvent = function(date)
+/**
+ * Удаление всех событий
+ */
+UITimeLine.prototype.clearAllEvent = function()
 {
     this.eventsTime = [];
 };
 
+/**
+ * получение массива всех событий
+ * @returns {Array}
+ */
 UITimeLine.prototype.getEvents = function()
 {
     return this.eventsTime;
 };
 
+/**
+ * получение массива всех выбранных временных интервалов (дат) в отсортированном порядке
+ * @returns {*}
+ */
 UITimeLine.prototype.getSortedSelectedTimes = function()
 {
     this.selectedTime.sort();
     return this.getSelectedTimes();
 };
 
+/**
+ * Получание списка всех выбранных временных интервалов (дат) в порядке выбора
+ * @returns {Array}
+ */
 UITimeLine.prototype.getSelectedTimes = function()
 {
     return this.selectedTime;
 };
 
+/**
+ * доступность localStorage
+ * @returns {boolean}
+ */
 UITimeLine.prototype.checkLocalStorage = function()
 {
     try {
@@ -246,6 +317,10 @@ UITimeLine.prototype.checkLocalStorage = function()
     }
 };
 
+/**
+ * Сохранение событий в localStorage
+ * @returns {boolean}
+ */
 UITimeLine.prototype.saveEventsToLocalStorage = function()
 {
     if (!this.checkLocalStorage()) return false;
@@ -255,6 +330,10 @@ UITimeLine.prototype.saveEventsToLocalStorage = function()
     }
 };
 
+/**
+ * загрузка событий из localStorage
+ * @returns {boolean}
+ */
 UITimeLine.prototype.loadEventsFromLocalStorage = function()
 {
     if (!this.checkLocalStorage()) return false
