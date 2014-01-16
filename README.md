@@ -18,6 +18,7 @@ UIPageScrolling.js и добавить таблицу стилей UIPageScrolli
 
 Стандартное использование предполагает верстку по типу
 
+````html
 <div class=main>
     <section>
         ....
@@ -29,11 +30,12 @@ UIPageScrolling.js и добавить таблицу стилей UIPageScrolli
         ....
     </section>
 </div>
+````
 
 Стандартный вызов:
-
+````javascript
 $(".main").UIPageScrolling();
-
+````
 Поддерживаемые параметры:
 {String} sections : пользовательский селектор (по умолчанию section)</div>
 {String} easing : transition-timing-function</div>
@@ -48,6 +50,7 @@ $(".main").UIPageScrolling();
 Параметры передаются в виде JSON объекта:
 
 Пример вызова с перечислением СТАНДАРТНЫХ параметров:
+````javascript
 $(".main").UIPageScrolling({
     sections : "section",
     easing : "ease",
@@ -59,7 +62,7 @@ $(".main").UIPageScrolling({
     sectionsControl : null,
     captureKeyboard : false
 });
-
+````
 Примеры использования и вызовов в папке DEMO.
 
 
