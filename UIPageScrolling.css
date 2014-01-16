@@ -10,11 +10,11 @@
 }
 
 .ui-page-scrolling-control {
-
+    cursor: pointer;
 }
 
 .ui-page-scrolling-control_active {
-
+/* стили для данного класса необходимо определить, для отображения активной страницы (в указателях) */
 }
 
 .ui-page-scrolling-main {
