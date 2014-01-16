@@ -37,6 +37,7 @@ UIPageScrolling.js и добавить таблицу стилей UIPageScrolli
 $(".main").UIPageScrolling();
 ````
 Поддерживаемые параметры:
+````javascript
 {String} sections : пользовательский селектор (по умолчанию section)</div>
 {String} easing : transition-timing-function</div>
 {Number} time : время анимации</div>
@@ -46,7 +47,7 @@ $(".main").UIPageScrolling();
 {Boolean} isVertical : вертикальная\горизонтальная прокрутка</div>
 {String} sectionsControl : селектор на выбор слайда</div>
 {Boolean} captureKeyboard : захват клавиатуры (управления курсором + Page Up\Down)</div>
-
+````
 Параметры передаются в виде JSON объекта:
 
 Пример вызова с перечислением СТАНДАРТНЫХ параметров:
