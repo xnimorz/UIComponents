@@ -9,6 +9,14 @@
 
 }
 
+.ui-page-scrolling-control {
+
+}
+
+.ui-page-scrolling-control_active {
+
+}
+
 .ui-page-scrolling-main {
     position: relative;
     -webkit-transform-style: preserve-3d;
