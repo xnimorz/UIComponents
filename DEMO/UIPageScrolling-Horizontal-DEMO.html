@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta content="text/html; charset=utf-8">
     <title>On Page Scroll Demo</title>
     <script type="text/javascript" src="http://yandex.st/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="../UIPageScrolling.js"></script>
@@ -9,7 +10,8 @@
 
             $(".main").UIPageScrolling({
                 isVertical : false,
-                sectionsControl:".page-control__item"
+                sectionsControl:".page-control__item",
+                captureTouch: true
             });
 
         })
@@ -81,6 +83,7 @@
             <div class="text-block__line_code">{Boolean} isVertical : вертикальная\горизонтальная прокрутка</div>
             <div class="text-block__line_code">{String} sectionsControl : селектор на выбор слайда</div>
             <div class="text-block__line_code">{Boolean} captureKeyboard : захват клавиатуры (управления курсором + Page Up\Down)</div>
+            <div class="text-block__line_code">{Boolean} captureTouch : захват скроллинга пальцем (мышью) по умолчанию - отключено (false)</div>
             <a href="UIPageScrolling-Vertical-DEMO.html" class="text-block__line">Пример вертикального скроллинга</a>
             <a href="https://github.com/xnimorz/UIPageScrolling" class="text-block__line button link">Перейти на GitHub</a>
         </div>

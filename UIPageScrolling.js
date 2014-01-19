@@ -19,6 +19,7 @@
      * isVertical {Boolean} - вертикальная прокрутка, false = горизонтальная
      * sectionsControl {String} - селектор на выбор секции
      * captureKeyboard {Boolean} - управление как мышкой, так и клавиатурой
+     * captureTouch {Boolean} - управление переключением слайдов касанием
      */
     var defaults = {
         sections : "section",
@@ -29,7 +30,8 @@
         isCyclic : false,
         isVertical : true,
         sectionsControl : null,
-        captureKeyboard : false
+        captureKeyboard : false,
+        captureTouch : false
     }
 
     /**
@@ -130,7 +132,6 @@
             })
           //  .bind("mousewheel", processMouseWheel);
 
-
         maxIndex = index-1;
 
         //Настройка переключателей (если есть)
@@ -152,9 +153,40 @@
             lockPrev = false;
         }
 
+
+        var unbindMouseEvents = function() {
+            current.unbind("mousemove")
+                .unbind("mouseup")
+                .bind("mousedown", mouseDownEvent);
+        }
+        var mouseDownEvent = function() {
+            var lastClient = -1;
+            current.bind("mousemove", function(e) {
+                var delta;
+                if (lastClient == -1) {
+                    lastClient = options.isVertical? e.clientY : e.clientX;
+                }
+                delta = lastClient - (options.isVertical? e.clientY : e.clientX);
+                if (delta > 150) {
+                    moveNext();
+                }
+                if (delta < -150) {
+                    movePrevious();
+                }
+            })
+                .bind("mouseup", unbindMouseEvents)
+                .unbind("mousedown");
+        };
+
+        if (options.captureTouch) {
+            current.bind("mousedown", mouseDownEvent);
+        }
+
         current.addClass('ui-page-scrolling-main')
             .transformPageTo(0, options, 0)
             .bind("mousewheel DOMMouseScroll", processMouseWheel);
+
+
 
         if (options.captureKeyboard) {
             $(window).bind("keydown", processKeyEvent);
