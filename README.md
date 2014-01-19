@@ -40,13 +40,14 @@ $(".main").UIPageScrolling();
 ````html
 {String} sections : пользовательский селектор (по умолчанию section)
 {String} easing : transition-timing-function
-{Number} time : время анимации
+{Number} time : время анимации (Целое, > 0)
 {Function} beforeMoveFunc : функция, исполняющаяся перед анимацией
 {Function} afterMoveFunc : функция, исполняющаяся после анимации
 {Boolean} isCyclic : цикличная прокрутка
 {Boolean} isVertical : вертикальная\горизонтальная прокрутка
 {String} sectionsControl : селектор на выбор слайда
 {Boolean} captureKeyboard : захват клавиатуры (управления курсором + Page Up\Down)
+{Boolean} captureTouch : захват скроллинга пальцем (мышью) по умолчанию - отключено (false)</div>
 ````
 Параметры передаются в виде JSON объекта:
 
