@@ -7,7 +7,6 @@
  */
 
 (function($) {
-
     /**
      * Стандарные настройки
      * section {String} - селектор элементов
@@ -46,6 +45,59 @@
             maxIndex = 0,
             lockNext = false,
             lockPrev = false;
+
+        /**
+         * reset mouse events
+         */
+        function unbindMouseEvents() {
+            current.unbind("mousemove")
+                .unbind("mouseup")
+                .bind("mousedown", mouseDownEvent);
+        };
+
+        /**
+         * mouse down and move events
+         */
+        function mouseDownEvent() {
+            var lastClient = -1;
+            current.bind("mousemove", function(e) {
+                var delta;
+                if (lastClient == -1) {
+                    lastClient = options.isVertical? e.clientY : e.clientX;
+                }
+                delta = lastClient - (options.isVertical? e.clientY : e.clientX);
+                if (delta > 150) {
+                    moveNext();
+                }
+                if (delta < -150) {
+                    movePrevious();
+                }
+            })
+                .bind("mouseup", unbindMouseEvents)
+                .unbind("mousedown");
+        };
+
+        /**
+         * touch event
+         */
+        function touchStartEvent(e) {
+            e = window.event || e.originalEvent;
+            var lastClient = options.isVertical? e.touches[0].pageY : e.touches[0].pageX;
+            current.bind("touchmove", function(e) {
+                    e = window.event || e.originalEvent;
+                    var delta = lastClient - (options.isVertical? e.touches[0].pageY : e.touches[0].pageX);
+                    if (delta >= 50) {
+                        moveNext();
+                     }
+                     if (delta <= -50) {
+                         movePrevious();
+                     }
+                    if (Math.abs(delta) >= 50) {
+                        current.unbind("touchmove");
+                    }
+                });
+        }
+
 
         /**
          * переход на слайд по заданному индексу
@@ -102,7 +154,6 @@
                     moveNext();
                     break;
             }
-
         }
 
         /**
@@ -113,12 +164,18 @@
               var event = window.event || e.originalEvent,
                   delta = event.wheelDelta || (-120) * event.detail,
                   topDelta = 200;
-
               if (event.wheelDelta) topDelta = 10;
               if (delta < -topDelta) moveNext();
               if (delta > topDelta) movePrevious()
-
         }
+
+        /**
+         * убирает блокировки на скроллинг
+         */
+        options.lockManager = function() {
+            lockNext = false;
+            lockPrev = false;
+        };
 
         //настройка слайдов (положение, data-аттрибуты)
         current.children(options.sections)
@@ -145,53 +202,21 @@
                 });
         }
 
-        /**
-         * убирает блокировки на скроллинг
-         */
-        options.lockManager = function() {
-            lockNext = false;
-            lockPrev = false;
-        }
-
-
-        var unbindMouseEvents = function() {
-            current.unbind("mousemove")
-                .unbind("mouseup")
-                .bind("mousedown", mouseDownEvent);
-        }
-        var mouseDownEvent = function() {
-            var lastClient = -1;
-            current.bind("mousemove", function(e) {
-                var delta;
-                if (lastClient == -1) {
-                    lastClient = options.isVertical? e.clientY : e.clientX;
-                }
-                delta = lastClient - (options.isVertical? e.clientY : e.clientX);
-                if (delta > 150) {
-                    moveNext();
-                }
-                if (delta < -150) {
-                    movePrevious();
-                }
-            })
-                .bind("mouseup", unbindMouseEvents)
-                .unbind("mousedown");
-        };
-
+        //захват мыши и касаний
         if (options.captureTouch) {
             current.bind("mousedown", mouseDownEvent);
+            current.bind("touchstart", touchStartEvent);
         }
 
+        //Стандартная настройка
         current.addClass('ui-page-scrolling-main')
             .transformPageTo(0, options, 0)
             .bind("mousewheel DOMMouseScroll", processMouseWheel);
 
-
-
+        //захват нажатий клавиш
         if (options.captureKeyboard) {
             $(window).bind("keydown", processKeyEvent);
         }
-
 
         return $(this);
     }
