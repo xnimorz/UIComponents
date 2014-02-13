@@ -69,7 +69,20 @@ $(".main").UIPageScrolling({
     captureKeyboard : false
 });
 ````
-Примеры использования и вызовов в папке DEMO.
+
+Управление отображаемой страницей
+после применения:
+````javascript
+$(".main").UIPageScrolling();
+````
+
+Возможно с помощью вызово функций:
+````javascript
+$(".main").moveNext(); //Переводит на следующую страницу
+$(".main").movePrevious(); //Переводит на предыдущую страницу
+$(".main").moveTo(index); //Переводит на выбранную страницу (где index  = от 0 до pageCount - 1)
+````
+
 
 
 
