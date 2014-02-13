@@ -1,5 +1,5 @@
 /**
- * UIPageScrolling.js v0.8
+ * UIPageScrolling.js v1.0
  *
  * JQuery plugin
  *
@@ -67,10 +67,10 @@
                 }
                 delta = lastClient - (options.isVertical? e.clientY : e.clientX);
                 if (delta > 150) {
-                    moveNext();
+                    current.moveNext();
                 }
                 if (delta < -150) {
-                    movePrevious();
+                    current.movePrevious();
                 }
             })
                 .bind("mouseup", unbindMouseEvents)
@@ -98,19 +98,67 @@
                 });
         }
 
+        /**
+         * Перевод слайда к заданному
+         * @param position - позиция (в процентах)
+         * @param options - опции
+         * @param index - индекс целевого слайда
+         * @returns {*|HTMLElement}
+         */
+         function transformPageTo(index) {
+
+            var position = index * 100,
+                positionX = 0,
+                positionY = 0;
+
+            $('.ui-page-scrolling-section_active').removeClass('ui-page-scrolling-section_active');
+            $('.ui-page-scrolling-control_active').removeClass('ui-page-scrolling-control_active');
+
+            $('.ui-page-scrolling-control[data-index=' + index + ']').addClass('ui-page-scrolling-control_active');
+            $('.ui-page-scrolling-section[data-index=' + index + ']').addClass('ui-page-scrolling-section_active');
+            if (options.beforeMoveFunc instanceof Function) options.beforeMoveFunc(index);
+
+            if (position > 0) {
+                position = -position;
+            }
+
+            if (options.isVertical) {
+                positionY = position;
+            } else {
+                positionX = position;
+            }
+
+            $(this).css({
+                "-webkit-transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
+                "-webkit-transition": "all " + options.time + "ms " + options.easing,
+                "-moz-transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
+                "-moz-transition": "all " + options.time + "ms " + options.easing,
+                "-ms-transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
+                "-ms-transition": "all " + options.time + "ms " + options.easing,
+                "transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
+                "transition": "all " + options.time + "ms " + options.easing
+            })
+                .one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function() {
+                    options.lockManager();
+                    if (options.afterMoveFunc instanceof Function) options.afterMoveFunc(index);
+                });
+        }
+
+        transformPageTo = transformPageTo.bind(this);
 
         /**
          * переход на слайд по заданному индексу
          * @param index
          */
-        function moveTo(index) {
-            current.transformPageTo(index * 100, options, index);
+        $.fn.moveTo = function(index) {
+            if (index < 0 || index > maxIndex) throw new Error("Index must be smaller than count of existing pages and greater than 0");
+            transformPageTo(index);
         }
 
         /**
          * Переход на следующий слайд
          */
-        function moveNext() {
+        $.fn.moveNext = function() {
             if (lockNext) return;
             var lastIndex = $('.ui-page-scrolling-section_active').attr('data-index');
             lastIndex++;
@@ -118,14 +166,14 @@
             if (lastIndex <= maxIndex) {
                 lockNext = true;
                 lockPrev = false;
-                moveTo(lastIndex);
+                $(this).moveTo(lastIndex);
             }
         }
 
         /**
          * Переход на предыдущий слайд
          */
-        function movePrevious() {
+        $.fn.movePrevious = function() {
             if (lockPrev) return;
             var lastIndex = $('.ui-page-scrolling-section_active').attr('data-index');
             lastIndex--;
@@ -133,7 +181,7 @@
             if (lastIndex >= 0) {
                 lockNext = false;
                 lockPrev = true;
-                moveTo(lastIndex);
+                $(this).moveTo(lastIndex);
             }
         }
 
@@ -146,15 +194,17 @@
                 case 38:
                 case 37:
                 case 33:
-                    movePrevious();
+                    $(this).movePrevious();
                     break;
                 case 40:
                 case 39:
                 case 34:
-                    moveNext();
+                    $(this).moveNext();
                     break;
             }
         }
+
+        processKeyEvent = processKeyEvent.bind(this);
 
         /**
          * Работа с колесом мышки
@@ -165,9 +215,11 @@
                   delta = event.wheelDelta || (-120) * event.detail,
                   topDelta = 200;
               if (event.wheelDelta) topDelta = 10;
-              if (delta < -topDelta) moveNext();
-              if (delta > topDelta) movePrevious()
+              if (delta < -topDelta) $(this).moveNext();
+              if (delta > topDelta) $(this).movePrevious()
         }
+
+        processMouseWheel = processMouseWheel.bind(this);
 
         /**
          * убирает блокировки на скроллинг
@@ -197,7 +249,7 @@
             $(options.sectionsControl)
                 .addClass("ui-page-scrolling-control").each(function () {
                     $(this).attr('data-index', index++).bind("click keypress", function () {
-                        moveTo($(this).attr('data-index'));
+                        current.moveTo($(this).attr('data-index'));
                     });
                 });
         }
@@ -210,8 +262,9 @@
 
         //Стандартная настройка
         current.addClass('ui-page-scrolling-main')
-            .transformPageTo(0, options, 0)
             .bind("mousewheel DOMMouseScroll", processMouseWheel);
+
+        transformPageTo(0);
 
         //захват нажатий клавиш
         if (options.captureKeyboard) {
@@ -221,51 +274,6 @@
         return $(this);
     }
 
-    /**
-     * Перевод слайда к заданному
-     * @param position - позиция (в процентах)
-     * @param options - опции
-     * @param index - индекс целевого слайда
-     * @returns {*|HTMLElement}
-     */
-    $.fn.transformPageTo = function (position, options, index) {
 
-        var positionX = 0,
-            positionY = 0;
-
-        $('.ui-page-scrolling-section_active').removeClass('ui-page-scrolling-section_active');
-        $('.ui-page-scrolling-control_active').removeClass('ui-page-scrolling-control_active');
-
-        $('.ui-page-scrolling-control[data-index=' + index + ']').addClass('ui-page-scrolling-control_active');
-        $('.ui-page-scrolling-section[data-index=' + index + ']').addClass('ui-page-scrolling-section_active');
-        if (options.beforeMoveFunc instanceof Function) options.beforeMoveFunc(index);
-
-        if (position > 0) {
-            position = -position;
-        }
-
-        if (options.isVertical) {
-            positionY = position;
-        } else {
-            positionX = position;
-        }
-
-        $(this).css({
-            "-webkit-transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
-            "-webkit-transition": "all " + options.time + "ms " + options.easing,
-            "-moz-transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
-            "-moz-transition": "all " + options.time + "ms " + options.easing,
-            "-ms-transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
-            "-ms-transition": "all " + options.time + "ms " + options.easing,
-            "transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
-            "transition": "all " + options.time + "ms " + options.easing
-            })
-            .one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function() {
-                options.lockManager();
-                if (options.afterMoveFunc instanceof Function) options.afterMoveFunc(index);
-            });
-
-        return $(this);
-    }
 
 })(window.jQuery)
