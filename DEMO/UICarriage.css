@@ -1,1 +1,116 @@
-/*Demo styles*/
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+h1 {
+    font-size: 64px;
+    font-weight: normal;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.main {
+    width: 960px;
+    margin: 5px auto;
+}
+
+ul {
+    margin-left: 0;
+    padding-left: 18px;
+    line-height: 1.4;
+}
+
+
+.fast-start {
+    width: 400px;
+    height: 10px;
+    margin: 10px 20px;
+    background-color: #dfdfdf;
+    cursor: pointer;
+}
+
+.fast-start-carriage {
+    width: 10px;
+    height: 10px;
+    background-color: #3b98e0;
+}
+
+.gist {
+    margin-top: 10px;
+    margin-left: -18px;
+}
+
+.input-example {
+    width: 400px;
+}
+
+.input-block {
+    width: 100%;
+    height: 20px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.input {
+    height: 20px;
+    font-size: 14px;
+}
+
+.input-block-carriage {
+    cursor: pointer;
+    width: 20px;
+    height: 10px;
+
+}
+
+.input-block-carriage:after {
+    height: 0;
+    position: relative;
+    top: -16px;
+    width: 0;
+    padding: 0;
+    cursor: pointer;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid #333;
+    border-left: 0.5rem solid transparent;
+    content: '';
+}
+
+.examples {
+    margin: 20px 0;
+}
+
+.some-page {
+    width: 500px;
+    height: 400px;
+    overflow: hidden;
+    padding: 5px;
+    padding-right: 30px;
+    border: 1px solid #eee;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.some-page-carriage {
+    float: left;
+    margin-top: 10px;
+    height: 410px;
+    cursor: pointer;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width: 10px;
+    background-color: #dfdfdf;
+}
+
+.some-page-carriage-cursor {
+    width: 10px;
+    height: 10px;
+    background-color: #3b98e0;
+}
+

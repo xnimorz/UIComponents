@@ -17,6 +17,10 @@
             currentOffset = 0,
             lastClientCoordinate = 0;
 
+        $target.css({
+            'position': 'relative'
+        });
+
         var segmentsSort = function(a,b) {
             if (a.offset > b.offset) {
                 return 1;
@@ -27,10 +31,18 @@
             return 0;
         };
 
+        if (!options.segments || options.segments.length === 0) {
+            options.segments = [{offset: 0, value: 0},
+                                {offset: options.maxOffset, value: options.maxOffset}];
+        }
         options.segments.sort(segmentsSort);
 
         $.fn.changeSegments = function(segments) {
             options.segments = segments;
+            if (!options.segments || options.segments.length === 0) {
+                options.segments = [{offset: 0, value: 0},
+                    {offset: options.maxOffset, value: options.maxOffset}];
+            }
             options.segments.sort(segmentsSort);
             return $this;
         };
@@ -64,11 +76,11 @@
 
                 if (options.isHorizontal) {
                     $target.css({
-                        left: $.toRem(position) + 'rem'
+                        left: position + 'px'
                     });
                 } else {
                     $target.css({
-                        top: $.toRem(position) + 'rem'
+                        top: position + 'px'
                     });
                 }
             }
@@ -86,11 +98,11 @@
 
             if (options.isHorizontal) {
                 $target.css({
-                    left: $.toRem(currentOffset) + 'rem'
+                    left: currentOffset + 'px'
                 });
             } else {
                 $target.css({
-                    top: $.toRem(currentOffset) + 'rem'
+                    top: currentOffset + 'px'
                 });
             }
 
@@ -164,9 +176,9 @@
                 e.fromElement.className &&
                 $(e.fromElement).get(0) === $target.get(0) &&
                 $this.get(0) !== $(e.toElement).get(0)) {
-                    options.$carriage.off('mousemove', mouseMove);
-                    if (options.carriageMoveEndEvent) {
-                        $this(options.carriageMoveEndEvent);
+                options.$carriage.off('mousemove', mouseMove);
+                if (options.carriageMoveEndEvent) {
+                    $this.trigger(options.carriageMoveEndEvent);
                 }
             }
             e.stopPropagation();
@@ -177,9 +189,9 @@
                 e.fromElement.className &&
                 $(e.fromElement).get(0) === $this.get(0) &&
                 $(e.toElement).get(0) !== $target.get(0)) {
-                    options.$carriage.off('mousemove', mouseMove);
-                    if (options.carriageMoveEndEvent) {
-                        $this(options.carriageMoveEndEvent);
+                options.$carriage.off('mousemove', mouseMove);
+                if (options.carriageMoveEndEvent) {
+                    $this.trigger(options.carriageMoveEndEvent);
                 }
             }
         });
