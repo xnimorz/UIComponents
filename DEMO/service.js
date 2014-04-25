@@ -60,7 +60,11 @@ $(function() {
     $('.js-some-page-scroll').carriage({
         maxOffset: 400,
         carriageMoveEvent: 'carriage:move',
-        isHorizontal: false
+        isHorizontal: false,
+        segments: [
+            {offset: 0, value: 0},
+            {offset: 400, value: 3825}
+        ]
     })
         .on('carriage:move', function(e, args) {
             $('.js-page-scroll').css({
@@ -79,8 +83,8 @@ $(function() {
         if (position > 0) {
             position = 0;
         }
-        if (position < -400) {
-            position = -400;
+        if (position < -3825) {
+            position = -3825;
         }
 
         $(this).css({

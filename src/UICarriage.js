@@ -182,11 +182,8 @@
 
 
         $target.on('mouseout', function(e) {
-            if (e.fromElement &&
-                e.fromElement.className &&
-                $(e.fromElement).get(0) === $target.get(0) &&
-                $this.get(0) !== $(e.toElement).get(0)) {
-                options.$carriage.off('mousemove', mouseMove);
+            if ($this.get(0) !== $(e.toElement).get(0)) {
+                $this.off('mousemove', mouseMove);
                 if (options.carriageMoveEndEvent) {
                     $this.trigger(options.carriageMoveEndEvent);
                 }
@@ -195,11 +192,8 @@
         });
 
         $this.on('mouseout', function(e) {
-            if (e.fromElement &&
-                e.fromElement.className &&
-                $(e.fromElement).get(0) === $this.get(0) &&
-                $(e.toElement).get(0) !== $target.get(0)) {
-                options.$carriage.off('mousemove', mouseMove);
+            if ($(e.toElement).get(0) !== $target.get(0)) {
+                $this.off('mousemove', mouseMove);
                 if (options.carriageMoveEndEvent) {
                     $this.trigger(options.carriageMoveEndEvent);
                 }
