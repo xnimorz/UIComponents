@@ -15,7 +15,8 @@
             options = $.extend({}, defaults, settings),
             $target = $this.children(),
             currentOffset = 0,
-            lastClientCoordinate = 0;
+            lastClientCoordinate = 0,
+            value = -1;
 
         $target.css({
             'position': 'relative'
@@ -34,6 +35,7 @@
         if (!options.segments || options.segments.length === 0) {
             options.segments = [{offset: 0, value: 0},
                                 {offset: options.maxOffset, value: options.maxOffset}];
+            value = 0;
         }
         options.segments.sort(segmentsSort);
 
@@ -47,9 +49,17 @@
             return $this;
         };
 
+        $.fn.getCurrentValue = function() {
+            return value;
+        };
+
+        $.fn.getCurrentOffset = function() {
+            return currentOffset;
+        };
+
         $.fn.restoreCarriage = function(newValue) {
             if (newValue) {
-                var value = newValue;
+                value = newValue;
                 var position = -1;
 
                 if (value >= 0) {
@@ -105,8 +115,8 @@
                     top: currentOffset + 'px'
                 });
             }
+            value = -1;
 
-            var value = -1;
             for (var i = 0; i < options.segments.length - 1 && value < 0; i++) {
                 if (options.segments[i].offset < currentOffset && options.segments[i + 1].offset > currentOffset) {
                     value = options.segments[i].value +
