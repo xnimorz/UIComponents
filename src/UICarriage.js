@@ -154,6 +154,21 @@
             changeCurrentOffset();
         };
 
+        var touchStartEvent = function(e) {
+            e = window.event || e.originalEvent;
+            var lastClient = options.isHorizontal? e.touches[0].pageX : e.touches[0].pageY;
+            $target.add($this).bind("touchmove", function(e) {
+                console.log('here')
+                e = window.event || e.originalEvent;
+                var delta = lastClient - (options.isHorizontal? e.touches[0].pageX : e.touches[0].pageY);
+                lastClientCoordinate = options.isHorizontal? e.touches[0].pageX : e.touches[0].pageY;
+                currentOffset += delta;
+                changeCurrentOffset();
+            });
+        };
+
+        $this.add($target).on('touchstart', touchStartEvent);
+
         var mouseMove = function(e) {
             if (options.isHorizontal) {
                 currentOffset += e.clientX - lastClientCoordinate;
