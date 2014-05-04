@@ -115,3 +115,15 @@ ul {
     background-color: #3b98e0;
 }
 
+.steps-line {
+    background-image: url('steps-line.png');
+    width: 400px;
+    height: 50px;
+}
+
+.steps-line-carriage {
+    width: 50px;
+    height: 50px;
+    background-image: url('steps-market.png');
+}
+

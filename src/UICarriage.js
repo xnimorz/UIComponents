@@ -7,7 +7,8 @@
         carriageMoveEvent: null,
         carriageMoveEndEvent: null,
         segments: [],
-        isHorizontal: true
+        isHorizontal: true,
+        isSteps: false
     };
 
     $.fn.carriage = function(settings) {
@@ -30,6 +31,15 @@
                 return -1;
             }
             return 0;
+        };
+
+        var switchSegmentPosition = function(segmentIndex, position) {
+            var delta = options.segments[segmentIndex + 1].offset - options.segments[segmentIndex].offset;
+            var posDelta = position - options.segments[segmentIndex].offset;
+            if (posDelta < (delta / 2)) {
+                return  options.segments[segmentIndex].offset;
+            }
+            return  options.segments[segmentIndex + 1].offset;
         };
 
         if (!options.segments || options.segments.length === 0) {
@@ -57,6 +67,7 @@
             return currentOffset;
         };
 
+
         $.fn.restoreCarriage = function(newValue) {
             if (newValue) {
                 value = newValue;
@@ -69,7 +80,9 @@
                                 (value - options.segments[i].value) *
                                 (options.segments[i + 1].offset - options.segments[i].offset) /
                                 (options.segments[i + 1].value - options.segments[i].value);
-
+                            if (options.isSteps) {
+                                position = switchSegmentPosition(i, position);
+                            }
                         }
                         if (options.segments[i].value === value) {
                             position = options.segments[i].offset;
@@ -98,7 +111,7 @@
             return $this;
         };
 
-        var changeCurrentOffset = function() {
+        var changeCurrentOffset = function(isExit) {
             if (currentOffset < 0) {
                 currentOffset = 0;
             }
@@ -106,19 +119,14 @@
                 currentOffset = options.maxOffset;
             }
 
-            if (options.isHorizontal) {
-                $target.css({
-                    left: currentOffset + 'px'
-                });
-            } else {
-                $target.css({
-                    top: currentOffset + 'px'
-                });
-            }
+
             value = -1;
 
             for (var i = 0; i < options.segments.length - 1 && value < 0; i++) {
                 if (options.segments[i].offset < currentOffset && options.segments[i + 1].offset > currentOffset) {
+                    if (options.isSteps && isExit) {
+                        currentOffset = switchSegmentPosition(i, currentOffset);
+                    }
                     value = options.segments[i].value +
                         (currentOffset - options.segments[i].offset) *
                         (options.segments[i + 1].value - options.segments[i].value) /
@@ -132,9 +140,27 @@
                 }
             }
 
-            if (options.carriageMoveEvent) {
+            if (options.isHorizontal) {
+                $target.css({
+                    left: currentOffset + 'px'
+                });
+            } else {
+                $target.css({
+                    top: currentOffset + 'px'
+                });
+            }
+
+            if (options.carriageMoveEvent && !isExit) {
                 $this.trigger(options.carriageMoveEvent, {
                     event: 'move',
+                    carriageOffset: currentOffset,
+                    segmentIndex: i,
+                    value: value
+                });
+            }
+            if (options.carriageMoveEndEvent && isExit) {
+                $this.trigger(options.carriageMoveEndEvent, {
+                    event: 'endMove',
                     carriageOffset: currentOffset,
                     segmentIndex: i,
                     value: value
@@ -166,6 +192,20 @@
             changeCurrentOffset();
         };
 
+        var touchStartEvent = function(e) {
+            e = window.event || e.originalEvent;
+            var lastClient = options.isHorizontal? e.touches[0].pageX : e.touches[0].pageY;
+            $target.add($this).bind("touchmove", function(e) {
+                e = window.event || e.originalEvent;
+                var delta = (options.isHorizontal? e.touches[0].pageX : e.touches[0].pageY) - lastClient;
+                lastClientCoordinate = options.isHorizontal? e.touches[0].pageX : e.touches[0].pageY;
+                currentOffset += delta;
+                changeCurrentOffset();
+            });
+        };
+
+        $this.add($target).on('touchstart', touchStartEvent);
+
         $target.on('mousedown',  function(e) {
             if (options.isHorizontal) {
                 lastClientCoordinate = e.clientX;
@@ -185,9 +225,7 @@
         $target.on('mouseout', function(e) {
             if ($this.get(0) !== $(e.toElement).get(0)) {
                 $this.off('mousemove', mouseMove);
-                if (options.carriageMoveEndEvent) {
-                    $this.trigger(options.carriageMoveEndEvent);
-                }
+                changeCurrentOffset(true);
             }
             e.stopPropagation();
         });
@@ -195,17 +233,13 @@
         $this.on('mouseout', function(e) {
             if ($(e.toElement).get(0) !== $target.get(0)) {
                 $this.off('mousemove', mouseMove);
-                if (options.carriageMoveEndEvent) {
-                    $this.trigger(options.carriageMoveEndEvent);
-                }
+                changeCurrentOffset(true);
             }
         });
 
         $this.on('mouseup ', function() {
             $this.off('mousemove', mouseMove);
-            if (options.carriageMoveEndEvent) {
-                $this.trigger(options.carriageMoveEndEvent);
-            }
+            changeCurrentOffset(true);
         });
 
         return $(this);
