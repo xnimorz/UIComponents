@@ -31,7 +31,7 @@
         sectionsControl : null,
         captureKeyboard : false,
         captureTouch : false
-    }
+    };
 
     /**
      * Создаем прокрутку по заданному div
@@ -87,10 +87,10 @@
                     e = window.event || e.originalEvent;
                     var delta = lastClient - (options.isVertical? e.touches[0].pageY : e.touches[0].pageX);
                     if (delta >= 50) {
-                        moveNext();
+                        current.moveNext();
                      }
                      if (delta <= -50) {
-                         movePrevious();
+                         current.movePrevious();
                      }
                     if (Math.abs(delta) >= 50) {
                         current.unbind("touchmove");
@@ -153,7 +153,7 @@
         $.fn.moveTo = function(index) {
             if (index < 0 || index > maxIndex) throw new Error("Index must be smaller than count of existing pages and greater than 0");
             transformPageTo(index);
-        }
+        };
 
         /**
          * Переход на следующий слайд
@@ -168,7 +168,7 @@
                 lockPrev = false;
                 $(this).moveTo(lastIndex);
             }
-        }
+        };
 
         /**
          * Переход на предыдущий слайд
@@ -183,7 +183,7 @@
                 lockPrev = true;
                 $(this).moveTo(lastIndex);
             }
-        }
+        };
 
         /**
          * Обработка нажатия клавиши
@@ -238,8 +238,8 @@
                     $(this).css({left: index * 100 + "%"});
                 }
                 $(this).attr('data-index',index++);
-            })
-          //  .bind("mousewheel", processMouseWheel);
+            });
+
 
         maxIndex = index-1;
 
@@ -276,4 +276,4 @@
 
 
 
-})(window.jQuery)
+})(window.jQuery);
