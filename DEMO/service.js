@@ -62,6 +62,25 @@ $(function() {
         });
     });
 
+    $('.js-steps-line').carriage({
+        maxOffset: 350,
+        isSteps: true,
+        carriageMoveEvent: 'carriage:move',
+        carriageMoveEndEvent: 'carriage:end',
+        segments: [
+            {offset: 0, value: 0},
+            {offset: 98, value: 98},
+            {offset: 209, value: 209},
+            {offset: 350, value: 350}
+        ]
+    })
+        .on('carriage:move', function(e, args) {
+            $('.js-steps-move').html(args.value);
+        })
+        .on('carriage:end', function(e, args) {
+            $('.js-steps-end').html(args.value);
+        });
+
     $('.js-some-page-scroll').carriage({
         maxOffset: 400,
         carriageMoveEvent: 'carriage:move',
@@ -104,22 +123,4 @@ $(function() {
     });
 
 
-    $('.js-steps-line').carriage({
-        maxOffset: 350,
-        isSteps: true,
-        carriageMoveEvent: 'carriage:move',
-        carriageMoveEndEvent: 'carriage:end',
-        segments: [
-            {offset: 0, value: 0},
-            {offset: 98, value: 98},
-            {offset: 209, value: 209},
-            {offset: 350, value: 350}
-        ]
-    })
-        .on('carriage:move', function(e, args) {
-            $('.js-steps-move').html(args.value);
-        })
-        .on('carriage:end', function(e, args) {
-            $('.js-steps-end').html(args.value);
-        });
 });
