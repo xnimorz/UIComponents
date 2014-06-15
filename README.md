@@ -58,26 +58,11 @@ $('.js-fast-start').carriage({
 
 Public функции:
 ````html
-<ul>
-            <li>
-                <i>changeSegments(segments)</i> - функция позволяет динамически изменять зависимость между offset картеки и значением. Принимает на вход новый массив carriage
-            </li>
-            <li>
-                <i>restoreCarriage(newValue)</i> - Задает offset каретки в зависимости от заданного Value (восстанавливает offset по value)
-            </li>
-            <li>
-                <i>getCurrentValue()</i> - возвращает текущее значение
-            </li>
-            <li>
-                <i>getCurrentOffset()</i> - возвращает текущий offset
-            </li>
-            <li>
-                <i>getLeftSegment()</i> - Возвращает сегмент, offset которого меньше положения каретки
-            </li>
-            <li>
-                <i>getNearestSegment()</i> - Возвращает ближайший к положению каретки сегмент
-            </li>
-
-        </ul>
+changeSegments(segments) - функция позволяет динамически изменять зависимость между offset картеки и значением. Принимает на вход новый массив carriage
+restoreCarriage(newValue) - Задает offset каретки в зависимости от заданного Value (восстанавливает offset по value)
+getCurrentValue() - возвращает текущее значение
+getCurrentOffset() - возвращает текущий offset
+getLeftSegment() - Возвращает сегмент, offset которого меньше положения каретки
+getNearestSegment() - Возвращает ближайший к положению каретки сегмент
 ````
 
