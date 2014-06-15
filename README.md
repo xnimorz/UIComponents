@@ -51,6 +51,33 @@ $('.js-fast-start').carriage({
                     ]
 {Boolean} isHorizontal : флаг, горизонтальный скроллинг или вертикальный. По умолчанию true (горизонтальный)
 {Boolean} isSteps :  флаг, пошаговый скроллинг, либо плавный. По умолчанию - false
+{Number} computedStepsCount: количество сегментов, на которое необходимо поделить область действия каретки. По умолчанию - null
 ````
 Параметры передаются в виде JSON объекта.
+
+
+Public функции:
+````html
+<ul>
+            <li>
+                <i>changeSegments(segments)</i> - функция позволяет динамически изменять зависимость между offset картеки и значением. Принимает на вход новый массив carriage
+            </li>
+            <li>
+                <i>restoreCarriage(newValue)</i> - Задает offset каретки в зависимости от заданного Value (восстанавливает offset по value)
+            </li>
+            <li>
+                <i>getCurrentValue()</i> - возвращает текущее значение
+            </li>
+            <li>
+                <i>getCurrentOffset()</i> - возвращает текущий offset
+            </li>
+            <li>
+                <i>getLeftSegment()</i> - Возвращает сегмент, offset которого меньше положения каретки
+            </li>
+            <li>
+                <i>getNearestSegment()</i> - Возвращает ближайший к положению каретки сегмент
+            </li>
+
+        </ul>
+````
 
