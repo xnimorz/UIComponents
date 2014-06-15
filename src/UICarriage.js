@@ -8,7 +8,8 @@
         carriageMoveEndEvent: null,
         segments: [],
         isHorizontal: true,
-        isSteps: false
+        isSteps: false,
+        computedStepsCount: null
     };
 
     $.fn.carriage = function(settings) {
@@ -22,6 +23,37 @@
         $target.css({
             'position': 'relative'
         });
+
+        //Автоподсчет шагов
+        var computeSteps = function() {
+            var max = options.maxOffset,
+                min = 0,
+                maxValue = max,
+                minValue = min;
+
+            if (options.segments && options.segments.length !== 1) {
+                max = options.segments[options.segments.length - 1].offset;
+                maxValue = options.segments[options.segments.length - 1].value;
+                min = options.segments[0].offset;
+                minValue = options.segments[0].value;
+            }
+
+            var step = (max - min) / options.computedStepsCount,
+                stepValue = (maxValue - minValue) / options.computedStepsCount;
+            options.segments = [];
+
+            for (var i = 0; i < options.computedStepsCount; i++) {
+                options.segments.push({
+                    offset: min + i * step,
+                    value: minValue + i * stepValue
+                });
+            }
+
+            options.segments.push({
+                offset: max,
+                value: maxValue
+            });
+        };
 
         var segmentsSort = function(a,b) {
             if (a.offset > b.offset) {
@@ -48,6 +80,9 @@
             value = 0;
         }
         options.segments.sort(segmentsSort);
+        if (options.isSteps && options.computedStepsCount) {
+            computeSteps();
+        }
 
         $.fn.changeSegments = function(segments) {
             options.segments = segments;
@@ -56,6 +91,9 @@
                     {offset: options.maxOffset, value: options.maxOffset}];
             }
             options.segments.sort(segmentsSort);
+            if (options.isSteps && options.computedStepsCount) {
+                computeSteps();
+            }
             return $this;
         };
 
