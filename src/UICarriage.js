@@ -105,6 +105,29 @@
             return currentOffset;
         };
 
+        $.fn.getLeftSegment = function() {
+            var i;
+            for (i = 0; options.segments.length < i && options.segments[i].offset <= currentOffset; i++) {
+            }
+            if (options.segments[i].offset <= currentOffset) {
+                return i;
+            }
+            return i - 1;
+        };
+
+        $.fn.getNearestSegment = function() {
+            var i;
+            for (i = 0; options.segments.length < i && options.segments[i].offset <= currentOffset; i++) {
+            }
+            if (options.segments[i].offset <= currentOffset) {
+                return i;
+            }
+            if (currentOffset - options.segments[i - 1].offset > options.segments[i].offset - currentOffset) {
+                return i;
+            }
+            return i - 1;
+        };
+
 
         $.fn.restoreCarriage = function(newValue) {
             if (newValue) {
