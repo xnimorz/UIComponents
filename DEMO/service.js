@@ -81,6 +81,20 @@ $(function() {
             $('.js-steps-end').html(args.value);
         });
 
+    $('.js-auto-steps-line').carriage({
+        maxOffset: 390,
+        isSteps: true,
+        computedStepsCount: 3,
+        carriageMoveEvent: 'carriage:move',
+        carriageMoveEndEvent: 'carriage:end'
+    })
+        .on('carriage:move', function(e, args) {
+            $('.js-auto-steps-move').html(args.value);
+        })
+        .on('carriage:end', function(e, args) {
+            $('.js-auto-steps-end').html(args.value);
+        });
+
     $('.js-some-page-scroll').carriage({
         maxOffset: 400,
         carriageMoveEvent: 'carriage:move',
