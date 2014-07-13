@@ -28,6 +28,8 @@
                     <li><a href="#page-mouse">Использование для скроллинга (синхронизация со скроллингом мышью)</a></li>
                     <li><a href="#steps">Использование пошагового скроллинга</a></li>
                     <li><a href="#auto-steps">Использование пошагового скроллинга c автогенерацией шага</a></li>
+                    <li><a href="#buttons">Использование каретки и кнопок переключения между сегментами</a></li>
+                    <li><a href="#buttons-steps">Использование пошаговой каретки и кнопок переключения между сегментами, использование цикличного переключения</a></li>
                 </ul>
             </li>
         </ul>
@@ -278,6 +280,29 @@
             <p>Событие carriage:move сохраняетсостояние передвижения, в то время, как carriage:end позволяет получить конечное состояние.</p>
             <p>Код примера:</p>
             <script src="https://gist.github.com/xnimorz/7272cc7a111a5f69636a.js"></script>
+
+            <p><h3 id="buttons">Использование каретки и кнопок переключения между сегментами</h3></p>
+            <p>UICarriage имеет интерфейсные методы next и prev, которые позволяют переключаться между сегментами</p>
+            <div class="fast-start js-buttons-line"><div class="fast-start-carriage"></div></div>
+            <div class="buttons">
+                <button class="buttons-less">&lt;</button>
+                <button class="buttons-greater">&gt;</button>
+            </div>
+            <p>mouse move: <span class="js-buttons-move"></span></p>
+            <p>move end: <span class="js-buttons-end"></span></p>
+            <p>Код примера:</p>
+            <script src="https://gist.github.com/xnimorz/878532f4b9fcd2b5808a.js"></script>
+
+            <p><h3 id="buttons-steps">Пошаговая каретка и циклические кнопки переключения</h3></p>
+            <div class="fast-start js-buttons-steps-line"><div class="fast-start-carriage"></div></div>
+            <div class="buttons">
+                <button class="buttons-steps-less">&lt;</button>
+                <button class="buttons-steps-greater">&gt;</button>
+            </div>
+            <p>mouse move: <span class="js-buttons-steps-move"></span></p>
+            <p>move end: <span class="js-buttons-steps-end"></span></p>
+            <p>Код примера:</p>
+            <script src="https://gist.github.com/xnimorz/878532f4b9fcd2b5808a.js"></script>
 
             <p><h3><a href="https://github.com/xnimorz/UICarriage.js">Fork me on GitHub!</a></h3></p>
         </div>

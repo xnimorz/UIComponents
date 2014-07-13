@@ -9,7 +9,8 @@
         segments: [],
         isHorizontal: true,
         isSteps: false,
-        computedStepsCount: null
+        computedStepsCount: null,
+        isCyclic: false
     };
 
     $.fn.carriage = function(settings) {
@@ -55,6 +56,7 @@
             });
         };
 
+        //Сортировка сегментов по возрастанию
         var segmentsSort = function(a,b) {
             if (a.offset > b.offset) {
                 return 1;
@@ -65,6 +67,7 @@
             return 0;
         };
 
+        //Переключение позиции (между двумя последовательными) (получение нового offset)
         var switchSegmentPosition = function(segmentIndex, position) {
             var delta = options.segments[segmentIndex + 1].offset - options.segments[segmentIndex].offset;
             var posDelta = position - options.segments[segmentIndex].offset;
@@ -74,16 +77,54 @@
             return  options.segments[segmentIndex + 1].offset;
         };
 
+        //Определение сегментов
         if (!options.segments || options.segments.length === 0) {
             options.segments = [{offset: 0, value: 0},
                                 {offset: options.maxOffset, value: options.maxOffset}];
             value = 0;
         }
+        //Сортировка сегментов
         options.segments.sort(segmentsSort);
         if (options.isSteps && options.computedStepsCount) {
             computeSteps();
         }
 
+        //Если carriage работает в пошаговом режиме - переключение на следующий шаг
+        var next = function() {
+            var index = $this.getLeftSegment() + 1;
+
+            if (index >= options.segments.length) {
+                if (options.isCyclic) {
+                    index = 0;
+                } else {
+                    return;
+                }
+
+            }
+            currentOffset = options.segments[index].offset;
+            changeCurrentOffset(true);
+        };
+
+        //Если carriage работает в пошаговом режиме - переключение на предыдущий шаг
+        var prev = function() {
+            var index = $this.getLeftSegment();
+            if (currentOffset === options.segments[index].offset) {
+                index--;
+            }
+
+            if (index < 0) {
+                if (options.isCyclic) {
+                    index = options.segments.length - 1;
+                } else {
+                    return;
+                }
+            }
+
+            currentOffset = options.segments[index].offset;
+            changeCurrentOffset(true);
+        };
+
+        //Получение новых сегментов
         $.fn.changeSegments = function(segments) {
             options.segments = segments;
             if (!options.segments || options.segments.length === 0) {
@@ -97,6 +138,7 @@
             return $this;
         };
 
+        //текущее значение
         $.fn.getCurrentValue = function() {
             return value;
         };
@@ -105,16 +147,17 @@
             return currentOffset;
         };
 
+        //Ближайший меньший или равный сегмент
         $.fn.getLeftSegment = function() {
             var i;
-            for (i = 0; options.segments.length < i && options.segments[i].offset <= currentOffset; i++) {
-            }
+            for (i = 0; options.segments.length - 1 > i && options.segments[i].offset <= currentOffset; i++) {}
             if (options.segments[i].offset <= currentOffset) {
                 return i;
             }
             return i - 1;
         };
 
+        //Ближайший сегмент
         $.fn.getNearestSegment = function() {
             var i;
             for (i = 0; options.segments.length < i && options.segments[i].offset <= currentOffset; i++) {
@@ -128,7 +171,7 @@
             return i - 1;
         };
 
-
+        //По значению получение offset
         $.fn.restoreCarriage = function(newValue) {
             if (newValue) {
                 value = newValue;
@@ -172,6 +215,17 @@
             return $this;
         };
 
+        $.fn.next = function() {
+            next();
+            return $this;
+        };
+
+        $.fn.prev = function() {
+            prev();
+            return $this;
+        };
+
+        //Движение каретки
         var changeCurrentOffset = function(isExit) {
             if (currentOffset < 0) {
                 currentOffset = 0;
@@ -179,7 +233,6 @@
             if (currentOffset > options.maxOffset) {
                 currentOffset = options.maxOffset;
             }
-
 
             value = -1;
 

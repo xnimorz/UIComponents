@@ -136,5 +136,62 @@ $(function() {
         e.preventDefault();
     });
 
+    var $buttonsSteps = $('.js-buttons-steps-line').carriage({
+        maxOffset: 400,
+        carriageMoveEvent: 'carriage:move',
+        carriageMoveEndEvent: 'carriage:end',
+        isHorizontal: true,
+        isSteps: true,
+        isCyclic: true,
+        segments: [
+            {offset: 0, value: 0},
+            {offset: 100, value: 100},
+            {offset: 200, value: 200},
+            {offset: 300, value: 300},
+            {offset: 400, value: 400}
+        ]
+    })
+        .on('carriage:move', function(e, args) {
+            $('.js-buttons-steps-move').html(args.value);
+        })
+        .on('carriage:end', function(e, args) {
+            $('.js-buttons-steps-end').html(args.value);
+        });
+
+    $('.buttons-steps-less').click(function() {
+        $buttonsSteps.prev();
+    });
+
+    $('.buttons-steps-greater').click(function() {
+        $buttonsSteps.next();
+    });
+
+    var $buttons = $('.js-buttons-line').carriage({
+        maxOffset: 400,
+        carriageMoveEvent: 'carriage:move',
+        carriageMoveEndEvent: 'carriage:end',
+        isHorizontal: true,
+        segments: [
+            {offset: 0, value: 0},
+            {offset: 100, value: 100},
+            {offset: 200, value: 200},
+            {offset: 300, value: 300},
+            {offset: 400, value: 400}
+        ]
+    })
+        .on('carriage:move', function(e, args) {
+            $('.js-buttons-move').html(args.value);
+        })
+        .on('carriage:end', function(e, args) {
+            $('.js-buttons-end').html(args.value);
+        });
+
+    $('.buttons-less').click(function() {
+        $buttons.prev();
+    });
+
+    $('.buttons-greater').click(function() {
+        $buttons.next();
+    });
 
 });
