@@ -13,13 +13,14 @@
         isCyclic: false
     };
 
-    $.fn.carriage = function(settings) {
-        var $this = $(this),
+    function UICarriage($el, settings) {
+        var $this = $el,
             options = $.extend({}, defaults, settings),
             $target = $this.children(),
             currentOffset = 0,
             lastClientCoordinate = 0,
-            value = -1;
+            value = -1,
+            self = this;
 
         $target.css({
             'position': 'relative'
@@ -80,7 +81,7 @@
         //Определение сегментов
         if (!options.segments || options.segments.length === 0) {
             options.segments = [{offset: 0, value: 0},
-                                {offset: options.maxOffset, value: options.maxOffset}];
+                {offset: options.maxOffset, value: options.maxOffset}];
             value = 0;
         }
         //Сортировка сегментов
@@ -91,7 +92,7 @@
 
         //Если carriage работает в пошаговом режиме - переключение на следующий шаг
         var next = function() {
-            var index = $this.getLeftSegment() + 1;
+            var index = self.getLeftSegment() + 1;
 
             if (index >= options.segments.length) {
                 if (options.isCyclic) {
@@ -107,7 +108,7 @@
 
         //Если carriage работает в пошаговом режиме - переключение на предыдущий шаг
         var prev = function() {
-            var index = $this.getLeftSegment();
+            var index = self.getLeftSegment();
             if (currentOffset === options.segments[index].offset) {
                 index--;
             }
@@ -122,107 +123,6 @@
 
             currentOffset = options.segments[index].offset;
             changeCurrentOffset(true);
-        };
-
-        //Получение новых сегментов
-        $.fn.changeSegments = function(segments) {
-            options.segments = segments;
-            if (!options.segments || options.segments.length === 0) {
-                options.segments = [{offset: 0, value: 0},
-                    {offset: options.maxOffset, value: options.maxOffset}];
-            }
-            options.segments.sort(segmentsSort);
-            if (options.isSteps && options.computedStepsCount) {
-                computeSteps();
-            }
-            return $this;
-        };
-
-        //текущее значение
-        $.fn.getCurrentValue = function() {
-            return value;
-        };
-
-        $.fn.getCurrentOffset = function() {
-            return currentOffset;
-        };
-
-        //Ближайший меньший или равный сегмент
-        $.fn.getLeftSegment = function() {
-            var i;
-            for (i = 0; options.segments.length - 1 > i && options.segments[i].offset <= currentOffset; i++) {}
-            if (options.segments[i].offset <= currentOffset) {
-                return i;
-            }
-            return i - 1;
-        };
-
-        //Ближайший сегмент
-        $.fn.getNearestSegment = function() {
-            var i;
-            for (i = 0; options.segments.length < i && options.segments[i].offset <= currentOffset; i++) {
-            }
-            if (options.segments[i].offset <= currentOffset) {
-                return i;
-            }
-            if (currentOffset - options.segments[i - 1].offset > options.segments[i].offset - currentOffset) {
-                return i;
-            }
-            return i - 1;
-        };
-
-        //По значению получение offset
-        $.fn.restoreCarriage = function(newValue) {
-            if (newValue) {
-                value = newValue;
-                var position = -1;
-
-                if (value >= 0) {
-                    for (var i = 0; i < options.segments.length - 1 && position < 0; i++) {
-                        if (options.segments[i].value < value && options.segments[i + 1].value > value) {
-                            position = options.segments[i].offset +
-                                (value - options.segments[i].value) *
-                                (options.segments[i + 1].offset - options.segments[i].offset) /
-                                (options.segments[i + 1].value - options.segments[i].value);
-                            if (options.isSteps) {
-                                position = switchSegmentPosition(i, position);
-                            }
-                        }
-                        if (options.segments[i].value === value) {
-                            position = options.segments[i].offset;
-                        }
-                        if (options.segments[i + 1].value === value) {
-                            position = options.segments[i + 1].offset;
-                        }
-                    }
-                }
-                if (position === -1) {
-                    position = options.maxOffset;
-                }
-                currentOffset = position;
-
-                if (options.isHorizontal) {
-                    $target.css({
-                        left: position + 'px'
-                    });
-                } else {
-                    $target.css({
-                        top: position + 'px'
-                    });
-                }
-            }
-
-            return $this;
-        };
-
-        $.fn.next = function() {
-            next();
-            return $this;
-        };
-
-        $.fn.prev = function() {
-            prev();
-            return $this;
         };
 
         //Движение каретки
@@ -356,6 +256,116 @@
             changeCurrentOffset(true);
         });
 
-        return $(this);
+        /************** this ************/
+        this.$el = $this;
+
+        //Получение новых сегментов
+        this.changeSegments = function(segments) {
+            options.segments = segments;
+            if (!options.segments || options.segments.length === 0) {
+                options.segments = [{offset: 0, value: 0},
+                    {offset: options.maxOffset, value: options.maxOffset}];
+            }
+            options.segments.sort(segmentsSort);
+            if (options.isSteps && options.computedStepsCount) {
+                computeSteps();
+            }
+            return this;
+        };
+
+        //текущее значение
+        this.getCurrentValue = function() {
+            return value;
+        };
+
+        this.getCurrentOffset = function() {
+            return currentOffset;
+        };
+
+        //Ближайший меньший или равный сегмент
+        this.getLeftSegment = function() {
+            var i;
+            for (i = 0; options.segments.length - 1 > i && options.segments[i].offset <= currentOffset; i++) {}
+            if (options.segments[i].offset <= currentOffset) {
+                return i;
+            }
+            return i - 1;
+        };
+
+        //Ближайший сегмент
+        this.getNearestSegment = function() {
+            var i;
+            for (i = 0; options.segments.length < i && options.segments[i].offset <= currentOffset; i++) {
+            }
+            if (options.segments[i].offset <= currentOffset) {
+                return i;
+            }
+            if (currentOffset - options.segments[i - 1].offset > options.segments[i].offset - currentOffset) {
+                return i;
+            }
+            return i - 1;
+        };
+
+        //По значению получение offset
+        this.restoreCarriage = function(newValue) {
+            if (newValue) {
+                value = newValue;
+                var position = -1;
+
+                if (value >= 0) {
+                    for (var i = 0; i < options.segments.length - 1 && position < 0; i++) {
+                        if (options.segments[i].value < value && options.segments[i + 1].value > value) {
+                            position = options.segments[i].offset +
+                                (value - options.segments[i].value) *
+                                (options.segments[i + 1].offset - options.segments[i].offset) /
+                                (options.segments[i + 1].value - options.segments[i].value);
+                            if (options.isSteps) {
+                                position = switchSegmentPosition(i, position);
+                            }
+                        }
+                        if (options.segments[i].value === value) {
+                            position = options.segments[i].offset;
+                        }
+                        if (options.segments[i + 1].value === value) {
+                            position = options.segments[i + 1].offset;
+                        }
+                    }
+                }
+                if (position === -1) {
+                    position = options.maxOffset;
+                }
+                currentOffset = position;
+
+                if (options.isHorizontal) {
+                    $target.css({
+                        left: position + 'px'
+                    });
+                } else {
+                    $target.css({
+                        top: position + 'px'
+                    });
+                }
+            }
+
+            return this;
+        };
+
+        this.next = function() {
+            next();
+            return this;
+        };
+
+        this.prev = function() {
+            prev();
+            return this;
+        };
+
+        /************** this END ************/
+
+        return this;
+    }
+
+    $.fn.carriage = function(settings) {
+        return new UICarriage($(this), settings);
     };
 }(jQuery);
