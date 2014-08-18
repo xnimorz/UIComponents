@@ -1,8 +1,28 @@
 !function($) {
     'use strict';
 
+    (function(uiCarriage) {
+        if (typeof define === 'function' && define.amd) {
+            //AMD. Анонимный модуль
+            define(uiCarriage);
+        } else if (typeof exports === 'object') {
+            //CommonJS
+            module.exports = uiCarriage;
+        } else {
+            //Глобальный scope
+            window.uiCarriage = uiCarriage;
+        }
+    })({
+        carriage: function($el, settings) {
+            return new UICarriage($el, settings);
+        },
+        scroll: function($el, settings) {
+            return new UIScroll($el, settings);
+        }
+    });
 
-    var defaults = {
+
+    var carriageDefaults = {
         maxOffset: 100,
         carriageMoveEvent: null,
         carriageMoveEndEvent: null,
@@ -15,7 +35,7 @@
 
     function UICarriage($el, settings) {
         var $this = $el,
-            options = $.extend({}, defaults, settings),
+            options = $.extend({}, carriageDefaults, settings),
             $target = $this.children(),
             currentOffset = 0,
             lastClientCoordinate = 0,
@@ -365,7 +385,39 @@
         return this;
     }
 
-    $.fn.carriage = function(settings) {
-        return new UICarriage($(this), settings);
-    };
+    var scrollDefaults = {
+        hideOnLeave: true,
+        scrollEndEvent: 'scroll:stop',
+        scrollEvent: 'scroll:move',
+        isHorizontal: false,
+        $target: null
+    }
+
+    function UIScroll($el, settings) {
+        var $this = $el,
+            $carriage = $this.children().eq(0),
+            options = $.extend({}, scrollDefaults, settings),
+            $target = options.$target;
+            $content = $target.children().eq(0);
+            uiCarriage = new UICarriage($el, {
+                carriageMoveEvent: options.scrollEvent || scrollDefaults.scrollEvent,
+                carriageMoveEndEvent: options.scrollEvent || scrollDefaults.scrollEndEvent,
+                isHorizontal: options.isHorizontal
+            });
+
+        if (options.hideOnLeave) {
+            $target.on('mouseleave', function() {$this.hide()});
+            $target.on('mouseenter', function() {$this.show()});
+            $this.on('mouseenter', function() {$this.show()});
+        }
+
+        this.resize = function(newSize) {
+            newSize = newSize || options.isHorizontal ? $content.width() : $content.height();
+            var targetSize = options.isHorizontal ? $target.width() : $target.height(),
+                multiplier = newSize / targetSize,
+                carriageSize = targetSize / multiplier,
+                delta = newSize - (targetSize - carriageSize);
+            console.log(delta)
+        }
+    }
 }(jQuery);
