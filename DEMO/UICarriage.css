@@ -86,7 +86,7 @@ ul {
     margin: 20px 0;
 }
 
-.some-page {
+.some-page, .some-scroll-block {
     width: 500px;
     height: 400px;
     overflow: hidden;
@@ -96,6 +96,38 @@ ul {
     float: left;
     margin-top: 10px;
     margin-bottom: 30px;
+}
+
+.some-textarea {
+    float: left;
+    width: 160px;
+    height: 405px;
+    float:left;
+    margin-right: 20px;
+    margin-top: 11px;
+}
+
+.some-scroll-block {
+    width: 300px;
+    word-break: break-all;
+}
+
+.some-scroll-block-carriage {
+    height: 412px;
+    top: 10px;
+    left: -5px;
+    float: left;
+    position: relative;
+    width: 8px;
+}
+
+.some-scroll-block-carriage-cursor {
+    background-color: #6c6c6c;
+    opacity: 0.8;
+    border-radius: 40px;
+    height: 50px;
+    width: 8px;
+    margin-left: -3px;
 }
 
 .some-page-carriage {

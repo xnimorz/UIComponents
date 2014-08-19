@@ -3,55 +3,78 @@ $(function() {
 
     $('.js-fast-start').on('carriage:move', function(e, eventArgs) {
         console.log(eventArgs);
-        })
-        .carriage({
+    });
+
+    uiCarriage.carriage(
+        $('.js-fast-start'),
+        {
             maxOffset: 390,
             carriageMoveEvent: 'carriage:move'
-        });
+        }
+    );
+
 
     $('.js-input-linear-carriage').on('carriage:move', function(e, args) {
             $('.js-input-linear').val(args.value);
         })
         .on('carriage:end', function(e, args) {
             $('.js-input-mouse-up').html(args.value);
-        })
-        .carriage({
+        });
+
+    uiCarriage.carriage(
+        $('.js-input-linear-carriage'),
+        {
             maxOffset: 390,
             carriageMoveEvent: 'carriage:move',
             carriageMoveEndEvent: 'carriage:end'
-        });
+        }
+    );
 
 
     $('.js-input-linear-segments-carriage').on('carriage:move', function(e, args) {
             $('.js-input-linear-segments').val(args.value);
-        })
-        .carriage({
+        });
+
+    uiCarriage.carriage(
+        $('.js-input-linear-segments-carriage'),
+        {
             maxOffset: 390,
             carriageMoveEvent: 'carriage:move',
             segments: [{offset: 0, value: 0},
                         {offset: 390, value: 7800}]
-        });
+        }
+    );
+
 
     $('.js-input-segments-carriage').on('carriage:move', function(e, args) {
             $('.js-input-segments').val(args.value);
-        })
-        .carriage({
+        });
+
+    uiCarriage.carriage(
+        $('.js-input-segments-carriage'),
+        {
             maxOffset: 390,
             carriageMoveEvent: 'carriage:move',
             segments: [{offset: 0, value: 0},
                 {offset: 100, value: 1000},
                 {offset: 200, value: 1200},
                 {offset: 390, value: 39200}]
-        });
+        }
+    );
+
 
     $('.js-start-value-carriage').on('carriage:move', function(e, args) {
             $('.js-start-value').val(args.value);
         })
-        .carriage({
+
+    uiCarriage.carriage(
+        $('.js-start-value-carriage'),
+        {
             maxOffset: 390,
             carriageMoveEvent: 'carriage:move'
-        })
-        .restoreCarriage(150);
+        }
+    ).restoreCarriage(150);
+
 
     $('.js-some-page').on('carriage:move', function(e, args) {
             $('.js-page').css({
@@ -61,19 +84,26 @@ $(function() {
                 'transform': 'translate(0, ' + -args.value +'px)'
             });
         })
-        .carriage({
+
+    uiCarriage.carriage(
+        $('.js-some-page'),
+        {
             maxOffset: 400,
             carriageMoveEvent: 'carriage:move',
             isHorizontal: false
-        });
+        }
+    );
 
     $('.js-steps-line').on('carriage:move', function(e, args) {
             $('.js-steps-move').html(args.value);
         })
         .on('carriage:end', function(e, args) {
             $('.js-steps-end').html(args.value);
-        })
-        .carriage({
+        });
+
+    uiCarriage.carriage(
+        $('.js-steps-line'),
+        {
             maxOffset: 350,
             isSteps: true,
             carriageMoveEvent: 'carriage:move',
@@ -84,21 +114,27 @@ $(function() {
                 {offset: 209, value: 209},
                 {offset: 350, value: 350}
             ]
-        });
+        }
+    );
+
 
     $('.js-auto-steps-line').on('carriage:move', function(e, args) {
             $('.js-auto-steps-move').html(args.value);
         })
         .on('carriage:end', function(e, args) {
             $('.js-auto-steps-end').html(args.value);
-        })
-        .carriage({
+        });
+
+    uiCarriage.carriage(
+        $('.js-auto-steps-line'),
+        {
             maxOffset: 390,
             isSteps: true,
             computedStepsCount: 3,
             carriageMoveEvent: 'carriage:move',
             carriageMoveEndEvent: 'carriage:end'
-        });
+        }
+    );
 
 
     var pageScroll = $('.js-some-page-scroll').on('carriage:move', function(e, args) {
@@ -108,8 +144,11 @@ $(function() {
                 '-ms-transform': 'translate(0, ' + -args.value +'px)',
                 'transform': 'translate(0, ' + -args.value +'px)'
             });
-        })
-        .carriage({
+        });
+
+    var pageScrollCarriage = uiCarriage.carriage(
+        pageScroll,
+        {
             maxOffset: 400,
             carriageMoveEvent: 'carriage:move',
             isHorizontal: false,
@@ -117,12 +156,13 @@ $(function() {
                 {offset: 0, value: 0},
                 {offset: 400, value: 3825}
             ]
-        });
+        }
+    );
 
     $('.js-page-scroll').on('mousewheel DOMMouseScroll', function(e) {
         var event = window.event || e.originalEvent,
             delta = event.wheelDelta || (-120) * event.detail;
-        var position = - pageScroll.getCurrentValue() + delta;
+        var position = - pageScrollCarriage.getCurrentValue() + delta;
 
         //Проверки, чтобы не вышли за пределы
         if (position > 0) {
@@ -139,9 +179,10 @@ $(function() {
             'transform': 'translate(0, ' + position +'px)'
         });
 
-        pageScroll.restoreCarriage(-position);
+        pageScrollCarriage.restoreCarriage(-position);
         e.preventDefault();
     });
+
 
     var buttonsSteps = $('.js-buttons-steps-line').on('carriage:move', function(e, args) {
             $('.js-buttons-steps-move').html(args.value);
@@ -149,7 +190,9 @@ $(function() {
         .on('carriage:end', function(e, args) {
             $('.js-buttons-steps-end').html(args.value);
         })
-        .carriage({
+    var stepsCarriage = uiCarriage.carriage(
+        buttonsSteps,
+        {
             maxOffset: 400,
             carriageMoveEvent: 'carriage:move',
             carriageMoveEndEvent: 'carriage:end',
@@ -163,16 +206,17 @@ $(function() {
                 {offset: 300, value: 300},
                 {offset: 400, value: 400}
             ]
-        });
-
+        }
+    );
 
     $('.buttons-steps-less').click(function() {
-        buttonsSteps.prev();
+        stepsCarriage.prev();
     });
 
     $('.buttons-steps-greater').click(function() {
-        buttonsSteps.next();
+        stepsCarriage.next();
     });
+
 
     var buttons = $('.js-buttons-line').on('carriage:move', function(e, args) {
             $('.js-buttons-move').html(args.value);
@@ -180,7 +224,9 @@ $(function() {
         .on('carriage:end', function(e, args) {
             $('.js-buttons-end').html(args.value);
         })
-        .carriage({
+    var buttonsCarriage = uiCarriage.carriage(
+        buttons,
+        {
             maxOffset: 400,
             carriageMoveEvent: 'carriage:move',
             carriageMoveEndEvent: 'carriage:end',
@@ -192,15 +238,28 @@ $(function() {
                 {offset: 300, value: 300},
                 {offset: 400, value: 400}
             ]
-        });
-
+        }
+    );
 
     $('.buttons-less').click(function() {
-        buttons.prev();
+        buttonsCarriage.prev();
     });
 
     $('.buttons-greater').click(function() {
-        buttons.next();
+        buttonsCarriage.next();
     });
+
+
+    //uiScroll
+    var scroll = uiCarriage.scroll($('.js-some-page-ui-scroll'), {
+        $target: $('.js-scroll-target')
+    });
+
+    $('.js-textarea').on('keyup', function() {
+        $('.js-scroll').html($(this).val())
+        scroll.resize();
+    });
+
+
 
 });
