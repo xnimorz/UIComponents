@@ -30,6 +30,7 @@
                     <li><a href="#auto-steps">Использование пошагового скроллинга c автогенерацией шага</a></li>
                     <li><a href="#buttons">Использование каретки и кнопок переключения между сегментами</a></li>
                     <li><a href="#buttons-steps">Использование пошаговой каретки и кнопок переключения между сегментами, использование цикличного переключения</a></li>
+                    <li><a href="#page-scroll">Скролл блоков с использованием uiScroll</a></li>
                 </ul>
             </li>
         </ul>
@@ -317,21 +318,37 @@
             <p>Код примера:</p>
             <script src="https://gist.github.com/xnimorz/e3f3b22a00d874fae9da.js"></script>
 
+            <p><h2>UIScroll</h2></p>
+            <p>UICarriage.js содержит модуль, который позволяет обрабатывать определенный юзкейс - скролл. Иногда, недостаточно использовать overflow: scroll для своей работы, так как необходим пользовательский скролл (который будет анимирован определенным образом, либо размещен в нестандартном месте)</p>
+            <p>Для такой задачи можно воспользоваться встроенным в uiCarriage модулем - scroll. Этот модуль является оберткой для uiCarriage и работает через нее, выставляя в виде интерфейса следующий метод:</p>
+            <ul>
+                <li>resize - оповещает компонент о том, что размеры области для скролла могли измениться и поэтому необходимо пересчитать показатели</li>
+            </ul>
 
-            <p><h3 id="page-mouse">Каретка + скроллинг мышью:</h3></p>
-            <p>Использование каретки в данном случае может быть намного более удобным, если совместно с кареткой использовать и скроллинг мышью</p>
-            <p>Каретка + скроллинг текста мышью (и их синхронизация):</p>
-            <div class="some-page">
-                <div class="js-page-scroll">
+            <p>Параметры для uiCarriage.scroll:</p>
+            <ul>
+                <li>{Boolean} hideOnLeave - скрывать ли скрол, если мышь уходит за область видимости контента (по умолчанию true)</li>
+                <li>{String} scrollEndEvent - Событие генерируемое при окончании скролла (по умолчанию 'scroll:stop')</li>
+                <li>{String} scrollEvent - Событие генерируемое при скролле (по умолчанию 'scroll:move')</li>
+                <li>{Boolean} isHorizontal - горизонтальный ли скролл (по умолчанию false)</li>
+                <li>{JQuery} $target - jQuery объект элемента, контент которого должен скролиться. Должен содержать в себе один элемент который и будет скроллиться</li>
+                <li>{Number} minSize - минимальный размер скроллинга (по умолчанию 30)</li>
+                <li>{Boolean} preventScroll - событие скролла не будет скроллить контент (запрещает стандартное поведение)</li>
+            </ul>
 
-                </div>
+            <p><h3 id="page-scroll">Скролл с использованием uiScroll</h3></p>
+            <textarea class="js-textarea some-textarea">Введите сюда длинный текст, для того, чтобы появился скролл</textarea>
+
+            <div class="some-scroll-block js-scroll-target">
+                <div class="js-scroll">Введите сюда длинный текст, для того, чтобы появился скролл</div>
             </div>
-            <div class="some-page-carriage js-some-page-scroll">
-                <div class="some-page-carriage-cursor">
+            <div class="some-scroll-block-carriage js-some-page-ui-scroll">
+                <div class="some-scroll-block-carriage-cursor">
                 </div>
             </div>
             <div style="clear: both"></div>
-            <b>Заметим, что данный пример скрола - демонстрация вохможностей объекта UICarriage. Для работы со скролом существует класс UIScroll, рассматриваемый ниже. Данный класс добавляет uiCarriage поведение для скролла элементов</b>
+            <script src="https://gist.github.com/xnimorz/2b8070239f001a5d9c96.js"></script>
+
 
             <p><h3><a href="https://github.com/xnimorz/UICarriage.js">Fork me on GitHub!</a></h3></p>
         </div>

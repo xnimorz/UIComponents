@@ -249,4 +249,17 @@ $(function() {
         buttonsCarriage.next();
     });
 
+
+    //uiScroll
+    var scroll = uiCarriage.scroll($('.js-some-page-ui-scroll'), {
+        $target: $('.js-scroll-target')
+    });
+
+    $('.js-textarea').on('keyup', function() {
+        $('.js-scroll').html($(this).val())
+        scroll.resize();
+    });
+
+
+
 });
