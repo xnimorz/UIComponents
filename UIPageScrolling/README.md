@@ -4,8 +4,8 @@ JQuery плагин, позволяющий представить web-стра�
 Поддерживает возможность скролла вверх\вниз влева\вправо.
 
 ## Demo
-Вертикальный скроллинг - http://xnimorz.github.io/UIPageScrolling/DEMO/UIPageScrolling-Vertical-DEMO.html
-Горизонтальный скроллинг - http://xnimorz.github.io/UIPageScrolling/DEMO/UIPageScrolling-Horizontal-DEMO.html
+Вертикальный скроллинг - http://xnimorz.github.io/UIComponents/UIPageScrolling
+Горизонтальный скроллинг - http://xnimorz.github.io/UIComponents/UIPageScrolling/UIPageScrolling-Horizontal-DEMO.html
 
 ## Тестировался
 
