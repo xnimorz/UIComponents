@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <script src="http://yastatic.net/jquery/2.1.1/jquery.min.js"></script>
+    <script src="dropdown.js"></script>
+    <script src="example.js"></script>
+    <link rel="stylesheet" href="dropdown.css">
+    <link rel="stylesheet" href="../demo-files/style.css">
+</html>
+<body>
+<a href="https://github.com/xnimorz/UIComponents/tree/master/dropdown"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    <div class="page">
+        <h1>Dropdown</h1>
+        <p>Компонент позволяющий выводить кастомную информацию в dropdown (popover) на страницу.</p>
+        <p>Существует возможность задать размеры, элемент-родителя, контент, положение и наличие\отсутсвия стрелки у дропдауна</p>
+
+        <h3>Пример использования: (Нажмите на черные квадраты)</h3>
+        <div class="placeholder">
+            <div class="cube">
+                <div class="dropdown-container dropdown-container_top_left"></div>
+                <div class="dropdown-container dropdown-container_top_middle"></div>
+                <div class="dropdown-container dropdown-container_top_right"></div>
+
+                <div class="dropdown-container dropdown-container_left_top"></div>
+                <div class="dropdown-container dropdown-container_left_middle"></div>
+                <div class="dropdown-container dropdown-container_left_bottom"></div>
+
+                <div class="dropdown-container dropdown-container_right_top"></div>
+                <div class="dropdown-container dropdown-container_right_middle"></div>
+                <div class="dropdown-container dropdown-container_right_bottom"></div>
+
+                <div class="dropdown-container dropdown-container_bottom_left"></div>
+                <div class="dropdown-container dropdown-container_bottom_middle"></div>
+                <div class="dropdown-container dropdown-container_bottom_right"></div>
+
+                <div class="dropdown-container dropdown-container_without_arrow"></div>
+            </div>
+        </div>
+
+        <h3>Быстрый старт:</h3>
+            <code>
+            new Dropdown([selector || jQuery], params)
+            </code>
+        <p>например</p>
+        <code>
+            new Dropdown('.my-dropdown', {
+                content: 'Dropdown content'
+            })
+        </code>
+        <p>Для работы со стилями необходимо подключить dropdown.css и|или определить классы:</p>
+        <ul>
+            <li>dropdown - весь элемент dropdown</li>
+            <li>dropdown__content - контейнер в котором будет храниться контент</li>
+            <li>dropdown__arrow - стрелка дропдауна (если необходима)</li>
+            <li>dropdown__arrow_direction_{top, bottom, right, left} - стрелки дропдауна направленные в разные стороны</li>
+        </ul>
+        <h3>Описание:</h3>
+            Скрипт импортирует конструктор Dropdown. Предусмотрено подключение через reuire.js или CommonJS (либо использование глобальной переменной Dropdown)
+        <h3>Параметры:</h3>
+            <p>Конструктор принимает два аргумента - первый аргумент - селектор или jQuery объект, который дропдаун будет считать активным элементом и при нажатии на этот элемент будет показывать\скрывать дропдаун</p>
+        <code>
+        target - родительский элемент. Если определено null - dropdown будет находиться в том же блоке,
+              что и активный элемент (вызывающий дропдаун) (По умолчанию null)
+
+         position - положение dropdown'a. Возможные значения:
+              'top' - сверху
+              'bottom' - снизу (по умолчанию)
+              'left' - слева
+              'right' - справа
+
+         arrow - положение стрелки. возможные значения
+              'start' - стрелка расположена ближе к началу дропдауна
+              'middle' - стрелка расположена в середине дропдауна
+              'end' - стрелка расположена ближе к концу дропдауна
+              null -  не отображать стрелку (по умолчанию)
+
+         size - задает размеры dropdown'а. по умолчанию auto - dropdown определяет свой размер автоматически.
+              формат данных - структура {width: ширина в px, height: высота в px}
+
+         content - контент дропдауна. Принимает html, которую dropdown будет использовать как контент.
+              Если content не определен, контент будет определяться по data-dropdown-content аттрибуту у активного элемента
+              По умолчанию - content выбирается из data-dropdown-content
+
+         close - закртие дропдауна.
+              'auto' - закрытие дропдауна происходит при нажатии на любую область не принадлежащую дропдауну (по умолчанию)
+              'manual' - закрытие дропдауна только при нажатии на активный элемент или с помощью другого скрипта
+        </code>
+    </div>
+</body>

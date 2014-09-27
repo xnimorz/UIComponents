@@ -1,0 +1,82 @@
+.page {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.dropdown-container {
+    background-color: #919191;
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+}
+
+.dropdown-container_top_left {
+    left: 100px;
+}
+
+.dropdown-container_top_middle {
+    left: 130px
+}
+
+.dropdown-container_top_right {
+    left: 160px;
+}
+
+.dropdown-container_left_top {
+    top: 40px;
+    left: 100px;
+}
+
+.dropdown-container_left_middle {
+    top: 40px;
+    left: 130px;
+}
+
+.dropdown-container_left_bottom {
+    top: 40px;
+    left: 160px;
+}
+
+.dropdown-container_right_top {
+    top: 80px;
+    left: 100px;
+}
+
+.dropdown-container_right_middle {
+    top: 80px;
+    left: 130px;
+}
+
+.dropdown-container_right_bottom {
+    top: 80px;
+    left: 160px;
+}
+
+.dropdown-container_bottom_left {
+    top: 120px;
+    left: 100px;
+}
+
+.dropdown-container_bottom_middle {
+    top: 120px;
+    left: 130px;
+}
+
+.dropdown-container_bottom_right {
+    top: 120px;
+    left: 160px;
+}
+
+.dropdown-container_without_arrow {
+    top: 60px
+}
+
+.cube {
+    position: relative;
+    height: 150px;
+}
+
+code {
+    white-space: pre;
+}
