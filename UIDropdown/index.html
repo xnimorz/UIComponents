@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
     <script src="http://yastatic.net/jquery/2.1.1/jquery.min.js"></script>
-    <script src="dropdown.js"></script>
+    <script src="UIDropdown.js"></script>
     <script src="example.js"></script>
-    <link rel="stylesheet" href="dropdown.css">
+    <link rel="stylesheet" href="UIDropdown.css">
     <link rel="stylesheet" href="../demo-files/style.css">
 </html>
 <body>
-<a href="https://github.com/xnimorz/UIComponents/tree/master/dropdown"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+<a href="https://github.com/xnimorz/UIComponents/tree/master/UIDropdown" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
     <div class="page">
-        <h1>Dropdown</h1>
+        <h1>UIDropdown</h1>
+        <a href="../index.html">К списку компонентов</a>
         <p>Компонент позволяющий выводить кастомную информацию в dropdown (popover) на страницу.</p>
         <p>Существует возможность задать размеры, элемент-родителя, контент, положение и наличие\отсутсвия стрелки у дропдауна</p>
 
@@ -38,11 +39,11 @@
 
         <h3>Быстрый старт:</h3>
             <code>
-            new Dropdown([selector || jQuery], params)
+            new UIDropdown([selector || jQuery], params)
             </code>
         <p>например</p>
         <code>
-            new Dropdown('.my-dropdown', {
+            new UIDropdown('.my-dropdown', {
                 content: 'Dropdown content'
             })
         </code>
@@ -54,7 +55,7 @@
             <li>dropdown__arrow_direction_{top, bottom, right, left} - стрелки дропдауна направленные в разные стороны</li>
         </ul>
         <h3>Описание:</h3>
-            Скрипт импортирует конструктор Dropdown. Предусмотрено подключение через reuire.js или CommonJS (либо использование глобальной переменной Dropdown)
+            Скрипт импортирует конструктор UIDropdown. Предусмотрено подключение через require.js или CommonJS (либо использование глобальной переменной UIDropdown)
         <h3>Параметры:</h3>
             <p>Конструктор принимает два аргумента - первый аргумент - селектор или jQuery объект, который дропдаун будет считать активным элементом и при нажатии на этот элемент будет показывать\скрывать дропдаун</p>
         <code>

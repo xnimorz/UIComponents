@@ -1,4 +1,4 @@
-<h1>Dropdown</h1>
+<h1>UIDropdown</h1>
 
 Компонент позволяющий выводить кастомную информацию в dropdown (popover) на страницу.
 Существует возможность задать размеры, элемент-родителя, контент, положение и наличие\отсутсвия стрелки у дропдауна
@@ -6,13 +6,13 @@
 <h3>Быстрый старт:</h3>
 
 ````javascript
-new Dropdown([selector || jQuery], params)
+new UIDropdown([selector || jQuery], params)
 ````
 
 например
 
 ````javascript
-new Dropdown('.my-dropdown', {
+new UIDropdown('.my-dropdown', {
     content: 'Dropdown content'
 })
 ````
@@ -28,7 +28,7 @@ new Dropdown('.my-dropdown', {
  - dropdown__arrow_direction_{top, bottom, right, left} - стрелки дропдауна направленные в разные стороны
 
 <h3>Описание:</h3>
-Скрипт импортирует конструктор Dropdown. Предусмотрено подключение через reuire.js или CommonJS (либо использование глобальной переменной Dropdown)
+Скрипт импортирует конструктор UIDropdown. Предусмотрено подключение через require.js или CommonJS (либо использование глобальной переменной UIDropdown)
 
 <h3>Параметры:</h3>
 Конструктор принимает два аргумента - первый аргумент - селектор или jQuery объект, который дропдаун будет считать активным элементом и при нажатии на этот элемент будет показывать\скрывать дропдаун
