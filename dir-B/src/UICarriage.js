@@ -1,0 +1,507 @@
+!function($) {
+    'use strict';
+
+    (function(uiCarriage) {
+        if (typeof define === 'function' && define.amd) {
+            //AMD. Анонимный модуль
+            define(uiCarriage);
+        } else if (typeof exports === 'object') {
+            //CommonJS
+            module.exports = uiCarriage;
+        } else {
+            //Глобальный scope
+            window.uiCarriage = uiCarriage;
+        }
+    })({
+        carriage: function($el, settings) {
+            return new UICarriage($el, settings);
+        },
+        scroll: function($el, settings) {
+            return new UIScroll($el, settings);
+        }
+    });
+
+
+    var carriageDefaults = {
+        maxOffset: 100,
+        carriageMoveEvent: null,
+        carriageMoveEndEvent: null,
+        segments: [],
+        isHorizontal: true,
+        isSteps: false,
+        computedStepsCount: null,
+        isCyclic: false
+    };
+
+    function UICarriage($el, settings) {
+        var $this = $el,
+            options = $.extend({}, carriageDefaults, settings),
+            $target = $this.children(),
+            currentOffset = 0,
+            lastClientCoordinate = 0,
+            value = -1,
+            self = this;
+
+        $target.css({
+            'position': 'relative'
+        });
+
+        //Автоподсчет шагов
+        var computeSteps = function() {
+            var max = options.maxOffset,
+                min = 0,
+                maxValue = max,
+                minValue = min;
+
+            if (options.segments && options.segments.length !== 1) {
+                max = options.segments[options.segments.length - 1].offset;
+                maxValue = options.segments[options.segments.length - 1].value;
+                min = options.segments[0].offset;
+                minValue = options.segments[0].value;
+            }
+
+            var step = (max - min) / options.computedStepsCount,
+                stepValue = (maxValue - minValue) / options.computedStepsCount;
+            options.segments = [];
+
+            for (var i = 0; i < options.computedStepsCount; i++) {
+                options.segments.push({
+                    offset: min + i * step,
+                    value: minValue + i * stepValue
+                });
+            }
+
+            options.segments.push({
+                offset: max,
+                value: maxValue
+            });
+        };
+
+        //Сортировка сегментов по возрастанию
+        var segmentsSort = function(a,b) {
+            if (a.offset > b.offset) {
+                return 1;
+            }
+            if (a.offset < b.offset) {
+                return -1;
+            }
+            return 0;
+        };
+
+        //Переключение позиции (между двумя последовательными) (получение нового offset)
+        var switchSegmentPosition = function(segmentIndex, position) {
+            var delta = options.segments[segmentIndex + 1].offset - options.segments[segmentIndex].offset;
+            var posDelta = position - options.segments[segmentIndex].offset;
+            if (posDelta < (delta / 2)) {
+                return  options.segments[segmentIndex].offset;
+            }
+            return  options.segments[segmentIndex + 1].offset;
+        };
+
+        //Определение сегментов
+        if (!options.segments || options.segments.length === 0) {
+            options.segments = [{offset: 0, value: 0},
+                {offset: options.maxOffset, value: options.maxOffset}];
+            value = 0;
+        }
+        //Сортировка сегментов
+        options.segments.sort(segmentsSort);
+        if (options.isSteps && options.computedStepsCount) {
+            computeSteps();
+        }
+
+        //Если carriage работает в пошаговом режиме - переключение на следующий шаг
+        var next = function() {
+            var index = self.getLeftSegment() + 1;
+
+            if (index >= options.segments.length) {
+                if (options.isCyclic) {
+                    index = 0;
+                } else {
+                    return;
+                }
+
+            }
+            currentOffset = options.segments[index].offset;
+            changeCurrentOffset(true);
+        };
+
+        //Если carriage работает в пошаговом режиме - переключение на предыдущий шаг
+        var prev = function() {
+            var index = self.getLeftSegment();
+            if (currentOffset === options.segments[index].offset) {
+                index--;
+            }
+
+            if (index < 0) {
+                if (options.isCyclic) {
+                    index = options.segments.length - 1;
+                } else {
+                    return;
+                }
+            }
+
+            currentOffset = options.segments[index].offset;
+            changeCurrentOffset(true);
+        };
+
+        //Движение каретки
+        var changeCurrentOffset = function(isExit) {
+            if (currentOffset < 0) {
+                currentOffset = 0;
+            }
+            if (currentOffset > options.maxOffset) {
+                currentOffset = options.maxOffset;
+            }
+
+            value = -1;
+
+            for (var i = 0; i < options.segments.length - 1 && value < 0; i++) {
+                if (options.segments[i].offset < currentOffset && options.segments[i + 1].offset > currentOffset) {
+                    if (options.isSteps && isExit) {
+                        currentOffset = switchSegmentPosition(i, currentOffset);
+                    }
+                    value = options.segments[i].value +
+                        (currentOffset - options.segments[i].offset) *
+                        (options.segments[i + 1].value - options.segments[i].value) /
+                        (options.segments[i + 1].offset - options.segments[i].offset);
+                }
+                if (options.segments[i].offset === currentOffset) {
+                    value = options.segments[i].value;
+                }
+                if (options.segments[i + 1].offset === currentOffset) {
+                    value = options.segments[i + 1].value;
+                }
+            }
+
+            if (options.isHorizontal) {
+                $target.css({
+                    left: currentOffset + 'px'
+                });
+            } else {
+                $target.css({
+                    top: currentOffset + 'px'
+                });
+            }
+
+            if (options.carriageMoveEvent && !isExit) {
+                $this.trigger(options.carriageMoveEvent, {
+                    event: 'move',
+                    carriageOffset: currentOffset,
+                    segmentIndex: i,
+                    value: value
+                });
+            }
+            if (options.carriageMoveEndEvent && isExit) {
+                $this.trigger(options.carriageMoveEndEvent, {
+                    event: 'endMove',
+                    carriageOffset: currentOffset,
+                    segmentIndex: i,
+                    value: value
+                });
+            }
+
+        };
+
+        var mouseEvent = function(e) {
+            if (options.isHorizontal) {
+                currentOffset = e.offsetX - $target.width() / 2;
+                lastClientCoordinate = e.clientX;
+            } else {
+                currentOffset = e.offsetY - $target.height() / 2;
+                lastClientCoordinate = e.clientY;
+            }
+            changeCurrentOffset();
+        };
+
+
+        var mouseMove = function(e) {
+            if (options.isHorizontal) {
+                currentOffset += e.clientX - lastClientCoordinate;
+                lastClientCoordinate = e.clientX;
+            } else {
+                currentOffset += e.clientY - lastClientCoordinate;
+                lastClientCoordinate = e.clientY;
+            }
+            changeCurrentOffset();
+        };
+
+        var touchStartEvent = function(e) {
+            e = window.event || e.originalEvent;
+            var lastClient = options.isHorizontal? e.touches[0].pageX : e.touches[0].pageY;
+            $target.add($this).bind("touchmove", function(e) {
+                e = window.event || e.originalEvent;
+                var delta = (options.isHorizontal? e.touches[0].pageX : e.touches[0].pageY) - lastClient;
+                lastClientCoordinate = options.isHorizontal? e.touches[0].pageX : e.touches[0].pageY;
+                currentOffset += delta;
+                changeCurrentOffset();
+            });
+        };
+
+        $this.add($target).on('touchstart', touchStartEvent);
+
+        $target.on('mousedown',  function(e) {
+            if (options.isHorizontal) {
+                lastClientCoordinate = e.clientX;
+            } else {
+                lastClientCoordinate = e.clientY;
+            }
+            $this.on('mousemove', mouseMove);
+            e.stopPropagation();
+        });
+
+        $this.on('mousedown', function(e) {
+            mouseEvent(e);
+            $this.on('mousemove', mouseMove);
+        });
+
+
+        $target.on('mouseout', function(e) {
+            if ($this.get(0) !== $(e.toElement).get(0)) {
+                $this.off('mousemove', mouseMove);
+                changeCurrentOffset(true);
+            }
+            e.stopPropagation();
+        });
+
+        $this.on('mouseout', function(e) {
+            if ($(e.toElement).get(0) !== $target.get(0)) {
+                $this.off('mousemove', mouseMove);
+                changeCurrentOffset(true);
+            }
+        });
+
+        $this.on('mouseup ', function() {
+            $this.off('mousemove', mouseMove);
+            changeCurrentOffset(true);
+        });
+
+        /************** this ************/
+        this.$el = $this;
+
+        //Получение новых сегментов
+        this.changeSegments = function(segments) {
+            options.segments = segments;
+            if (!options.segments || options.segments.length === 0) {
+                options.segments = [{offset: 0, value: 0},
+                    {offset: options.maxOffset, value: options.maxOffset}];
+            }
+            options.segments.sort(segmentsSort);
+            if (options.isSteps && options.computedStepsCount) {
+                computeSteps();
+            }
+            return this;
+        };
+
+        //текущее значение
+        this.getCurrentValue = function() {
+            return value;
+        };
+
+        this.getCurrentOffset = function() {
+            return currentOffset;
+        };
+
+        //Ближайший меньший или равный сегмент
+        this.getLeftSegment = function() {
+            var i;
+            for (i = 0; options.segments.length - 1 > i && options.segments[i].offset <= currentOffset; i++) {}
+            if (options.segments[i].offset <= currentOffset) {
+                return i;
+            }
+            return i - 1;
+        };
+
+        //Ближайший сегмент
+        this.getNearestSegment = function() {
+            var i;
+            for (i = 0; options.segments.length < i && options.segments[i].offset <= currentOffset; i++) {
+            }
+            if (options.segments[i].offset <= currentOffset) {
+                return i;
+            }
+            if (currentOffset - options.segments[i - 1].offset > options.segments[i].offset - currentOffset) {
+                return i;
+            }
+            return i - 1;
+        };
+
+        //По значению получение offset
+        this.restoreCarriage = function(newValue) {
+            if (newValue) {
+                value = newValue;
+                var position = -1;
+
+                if (value >= 0) {
+                    for (var i = 0; i < options.segments.length - 1 && position < 0; i++) {
+                        if (options.segments[i].value < value && options.segments[i + 1].value > value) {
+                            position = options.segments[i].offset +
+                                (value - options.segments[i].value) *
+                                (options.segments[i + 1].offset - options.segments[i].offset) /
+                                (options.segments[i + 1].value - options.segments[i].value);
+                            if (options.isSteps) {
+                                position = switchSegmentPosition(i, position);
+                            }
+                        }
+                        if (options.segments[i].value === value) {
+                            position = options.segments[i].offset;
+                        }
+                        if (options.segments[i + 1].value === value) {
+                            position = options.segments[i + 1].offset;
+                        }
+                    }
+                }
+                if (position === -1) {
+                    position = options.maxOffset;
+                }
+                currentOffset = position;
+
+                if (options.isHorizontal) {
+                    $target.css({
+                        left: position + 'px'
+                    });
+                } else {
+                    $target.css({
+                        top: position + 'px'
+                    });
+                }
+            }
+
+            return this;
+        };
+
+        this.next = function() {
+            next();
+            return this;
+        };
+
+        this.prev = function() {
+            prev();
+            return this;
+        };
+
+        /************** this END ************/
+
+        return this;
+    }
+
+    var scrollDefaults = {
+        hideOnLeave: true,
+        scrollEndEvent: 'scroll:stop',
+        scrollEvent: 'scroll:move',
+        isHorizontal: false,
+        $target: null,
+        minSize: 30,
+        preventScroll: true
+    }
+
+    function UIScroll($el, settings) {
+        var $this = $el,
+            $carriage = $this.children().eq(0),
+            options = $.extend({}, scrollDefaults, settings),
+            $target = options.$target,
+            $content = $target.children().eq(0),
+            uiCarriage = new UICarriage($el, {
+                carriageMoveEvent: options.scrollEvent || scrollDefaults.scrollEvent,
+                carriageMoveEndEvent: options.scrollEvent || scrollDefaults.scrollEndEvent,
+                isHorizontal: options.isHorizontal
+            }),
+            isHidden = false,
+            maxValue = 0;
+
+        if (options.hideOnLeave) {
+            $target.on('mouseleave', function() {!isHidden && $this.hide()});
+            $target.on('mouseenter', function() {!isHidden && $this.show()});
+            $this.on('mouseenter', function() {!isHidden && $this.show()});
+            $this.on('mouseleave', function() {!isHidden && $this.hide()});
+        }
+
+        $content.on('mousewheel DOMMouseScroll', function(e) {
+            var event = window.event || e.originalEvent,
+                delta = event.wheelDelta || (-120) * event.detail;
+            var position = - uiCarriage.getCurrentValue() + delta;
+
+            //Проверки, чтобы не вышли за пределы
+            if (position > 0) {
+                position = 0;
+            }
+            if (position < - maxValue) {
+                position = - maxValue;
+            }
+
+            $(this).css({
+                '-webkit-transform': 'translate(0, ' + position +'px)',
+                '-moz-transform': 'translate(0, ' + position +'px)',
+                '-ms-transform': 'translate(0, ' + position +'px)',
+                'transform': 'translate(0, ' + position +'px)'
+            });
+
+            uiCarriage.restoreCarriage(-position);
+            if (options.preventScroll) {
+                e.preventDefault();
+            }
+        });
+
+        $this.on(options.scrollEvent, function(e, args) {
+            $($content).css({
+                '-webkit-transform': 'translate(0, ' + -args.value +'px)',
+                '-moz-transform': 'translate(0, ' + -args.value +'px)',
+                '-ms-transform': 'translate(0, ' + -args.value +'px)',
+                'transform': 'translate(0, ' + -args.value +'px)'
+            });
+        });
+
+        this.resize = function(newSize) {
+            newSize = newSize || options.isHorizontal ? $content.width() : $content.height();
+            var targetSize = options.isHorizontal ? $target.width() : $target.height(),
+                multiplier = newSize > targetSize ? newSize / targetSize : 1,
+                carriageSize = targetSize / multiplier,
+                delta = (newSize - targetSize) - (targetSize - carriageSize);
+            if (delta < 0) {
+                delta = 0;
+            }
+
+            if (delta < carriageSize) {
+                if (delta < carriageSize * 0.2) {
+                    carriageSize -= delta;
+                } else {
+                    carriageSize = carriageSize * (1 - delta/carriageSize);
+                }
+            }
+
+            if (options.minSize > carriageSize) {
+                carriageSize = options.minSize;
+            }
+
+            var distance = targetSize - carriageSize;
+            maxValue = newSize - targetSize;
+
+            if (options.isHorizontal) {
+                $carriage.css('width', carriageSize);
+            } else {
+                $carriage.css('height', carriageSize);
+            }
+
+            if (maxValue > 0) {
+                uiCarriage.changeSegments([
+                    {
+                        offset: 0,
+                        value: 0
+                    },
+                    {
+                        offset: distance,
+                        value: maxValue
+                    }
+                ]);
+                isHidden = false;
+                $this.show();
+            } else {
+                maxValue = 0;
+                isHidden = true;
+                $this.hide();
+            }
+        }
+
+        this.resize();
+    }
+}(jQuery);

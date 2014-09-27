@@ -1,0 +1,165 @@
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+h1 {
+    font-size: 64px;
+    font-weight: normal;
+}
+
+h3 {
+    font-size: 20px;
+    font-weight: normal;
+    margin-top: 30px;
+}
+
+.main {
+    width: 800px;
+    margin: 5px auto;
+}
+
+ul {
+    margin-left: 0;
+    padding-left: 18px;
+    line-height: 1.4;
+}
+
+
+.fast-start {
+    width: 400px;
+    height: 10px;
+    margin: 10px 20px;
+    background-color: #dfdfdf;
+    cursor: pointer;
+}
+
+.fast-start-carriage {
+    width: 10px;
+    height: 10px;
+    background-color: #3b98e0;
+}
+
+.gist {
+    margin-top: 10px;
+    margin-left: -18px;
+}
+
+.input-example {
+    width: 400px;
+}
+
+.input-block {
+    width: 100%;
+    height: 20px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.input {
+    height: 20px;
+    font-size: 14px;
+}
+
+.input-block-carriage {
+    cursor: pointer;
+    width: 20px;
+    height: 10px;
+
+}
+
+.input-block-carriage:after {
+    height: 0;
+    position: relative;
+    top: -16px;
+    width: 0;
+    padding: 0;
+    cursor: pointer;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid #333;
+    border-left: 0.5rem solid transparent;
+    content: '';
+}
+
+.examples {
+    margin: 20px 0;
+}
+
+.some-page, .some-scroll-block {
+    width: 500px;
+    height: 400px;
+    overflow: hidden;
+    padding: 5px;
+    padding-right: 30px;
+    border: 1px solid #eee;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.some-textarea {
+    float: left;
+    width: 160px;
+    height: 405px;
+    float:left;
+    margin-right: 20px;
+    margin-top: 11px;
+}
+
+.some-scroll-block {
+    width: 300px;
+    word-break: break-all;
+}
+
+.some-scroll-block-carriage {
+    height: 412px;
+    top: 10px;
+    left: -5px;
+    float: left;
+    position: relative;
+    width: 8px;
+}
+
+.some-scroll-block-carriage-cursor {
+    background-color: #6c6c6c;
+    opacity: 0.8;
+    border-radius: 40px;
+    height: 50px;
+    width: 8px;
+    margin-left: -3px;
+}
+
+.some-page-carriage {
+    float: left;
+    margin-top: 10px;
+    height: 410px;
+    cursor: pointer;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width: 10px;
+    background-color: #dfdfdf;
+}
+
+.some-page-carriage-cursor {
+    width: 10px;
+    height: 10px;
+    background-color: #3b98e0;
+}
+
+.steps-line {
+    background-image: url('steps-line.png');
+    width: 400px;
+    height: 50px;
+}
+
+.steps-line-carriage {
+    width: 50px;
+    height: 50px;
+    background-image: url('steps-market.png');
+}
+
+.buttons {
+    margin-left: 180px;
+}
+
