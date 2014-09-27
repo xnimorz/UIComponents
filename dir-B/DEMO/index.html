@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UI Form Storage</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="http://yandex.st/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="../UIFormStorage.js"></script>
+    <script>
+        window.onload = function () {
+            $('.test-form').UIFormStorage();
+
+            $("button[data-js='reset']").bind('click keypress',function (e) {
+               $('.test-form').UIFormStorageClear();
+                e.preventDefault();
+                return false;
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+    <a href='https://github.com/xnimorz/UIFormStorage.js' target="_blank">Fork me on GitHub!</a>
+    <form class="test-form" method="get">
+        <div>Форма с регистрацией</div>
+        <div><input type="text" data-id="login" name="login"/></div>
+        <div><input type="password" name="pass"/></div>
+        <div>Select one</div>
+        <div><select data-id="select" name="select">
+            <option value="First">First</option>
+            <option value="Second">Second</option>
+            <option value="Third">Third</option>
+        </select></div>
+        <div>Select multiple</div>
+        <div><select name="mulSelect" data-id="mulSelect" multiple>
+            <option value="First">First</option>
+            <option value="Second">Second</option>
+            <option value="Third">Third</option>
+        </select></div>
+        <div>CheckBox</div>
+        <div>
+            <input type="checkbox" name="check" data-id="check1" value="1" id="check1">
+            <label for="check1">First</label>
+            <input type="checkbox" name="check" data-id="check2" value="2" id="check2">
+            <label for="check2">Second</label>
+            <input type="checkbox" name="check" data-id="check3" value="3" id="check3">
+            <label for="check3">Third</label>
+        </div>
+        <div>Radio button</div>
+        <div>
+            <input type="radio" name="radio" value="1" data-id="radio1" id="radio1">
+            <label for="radio1">First</label>
+            <input type="radio" name="radio" value="2" data-id="radio2" id="radio2">
+            <label for="radio2">Second</label>
+            <input type="radio" name="radio" value="3" data-id="radio3" id="radio3">
+            <label for="radio3">Third</label>
+        </div>
+        <button data-js="reset">reset</button>
+    </form>
+</body>
+</html>
