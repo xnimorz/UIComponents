@@ -9,7 +9,7 @@ JQuery плагин, предлагающий каретку для измене
 
 ## Demo
 Быстрый старт, входные параметры, функции, примеры использования отдельно, с input, для скроллинга данных:
-http://xnimorz.github.io/UICarriage.js/DEMO/
+http://xnimorz.github.io/UIComponents/UICarriage
 
 
 
