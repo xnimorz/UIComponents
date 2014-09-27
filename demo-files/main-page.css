@@ -1,0 +1,70 @@
+.page {
+    margin: 0 auto;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    color: #333;
+}
+
+.head {
+    background-color: #fefefe;
+    box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .5);
+    height: 50px;
+    padding-bottom: 20px;
+}
+
+.header, .content {
+   width: 1000px;
+   margin: 0 auto;
+   position: relative;
+   top: 20px;
+}
+
+    .header__title {
+        font-size: 30px;
+        display: inline-block;
+    }
+
+    .header__list {
+        display: inline-block;
+        margin-left: 100px;
+    }
+
+.link {
+    color: #333;
+    text-decoration: none;
+}
+
+    .link:hover {
+        text-decoration: dotted;
+        color: #c00;
+    }
+
+.links {
+    display: inline-block;
+}
+
+    .links__item {
+        display: inline-block;
+        margin-left: 28px;
+    }
+
+h2 {
+    font-weight: 300;
+    font-size: 22px;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    list-style: none;
+}
+
+.list {
+    margin-left: -40px;
+}
+
+.list__item {
+    margin-top: 10px;
+}

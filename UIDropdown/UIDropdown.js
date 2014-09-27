@@ -1,18 +1,18 @@
 !function($) {
     'use strict';
 
-    (function(Dropdown) {
+    (function(UIDropdown) {
         if (typeof define === 'function' && define.amd) {
             //AMD. Анонимный модуль
-            define(Dropdown);
+            define(UIDropdown);
         } else if (typeof exports === 'object') {
             //CommonJS
-            module.exports = Dropdown;
+            module.exports = UIDropdown;
         } else {
             //Глобальный scope
-            window.Dropdown = Dropdown;
+            window.UIDropdown = UIDropdown;
         }
-    })(Dropdown);
+    })(UIDropdown);
 
     /**
      * target - родительский элемент. Если определено null - dropdown будет находиться в том же блоке,
@@ -60,7 +60,7 @@
         arrowOffset: 5
     };
 
-    function Dropdown(el, options) {
+    function UIDropdown(el, options) {
         this.options = $.extend({}, defaults, options);
         this.$el = $(el);
         this.trigger = false;
@@ -86,7 +86,7 @@
         this.$el.on('click', this.open.bind(this));
     }
 
-    Dropdown.prototype = {
+    UIDropdown.prototype = {
         checkClose: function(e) {
             if (this.$dropdown[0] !== e.target && e.target !== this.$el[0]) {
                 this.close();
@@ -239,7 +239,7 @@
             this.$el.on('change:dropdown', this.changeContent.bind(this));
         },
 
-        constructor: Dropdown
+        constructor: UIDropdown
     };
 
 
