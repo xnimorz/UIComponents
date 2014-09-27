@@ -60,3 +60,11 @@ ul {
 li {
     list-style: none;
 }
+
+.list {
+    margin-left: -40px;
+}
+
+.list__item {
+    margin-top: 10px;
+}
