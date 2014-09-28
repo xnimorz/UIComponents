@@ -6,33 +6,50 @@
     <script type="text/javascript" src="http://yandex.st/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="UICarriage.js"></script>
     <script type="text/javascript" src="example.js"></script>
+    <script type="text/javascript" src="../demo-files/clicker.js"></script>
     <link rel="stylesheet" href="../demo-files/UICarriage.css">
+    <link rel="stylesheet" href="../demo-files/main-page.css">
 </head>
-<body>
-<a href="https://github.com/xnimorz/UIComponents/tree/master/UICarriage" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-    <div class="main">
-        <h1 style="float: left">UICarriage.js</h1><h2 style="float: right"><a target="_blank" href="https://github.com/xnimorz/UIComponents/tree/master/UICarriage">Fork me on GitHub!</a></h2>
-        <div style="clear:both"></div>
-        <a href="../">К списку компонентов</a>
-        <p>Скрипт каретки, с возможностью нелинейного изменения состояния</p>
-        <p>Простой способ создать пользовательский скролл, счетчик, контролл (как горизонтальный, так и вертикальный)</p>
-        <p>Позволяет задать зависимость между положением каретки и значением, как линейную, так и нелинейную</p>
-        <p>С возможностью генерации событий при движении и по окончанию движения</p>
+<body class="page">
+    <div class="head">
+        <a href="../" class="head__back">К списку</a>
+        <div class="header">
+            <div class="header__title">UICarriage</div>
+            <ui class="header__list links">
+                <li class="links__item"><a href="#about" class="link">Описание</a></li>
+                <li class="links__item"><a href="#fast" class="link">Быстрый старт</a></li>
+                <li class="links__item"><a href="#param" class="link">Параметры</a></li>
+                <li class="links__item"><a href="#func" class="link">Методы</a></li>
+                <li class="links__item"><a href="#use" class="link">Примеры</a></li>
+                <li class="links__item"><a href="https://github.com/xnimorz/UIComponents/tree/master/UICarriage" target="_blank" class="link">GitHub</a></li>
+            </ui>
+        </div>
+        <a href="https://github.com/xnimorz/UIComponents/tree/master/UICarriage" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    </div>
+    <div class="head-wrapper"></div>
+    <div class="content">
+        <div class="text" id="about">
+            <h3>Описание</h3>
+            <p>Скрипт каретки, с возможностью нелинейного изменения состояния</p>
+            <p>Простой способ создать пользовательский скролл, счетчик, контролл (как горизонтальный, так и вертикальный)</p>
+            <p>Позволяет задать зависимость между положением каретки и значением, как линейную, так и нелинейную</p>
+            <p>С возможностью генерации событий при движении и по окончанию движения</p>
+        </div>
         <p><h3>Навигация:</h3></p>
         <ul>
-            <li><a href="#fast">Быстрый старт</a></li>
-            <li><a href="#param">Принимаемые параметры</a></li>
-            <li><a href="#func">Функции</a></li>
-            <li><a href="#use">Примеры использования</a>
-                <ul>
-                    <li><a href="#input">Использование с кареткой</a></li>
-                    <li><a href="#page">Использование для скроллинга</a></li>
-                    <li><a href="#page-mouse">Использование для скроллинга (синхронизация со скроллингом мышью)</a></li>
-                    <li><a href="#steps">Использование пошагового скроллинга</a></li>
-                    <li><a href="#auto-steps">Использование пошагового скроллинга c автогенерацией шага</a></li>
-                    <li><a href="#buttons">Использование каретки и кнопок переключения между сегментами</a></li>
-                    <li><a href="#buttons-steps">Использование пошаговой каретки и кнопок переключения между сегментами, использование цикличного переключения</a></li>
-                    <li><a href="#page-scroll">Скролл блоков с использованием uiScroll</a></li>
+            <li><a class="link" href="#fast">Быстрый старт</a></li>
+            <li><a class="link" href="#param">Принимаемые параметры</a></li>
+            <li><a class="link" href="#func">Функции</a></li>
+            <li><a class="link" href="#use">Примеры использования</a>
+                <ul class="links-list">
+                    <li><a class="link" href="#input">Использование с кареткой</a></li>
+                    <li><a class="link" href="#page">Использование для скроллинга</a></li>
+                    <li><a class="link" href="#page-mouse">Использование для скроллинга (синхронизация со скроллингом мышью)</a></li>
+                    <li><a class="link" href="#steps">Использование пошагового скроллинга</a></li>
+                    <li><a class="link" href="#auto-steps">Использование пошагового скроллинга c автогенерацией шага</a></li>
+                    <li><a class="link" href="#buttons">Использование каретки и кнопок переключения между сегментами</a></li>
+                    <li><a class="link" href="#buttons-steps">Использование пошаговой каретки и кнопок переключения между сегментами, использование цикличного переключения</a></li>
+                    <li><a class="link" href="#page-scroll">Скролл блоков с использованием uiScroll</a></li>
                 </ul>
             </li>
         </ul>
@@ -150,6 +167,16 @@
 
         </ul>
         <p><h3 id="use">Примеры использования:</h3></p>
+        <ul class="links-list">
+            <li><a class="link" href="#input">Использование с кареткой</a></li>
+            <li><a class="link" href="#page">Использование для скроллинга</a></li>
+            <li><a class="link" href="#page-mouse">Использование для скроллинга (синхронизация со скроллингом мышью)</a></li>
+            <li><a class="link" href="#steps">Использование пошагового скроллинга</a></li>
+            <li><a class="link" href="#auto-steps">Использование пошагового скроллинга c автогенерацией шага</a></li>
+            <li><a class="link" href="#buttons">Использование каретки и кнопок переключения между сегментами</a></li>
+            <li><a class="link" href="#buttons-steps">Использование пошаговой каретки и кнопок переключения между сегментами, использование цикличного переключения</a></li>
+            <li><a class="link" href="#page-scroll">Скролл блоков с использованием uiScroll</a></li>
+        </ul>
         <div class="examples">
             <p><h3 id="input">Использование каретки и input:</h3></p>
             <p>Линейная зависимость между картекой и input, положение каретки == значению в инпуте</p>
@@ -354,6 +381,7 @@
 
             <p><h3><a href="https://github.com/xnimorz/UIComponents/tree/master/UICarriage" target="_blank">Fork me on GitHub!</a></h3></p>
         </div>
+
     </div>
 </body>
 </html>

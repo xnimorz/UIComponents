@@ -101,3 +101,7 @@ code {
     white-space: pre;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+.links-list li{
+    list-style: circle;
+}
