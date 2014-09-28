@@ -93,7 +93,7 @@
             }
         },
 
-        open: function(e) {
+        open: function() {
             if (this.trigger) {
                 this.close();
                 return;
