@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8"/>
+    <title>Text Input Demo</title>
+	<link rel="stylesheet" type="text/css" href="UICalendar.css"/>
+    <link rel="stylesheet" type="text/css" href="../demo-files/main-page.css"/>
+    <script type="text/javascript" src="http://yandex.st/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="UICalendar.js"></script>
+    <script type="text/javascript" src="../demo-files/clicker.js"></script>
+      <script>
+
+
+          ///Пример использования календаря.
+
+          var ExampleCalendar,ExampleCalendar2,test,eventTest;
+          $(function()
+          {
+
+              new UICalendar('.test-calendar');
+              var calendar = new UICalendar("#myCalendar", false, "year", true);
+              new UICalendar("#myCalendar2", false, "year", false, 1000);
+              $('.js-button').on('click', function() {
+                  console.log(calendar.getSelectedDates());
+              });
+              var eventCal = new UICalendar('#CalendarWithEvent');
+              var date = new Date();
+              date.setDate(date.getDate() - 1);
+              eventCal.addEvents('событие', date);
+
+          });
+      </script>
+</head>
+<body class="page">
+    <div class="head">
+        <a href="../" class="head__back">К списку</a>
+        <div class="header">
+            <div class="header__title">UICalendar</div>
+            <ui class="header__list links">
+                <li class="links__item"><a href="#about" class="link">Описание</a></li>
+                <li class="links__item"><a href="#quick" class="link">Быстрый старт</a></li>
+                <li class="links__item"><a href="#params" class="link">Параметры</a></li>
+                <li class="links__item"><a href="#methods" class="link">Методы</a></li>
+                <li class="links__item"><a href="#examples" class="link">Примеры</a></li>
+                <li class="links__item"><a href="#usage" class="link">Использование</a></li>
+                <li class="links__item"><a href="https://github.com/xnimorz/UIComponents/UICalendar" target="_blank" class="link">GitHub</a></li>
+            </ui>
+        </div>
+        <a href="https://github.com/xnimorz/UIComponents/UICalendar" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    </div>
+    <div class="head-wrapper"></div>
+    <div class="content">
+        <div class="text" id="about">
+            <h2>Описание</h2>
+            <p>UICalendar - это виджет календаря с возможностью выбора как конкретной даты, так и года\месяца. Навигация осуществляется как по годам, месяцам, так и дням. </p>
+            <p>Для удобства есть возможность как включить переключение между режимами, так и отключить.</p>
+            <p>При использовании календаря можно подключить дефолтные стили - UICalendar.css, так и переопределить их</p>
+        </div>
+        <div class="text" id="quick">
+            <h2>Быстрый старт</h2>
+            <p>Конструктор имеет следующие параметры:</p>
+            <code>
+    new UICalendar([selector || jQuery], multipleSelect, calendarType, autoSwitch, startYear, startMonth)
+            </code>
+            <p>Например, простейшее использование предполагает только один обязательный параметр:</p>
+            <code>
+    new UICalendar('.test-calendar');
+            </code>
+            <div class="test-calendar"></div>
+        </div>
+        <div class="text" id="params">
+            <h2>Параметры</h2>
+            <code>
+    [selector || jQuery] selector - элемент, который развернется в календарь (контейнер по селектору, или jQuery объект)
+    [Boolean] multipleSelect - возможность выбора нескольких значений. По умолчанию = false - запрещена
+    [String] calendarType - Типа каледаря по умолчанию. Возможные значения:
+        "date" - отображение выбора даты (по умолчанию)
+        "month" - отображение выбора месяца
+        "year" - отображение выбора года
+    [Boolean] autoSwitch - переключать по нажати на заголовок с выбора даты на выбор месяца и далее
+        (соответсвенно нижний уровень задается в calendarType, а верхний - 'year') По умолчанию - отключена
+    [Number] startYear - начальный год (По умолчанию - настоящий год)
+    [Number] startMonth - начальный месяц (По умолчанию - настоящий месяц). Игнорируется если задан calendarType !== "date"
+            </code>
+        </div>
+        <div class="text" id="methods">
+            <h2>Методы</h2>
+            <code>
+    setMonth(month) -  задает месяц для отображения
+
+    setYear(year) - задает год для отображения
+
+    addEvents(eventDescription, concreteDates) - добавляет событие на календарь.
+        [Object] eventDescription - объект - описание события
+        [Date] concreteDates - Дата события (если не указана - в качестве выбранных дат выбирается выбранные даты на календаре)
+
+    deleteEvent(date,event) - удаление события
+        [Date] date - дата, на которую необходимо удалить событие
+        [Object] event - ссылка на удаляемое событие. Если не задано - очищение всех событий по выбранной дате
+
+    getEvents(date) - получение события или списка событий по выбранной дате
+
+    getSelectedDates() - получение выбранной даты или списка выбранных дат
+
+    toDate(date) - переход к выбранной дате
+
+    syncWithLocalStorage() - синхронизирует события с localStorage
+
+    loadEventsFromLocalStorage() - загружает события из localStorage
+
+            </code>
+        </div>
+        <div class="text" id="examples">
+            <h2>Примеры</h2>
+            <p>Выбор изначально года, затем месяца и даты: (возврат к предыдущему выбору осуществляется кликом на заголовок)</p>
+            <code>
+    var calendar = new UICalendar("#myCalendar", false, "year", true);
+            </code>
+            <div id="myCalendar"></div>
+            <p>Получить информацию о выбранной дате в календаре выше -  по нажатию на кнопку:</p>
+            <button class="js-button">Получить данные в консоль</button>
+            <code>
+    $('.js-button').on('click', function() {
+        console.log(calendar.getSelectedDates());
+    })
+            </code>
+            <p>Выбор года, с заданием стартового года</p>
+            <code>
+    new UICalendar("#myCalendar2", false, "year", false, 1000);
+            </code>
+            <div id="myCalendar2"></div>
+            <p>Календарь + добавление события на предыдущий перед ссегодняшним днем день</p>
+            <code>
+    var eventCal = new UICalendar('#CalendarWithEvent');
+    var date = new Date();
+    date.setDate(date.getDate() - 1);
+    eventCal.addEvents('событие', date);
+            </code>
+            <div id="CalendarWithEvent"></div>
+        </div>
+        <div class="text" id="usage">
+            <h2>Использование</h2>
+            <ul>
+                <li><p><a class="link" href="http://inform-dom.jimdo.com/" target="_blank">Сайт домашних заданий для учеников информатики ГБОУ СОШ 961</a></p></li>
+                <li><p><a class="link" href="http://xnim.ru/hh/" target="_blank">Тестовое задание в школу разработчиков HH 2013 года</a></p></li>
+            </ul>
+
+        </div>
+</body>
+</html>

@@ -1,3 +1,12 @@
+html, body {
+    margin: 0;
+}
+
+.head-wrapper {
+    height: 70px;
+    width: 100%;
+}
+
 .page {
     margin: 0 auto;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -10,7 +19,23 @@
     box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .5);
     height: 50px;
     padding-bottom: 20px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 3;
 }
+
+    .head__back {
+        text-decoration: none;
+        font-size: 18px;
+        position: absolute;
+        top: 24px;
+        transform: rotate(-45deg);
+    }
+
+        .head__back:hover {
+            color: #c00;
+        }
 
 .header, .content {
    width: 1000px;
@@ -26,7 +51,7 @@
 
     .header__list {
         display: inline-block;
-        margin-left: 100px;
+        margin-left: 20px;
     }
 
 .link {
@@ -45,7 +70,8 @@
 
     .links__item {
         display: inline-block;
-        margin-left: 28px;
+        margin-left: 20px;
+
     }
 
 h2 {
@@ -67,4 +93,8 @@ li {
 
 .list__item {
     margin-top: 10px;
+}
+
+code {
+    white-space: pre;
 }

@@ -3,7 +3,7 @@
 JS-виджет для создания календаря. 
 Календарь поддерживает выборку нескольких дат в месяце. (c помощью зажатой клавиши - ctrl)
 
-
+Демо: http://xnimorz.github.io/UIComponents/UICalendar/
 
 Конструктор - function UICalendar(jquerySelector, multipleSelect, calendarType, autoSwitch, startYear, startMonth) -
 
