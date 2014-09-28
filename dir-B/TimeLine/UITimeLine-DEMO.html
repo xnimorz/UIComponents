@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" 
+	  http-equiv="Content-Type"/>
+  <title>Text Input Demo</title>
+	<link rel="stylesheet" type="text/css" href="UITimeLine.css"/>
+      <script type="text/javascript" src="http://yandex.st/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="UITimeLine.js"></script>
+
+      <script>
+          var test
+          $(function()
+          {
+          test = new UITimeLine("#time",3,new Date(),30,true,true);
+          test.loadEventsFromLocalStorage();
+          })
+
+          function addEvent()
+          {
+                var dates = test.getSelectedTimes();
+
+                var text = $('#event-text').attr("value");
+
+
+                for (var i in dates)
+                {
+                    var parseDate = dates[i].match(/[0-9]+/ig);
+                    var date = new Date(parseDate[0],parseDate[1],parseDate[2],parseDate[3],parseDate[4]);
+                    test.setEvent(date,30,text);
+                }
+              test.updateWidget();
+              console.log(test.getEvents());
+          }
+
+          function saveToLocalStorage()
+          {
+              test.saveEventsToLocalStorage();
+          }
+      </script>
+</head>
+<body>
+<button onclick="javascript: console.log(test.getSortedSelectedTimes());">click me to look in console</button>
+<input type="text" id="event-text"/>
+<button onclick="addEvent()">click me to add event</button>
+<button onclick="saveToLocalStorage()">click me to save events to localStorage</button>
+<div id="time">lol</div>
+</body>
+
+</html>
