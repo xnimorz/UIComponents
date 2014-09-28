@@ -3,87 +3,128 @@
     <script src="http://yastatic.net/jquery/2.1.1/jquery.min.js"></script>
     <script src="UIDropdown.js"></script>
     <script src="example.js"></script>
+    <script src="../demo-files/clicker.js"></script>
     <link rel="stylesheet" href="UIDropdown.css">
     <link rel="stylesheet" href="../demo-files/style.css">
+    <link rel="stylesheet" href="../demo-files/main-page.css">
 </html>
-<body>
-<a href="https://github.com/xnimorz/UIComponents/tree/master/UIDropdown" target=""><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-    <div class="page">
-        <h1>UIDropdown</h1>
-        <a href="../index.html">К списку компонентов</a>
-        <p>Компонент позволяющий выводить кастомную информацию в dropdown (popover) на страницу.</p>
-        <p>Существует возможность задать размеры, элемент-родителя, контент, положение и наличие\отсутсвия стрелки у дропдауна</p>
+<body class="page">
+    <div class="head">
+        <a href="../" class="head__back">К списку</a>
+        <div class="header">
+            <div class="header__title">UIDropdown</div>
+            <ui class="header__list links">
+                <li class="links__item"><a href="#about" class="link">Описание</a></li>
+                <li class="links__item"><a href="#examples" class="link">Примеры</a></li>
+                <li class="links__item"><a href="#quick" class="link">Быстрый старт</a></li>
+                <li class="links__item"><a href="#params" class="link">Параметры</a></li>
+                <li class="links__item"><a href="#methods" class="link">Методы</a></li>
+                <li class="links__item"><a href="https://github.com/xnimorz/UIComponents/tree/master/UIDropdown" target="_blank" class="link">GitHub</a></li>
+            </ui>
+        </div>
+        <a href="https://github.com/xnimorz/UIComponents/tree/master/UIDropdown" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    </div>
+    <div class="head-wrapper"></div>
+    <div class="content">
+        <div class="text" id="about">
+            <h2>Описание</h2>
+            <p>Компонент позволяющий выводить кастомную информацию в dropdown (popover) на страницу.</p>
+            <p>Существует возможность задать размеры, элемент-родителя, контент, положение и наличие\отсутсвия стрелки у дропдауна</p>
+            <p>Скрипт импортирует конструктор UIDropdown. Предусмотрено подключение через require.js или CommonJS (либо использование глобальной переменной UIDropdown)</p>
+        </div>
+        <div class="text" id="examples">
+            <h3>Пример использования: (Нажмите на черные квадраты)</h3>
+            <div class="placeholder">
+                <div class="cube">
+                    <div class="dropdown-container dropdown-container_top_left"></div>
+                    <div class="dropdown-container dropdown-container_top_middle"></div>
+                    <div class="dropdown-container dropdown-container_top_right"></div>
 
-        <h3>Пример использования: (Нажмите на черные квадраты)</h3>
-        <div class="placeholder">
-            <div class="cube">
-                <div class="dropdown-container dropdown-container_top_left"></div>
-                <div class="dropdown-container dropdown-container_top_middle"></div>
-                <div class="dropdown-container dropdown-container_top_right"></div>
+                    <div class="dropdown-container dropdown-container_left_top"></div>
+                    <div class="dropdown-container dropdown-container_left_middle"></div>
+                    <div class="dropdown-container dropdown-container_left_bottom"></div>
 
-                <div class="dropdown-container dropdown-container_left_top"></div>
-                <div class="dropdown-container dropdown-container_left_middle"></div>
-                <div class="dropdown-container dropdown-container_left_bottom"></div>
+                    <div class="dropdown-container dropdown-container_right_top"></div>
+                    <div class="dropdown-container dropdown-container_right_middle"></div>
+                    <div class="dropdown-container dropdown-container_right_bottom"></div>
 
-                <div class="dropdown-container dropdown-container_right_top"></div>
-                <div class="dropdown-container dropdown-container_right_middle"></div>
-                <div class="dropdown-container dropdown-container_right_bottom"></div>
+                    <div class="dropdown-container dropdown-container_bottom_left"></div>
+                    <div class="dropdown-container dropdown-container_bottom_middle"></div>
+                    <div class="dropdown-container dropdown-container_bottom_right"></div>
 
-                <div class="dropdown-container dropdown-container_bottom_left"></div>
-                <div class="dropdown-container dropdown-container_bottom_middle"></div>
-                <div class="dropdown-container dropdown-container_bottom_right"></div>
-
-                <div class="dropdown-container dropdown-container_without_arrow"></div>
+                    <div class="dropdown-container dropdown-container_without_arrow"></div>
+                </div>
             </div>
         </div>
-
-        <h3>Быстрый старт:</h3>
+        <div class="text" id="quick">
+            <h3>Быстрый старт:</h3>
+                <code>
+                new UIDropdown([selector || jQuery], params)
+                </code>
+            <p>например</p>
             <code>
-            new UIDropdown([selector || jQuery], params)
+                new UIDropdown('.my-dropdown', {
+                    content: 'Dropdown content'
+                })
             </code>
-        <p>например</p>
-        <code>
-            new UIDropdown('.my-dropdown', {
-                content: 'Dropdown content'
-            })
-        </code>
-        <p>Для работы со стилями необходимо подключить dropdown.css и|или определить классы:</p>
-        <ul>
-            <li>dropdown - весь элемент dropdown</li>
-            <li>dropdown__content - контейнер в котором будет храниться контент</li>
-            <li>dropdown__arrow - стрелка дропдауна (если необходима)</li>
-            <li>dropdown__arrow_direction_{top, bottom, right, left} - стрелки дропдауна направленные в разные стороны</li>
-        </ul>
-        <h3>Описание:</h3>
-            Скрипт импортирует конструктор UIDropdown. Предусмотрено подключение через require.js или CommonJS (либо использование глобальной переменной UIDropdown)
-        <h3>Параметры:</h3>
+        </div>
+        <div class="text" id="params">
+            <h3>Параметры:</h3>
+            <p>Для работы со стилями необходимо подключить dropdown.css и|или определить классы:</p>
+            <ul>
+                <li>dropdown - весь элемент dropdown</li>
+                <li>dropdown__content - контейнер в котором будет храниться контент</li>
+                <li>dropdown__arrow - стрелка дропдауна (если необходима)</li>
+                <li>dropdown__arrow_direction_{top, bottom, right, left} - стрелки дропдауна направленные в разные стороны</li>
+            </ul>
             <p>Конструктор принимает два аргумента - первый аргумент - селектор или jQuery объект, который дропдаун будет считать активным элементом и при нажатии на этот элемент будет показывать\скрывать дропдаун</p>
-        <code>
-        target - родительский элемент. Если определено null - dropdown будет находиться в том же блоке,
-              что и активный элемент (вызывающий дропдаун) (По умолчанию null)
+            <code>
+    target - родительский элемент. Если определено null - dropdown будет находиться в том же блоке,
+          что и активный элемент (вызывающий дропдаун) (По умолчанию null)
 
-         position - положение dropdown'a. Возможные значения:
-              'top' - сверху
-              'bottom' - снизу (по умолчанию)
-              'left' - слева
-              'right' - справа
+     position - положение dropdown'a. Возможные значения:
+          'top' - сверху
+          'bottom' - снизу (по умолчанию)
+          'left' - слева
+          'right' - справа
 
-         arrow - положение стрелки. возможные значения
-              'start' - стрелка расположена ближе к началу дропдауна
-              'middle' - стрелка расположена в середине дропдауна
-              'end' - стрелка расположена ближе к концу дропдауна
-              null -  не отображать стрелку (по умолчанию)
+     arrow - положение стрелки. возможные значения
+          'start' - стрелка расположена ближе к началу дропдауна
+          'middle' - стрелка расположена в середине дропдауна
+          'end' - стрелка расположена ближе к концу дропдауна
+          null -  не отображать стрелку (по умолчанию)
 
-         size - задает размеры dropdown'а. по умолчанию auto - dropdown определяет свой размер автоматически.
-              формат данных - структура {width: ширина в px, height: высота в px}
+     size - задает размеры dropdown'а. по умолчанию auto - dropdown определяет свой размер автоматически.
+          формат данных - структура {width: ширина в px, height: высота в px}
 
-         content - контент дропдауна. Принимает html, которую dropdown будет использовать как контент.
-              Если content не определен, контент будет определяться по data-dropdown-content аттрибуту у активного элемента
-              По умолчанию - content выбирается из data-dropdown-content
+     content - контент дропдауна. Принимает html, которую dropdown будет использовать как контент.
+          Если content не определен, контент будет определяться по data-dropdown-content аттрибуту у активного элемента
+          По умолчанию - content выбирается из data-dropdown-content
 
-         close - закртие дропдауна.
-              'auto' - закрытие дропдауна происходит при нажатии на любую область не принадлежащую дропдауну (по умолчанию)
-              'manual' - закрытие дропдауна только при нажатии на активный элемент или с помощью другого скрипта
-        </code>
+     close - закртие дропдауна.
+          'auto' - закрытие дропдауна происходит при нажатии на любую область не принадлежащую дропдауну (по умолчанию)
+          'manual' - закрытие дропдауна только при нажатии на активный элемент или с помощью другого скрипта
+            </code>
+        </div>
+        <div class="text" id="methods">
+            <h3>Методы</h3>
+            <p>Для работы с методами UIDropdown можно использовать:</p>
+            <p>Ссылку на объект (возвращаемую с помощью new UIDropdown):</p>
+            <code>
+    open() - открывает dropdown программно
+
+    changeContent(content) - изменяет контент дропдауна на {String} content
+
+    close() - закрывает dropdown
+            </code>
+            <p>Использование событий на активном элементе (например $el - есть активный элемент - элемент при клике на который вызывается dropdown)</p>
+            <code>
+    $el.trigger('open:dropdown') - открывает dropdown
+
+    $el.trigger('close:dropdown') - закрывает dropdown
+
+    $el.trigger('change:dropdown', content) - изменяет контент дропдауна на {String} content
+            </code>
+        </div>
     </div>
 </body>

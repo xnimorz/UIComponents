@@ -57,11 +57,13 @@ html, body {
 .link {
     color: #333;
     text-decoration: none;
+    border-bottom: 1px dotted #888;
 }
 
     .link:hover {
         text-decoration: dotted;
         color: #c00;
+        border-bottom: 1px dotted #c00
     }
 
 .links {
@@ -71,7 +73,6 @@ html, body {
     .links__item {
         display: inline-block;
         margin-left: 20px;
-
     }
 
 h2 {
@@ -93,8 +94,10 @@ li {
 
 .list__item {
     margin-top: 10px;
+    list-style: circle;
 }
 
 code {
     white-space: pre;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
