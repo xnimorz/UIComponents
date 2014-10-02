@@ -3,60 +3,117 @@
 <head>
     <title>UI Form Storage</title>
     <link rel="stylesheet" type="text/css" href="../demo-files/form-storage.css">
+    <link rel="stylesheet" type="text/css" href="../demo-files/main-page.css">
     <script type="text/javascript" src="http://yandex.st/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="UIFormStorage.js"></script>
+    <script type="text/javascript" src="../demo-files/clicker.js"></script>
     <script>
         window.onload = function () {
             $('.test-form').UIFormStorage();
 
             $("button[data-js='reset']").bind('click keypress',function (e) {
                $('.test-form').UIFormStorageClear();
-                e.preventDefault();
-                return false;
             });
         }
-
-
     </script>
 </head>
-<body>
-<a href="https://github.com/xnimorz/UIComponents/tree/master/UIFormStorage" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-    <a href="../">К списку компонент</a>
-    <form class="test-form" method="get">
-        <div>Форма с регистрацией</div>
-        <div><input type="text" data-id="login" name="login"/></div>
-        <div><input type="password" name="pass"/></div>
-        <div>Select one</div>
-        <div><select data-id="select" name="select">
-            <option value="First">First</option>
-            <option value="Second">Second</option>
-            <option value="Third">Third</option>
-        </select></div>
-        <div>Select multiple</div>
-        <div><select name="mulSelect" data-id="mulSelect" multiple>
-            <option value="First">First</option>
-            <option value="Second">Second</option>
-            <option value="Third">Third</option>
-        </select></div>
-        <div>CheckBox</div>
-        <div>
-            <input type="checkbox" name="check" data-id="check1" value="1" id="check1">
-            <label for="check1">First</label>
-            <input type="checkbox" name="check" data-id="check2" value="2" id="check2">
-            <label for="check2">Second</label>
-            <input type="checkbox" name="check" data-id="check3" value="3" id="check3">
-            <label for="check3">Third</label>
+<body class="page">
+    <div class="head">
+        <a href="../" class="head__back">К списку</a>
+        <div class="header">
+            <div class="header__title">UIFormStorage</div>
+            <ui class="header__list links">
+                <li class="links__item"><a href="#about" class="link">Описание</a></li>
+                <li class="links__item"><a href="#quick" class="link">Быстрый старт</a></li>
+                <li class="links__item"><a href="#example" class="link">Пример</a></li>
+                <li class="links__item"><a href="#params" class="link">Параметры</a></li>
+                <li class="links__item"><a href="#methods" class="link">Методы</a></li>
+                <li class="links__item"><a href="https://github.com/xnimorz/UIComponents/UIFormStorage" target="_blank" class="link">GitHub</a></li>
+            </ui>
         </div>
-        <div>Radio button</div>
-        <div>
-            <input type="radio" name="radio" value="1" data-id="radio1" id="radio1">
-            <label for="radio1">First</label>
-            <input type="radio" name="radio" value="2" data-id="radio2" id="radio2">
-            <label for="radio2">Second</label>
-            <input type="radio" name="radio" value="3" data-id="radio3" id="radio3">
-            <label for="radio3">Third</label>
+        <a href="https://github.com/xnimorz/UIComponents/UIFormStorage" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    </div>
+    <div class="head-wrapper"></div>
+    <div class="content">
+        <div class="text" id="about">
+            <h2>Описание</h2>
+            <p>Данный jQuery плагин представляет собой функционал, который применяется к форме и позволяет сохранять данные, которые ввел пользователь на форме в localStorage</p>
         </div>
-        <button data-js="reset">reset</button>
-    </form>
+        <div class="text" id="quick">
+            <h2>Быстрый старт</h2>
+            <p>В простейшем использовании достаточно воспользоваться следующим кодом:</p>
+            <code>
+    $(selector).UIFormStorage()
+            </code>
+            <p>Где selector - селектор описывающий ноду, которая содержит input'ы, select'ы</p>
+            <p>Отслеживаемые инпуты или селекты должны иметь уникальный data-id аттрибут, по которому они будут сохраняться в localStorage</p>
+            <p>Данное условие позволяет сочитать на формы сохраняющиеся и не сохраняющиеся элементы. (например, пароль)</p>
+        </div>
+        <div class="text" id="example">
+            <h2>Пример</h2>
+            <p>Данный компонент удобно применять на формы:</p>
+            <code>
+    $('.test-form').UIFormStorage();
+            </code>
+            <p>Получим:</p>
+            <form class="test-form" method="get">
+                <div>Форма с регистрацией</div>
+                <div><input type="text" data-id="login" name="login" placeholder="Имя"/></div>
+                <div><input type="password" name="pass" placeholder="Пароль"/></div>
+                <div>Select one</div>
+                <div>
+                    <select data-id="select" name="select">
+                        <option value="First">First</option>
+                        <option value="Second">Second</option>
+                        <option value="Third">Third</option>
+                    </select>
+                </div>
+                <div>Select multiple</div>
+                <div>
+                    <select name="mulSelect" data-id="mulSelect" multiple>
+                        <option value="First">First</option>
+                        <option value="Second">Second</option>
+                        <option value="Third">Third</option>
+                    </select>
+                </div>
+                <div>CheckBox</div>
+                <div>
+                    <input type="checkbox" name="check" data-id="check1" value="1" id="check1">
+                    <label for="check1">First</label>
+                    <input type="checkbox" name="check" data-id="check2" value="2" id="check2">
+                    <label for="check2">Second</label>
+                    <input type="checkbox" name="check" data-id="check3" value="3" id="check3">
+                    <label for="check3">Third</label>
+                </div>
+                <div>Radio button</div>
+                <div>
+                    <input type="radio" name="radio" value="1" data-id="radio1" id="radio1">
+                    <label for="radio1">First</label>
+                    <input type="radio" name="radio" value="2" data-id="radio2" id="radio2">
+                    <label for="radio2">Second</label>
+                    <input type="radio" name="radio" value="3" data-id="radio3" id="radio3">
+                    <label for="radio3">Third</label>
+                </div>
+                <button data-js="reset">reset</button>
+            </form>
+        </div>
+        <div class="text" id="params">
+            <h2>Параметры</h2>
+            <p>В качестве параметров можно воспользоваться определением следующих пользовательских функций:</p>
+            <code>
+    onSave {Function} - функция-обработчик после сохранения данных в localStorage - принимает DOM ноду, в которой произошли изменения
+    onLoad {Function} - функция-обработчик после загрузки данных на форму
+    onReset {Function} - функция вызываемая после очищения localStorage
+            </code>
+        </div>
+        <div class="text" id="methods">
+            <h2>Методы</h2>
+            Расширяет методы jQuery. Определяет 2 метода:
+            <code>
+    UIFormStorage - непосредственно запускает отслеживание состояния инпутов и их сохранение
+    UIFormStorageClear - очищает localStorage от сохраненных данных
+            </code>
+        </div>
+    </div>
 </body>
 </html>

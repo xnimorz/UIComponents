@@ -19,7 +19,7 @@
         onSave: function(changedInput){},
         onLoad: function(){},
         onReset: function(){}
-    }
+    };
 
     /**
      * Плагин для сохранения изменений на форме и восстановления после перезагрузки страницы
