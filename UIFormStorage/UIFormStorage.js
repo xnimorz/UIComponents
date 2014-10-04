@@ -1,16 +1,15 @@
 /**
- * UIFormStorage.js v1.0
- *
+ * UIFormStorage.js v1.2
  * JQuery plugin
- *
  * by Nikita Mostovoy
  */
 
 (function($) {
-
+    'use strict';
     /**
      * Дефолтные настройки:
-     * onSave {Function} - функция-обработчик после сохранения данных в localStorage - принимает DOM ноду, в которой произошли изменения
+     * onSave {Function} - функция-обработчик после сохранения данных в localStorage - принимает DOM ноду,
+     *      в которой произошли изменения
      * onLoad {Function} - функция-обработчик после загрузки данных на форму
      * onReset {Function} - функция вызываемая после очищения localStorage
      * @type {{onSave: Function, onLoad: Function}}
@@ -27,23 +26,22 @@
      * @param {JSON} settings
      */
     $.fn.UIFormStorage = function (settings) {
-        var options = $.extend({}, defaults, settings),
-            localStorage,
-            storageNamespace = "UIFStorage#",
-            filter = ':input[data-id]:not([data-recover="false"]):not([type="password"])',
-            $parent = $(this);
+        var options = $.extend({}, defaults, settings);
+        var storageNamespace = 'UIFStorage#';
+        var filter = ':input[data-id]:not([data-recover="false"]):not([type="password"])';
+        var $parent = $(this);
 
         /**
          * надстройка над localStorage
          * @type {{storage: Storage, check: Function, get: Function, set: Function}}
          */
-        localStorage = {
+        var localStorage = {
 
             storage: window.localStorage,
 
             check: function () {
                 try {
-                    return 'localStorage' in window && window['localStorage'] != null;
+                    return 'localStorage' in window && window.localStorage !== null;
                 }
                 catch(e) {
                     return false;
@@ -66,10 +64,10 @@
             var $field;
             for (var i in localStorage.storage) {
                 if (i.match(storageNamespace)) {
-                    $field = $parent.find("[data-id='" + i.slice(storageNamespace.length, i.length) + "']");
+                    $field = $parent.find('[data-id="' + i.slice(storageNamespace.length, i.length) + '"]');
                     if ($field.length > 0) {
-                        if ($field.attr("type") === "checkbox" || $field.attr("type") === "radio") {
-                            $field.attr("checked", localStorage.get(i) === "true");
+                        if ($field.attr('type') === 'checkbox' || $field.attr('type') === 'radio') {
+                            $field.attr('checked', localStorage.get(i) === 'true');
                         } else {
                             $field.val(localStorage.get(i).split(','));
                         }
@@ -92,42 +90,41 @@
             var $field;
             for (var i in localStorage.storage) {
                 if (i.match(storageNamespace)) {
-                    $field = $parent.find("[data-id='" + i.slice(storageNamespace.length, i.length) + "']");
-                    if ($field.length > 0) {
+                    $field = $parent.find('[data-id="' + i.slice(storageNamespace.length, i.length) + '"]');
+                    if ($field.length) {
                         delete localStorage.storage[i];
                         if (clearForm) {
-                            if ($field.attr("type") === "checkbox" || $field.attr("type") === "radio") {
-                                $field.attr("checked", false);
+                            if ($field.attr('type') === 'checkbox' || $field.attr('type') === 'radio') {
+                                $field.attr('checked', false);
                             } else {
-                                $field.val("");
+                                $field.val('');
                             }
                         }
                     }
                 }
             }
-
             options.onReset();
             return $(this);
-        }
+        };
 
         /**
          * Сохранение данных при изменении в localStorage
          */
-        return $(this).on("input change", filter, function () {
+        return $(this).on('input change', filter, function () {
+            var $this = $(this);
+            var value;
+            var name;
 
-            var $this = $(this),
-                value,
-                name;
-
-
-            switch ($this.attr("type")) {
-                case "checkbox":
-                        value = $this.is(":checked");
+            switch ($this.attr('type')) {
+                case 'checkbox':
+                        value = $this.is(':checked');
                     break;
-                case "radio":
-                        value = $this.is(":checked");
+                case 'radio':
+                        value = $this.is(':checked');
                         if (value) {
-                            $parent.find("input[name='" + $this.attr("name") + "']").not("[data-id='" + $this.attr("data-id") + "']").change();
+                            $parent.find('input[name="' + $this.attr('name') + '"]')
+                                   .not('[data-id="' + $this.attr('data-id') + '"]')
+                                   .change();
                         }
                     break;
                 default:
@@ -135,12 +132,10 @@
                     break;
             }
 
-            name = storageNamespace + $this.attr("data-id");
+            name = storageNamespace + $this.attr('data-id');
             localStorage.set(name, value);
             options.onSave(this);
         });
 
-    }
-
-
+    };
 })(window.jQuery);
