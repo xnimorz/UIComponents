@@ -9,14 +9,160 @@
     <script src="UIPopup.js"></script>
     <script src="example.js"></script>
 </head>
-<body>
-    <button class="show-popup">Открыть popup</button>
+<body class="page">
+    <div class="head">
+        <a href="../" class="head__back">К списку</a>
+        <div class="header">
+            <div class="header__title">UIPopup</div>
+            <ui class="header__list links">
+                <li class="links__item"><a href="#about" class="link">Описание</a></li>
+                <li class="links__item"><a href="#quick" class="link">Быстрый старт</a></li>
+                <li class="links__item"><a href="#params" class="link">Параметры</a></li>
+                <li class="links__item"><a href="#methods" class="link">Методы</a></li>
+                <li class="links__item"><a href="#examples" class="link">Примеры</a></li>
+                <li class="links__item"><a href="https://github.com/xnimorz/UIComponents/tree/master/UIPopup" target="_blank" class="link">GitHub</a></li>
+            </ui>
+        </div>
+        <a href="https://github.com/xnimorz/UIComponents/tree/master/UIPopup" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    </div>
+    <div class="head-wrapper"></div>
+    <div class="content">
+        <div class="text" id="about">
+            <h2>Описание</h2>
+            <p>UIPopup - это виджет, который позволяет выводить кастомное html содержимое в попап на страницу</p>
+            <p>Существует возможность задать размеры, элемент-родителя, контент, наличие управляющих кнопок и с помощью стилей настроить отображение.</p>
+            <p>Виджет состоит из двух компонентов - js логики UIPopup.js и стилей - UIPopup.css. При необходимости стили можно переопределить:</p>
+            <ol>
+                <li>
+                    Оболочку попапа:
+                    <ol>
+                        <li>.popup-wrapper - оболочка попапа</li>
+                        <li>.popup-wrapper_fade - модификатор оболочки для отображения затемнения экрана</li>
+                    </ol>
+                </li>
+                <li>
+                    Блок попапа
+                    <ol>
+                        <li>.popup - блок попапа</li>
+                        <li>.popup__content - элемент попапа, хранящий контент</li>
+                        <li>.popup__close - элемент попапа, отвечающий за кнопку закрытия</li>
+                    </ol>
+                </li>
+            </ol>
+            <p></p>
+        </div>
+        <div class="text" id="quick">
+            <h2>Быстрый старт</h2>
+            <h3>Затеменение фона</h3>
+            <p>Пример использования попапа с затемнением фона</p>
+            <code>
+                new UIPopup('.js-popup-open-fade', {
+                contentEl: '.js-popup-fade',
+                isFadeScreen: true
+                });
+            </code>
+            <p>В данном случае, весь контент за попапом будет затемнен</p>
+            <button class="js-popup-open-fade">Открыть попап</button>
+            <h3>Без затеменения</h3>
+            <p>Подключаем UIPopup.js и UIPopup.css. Для создания попапа используем следующий код:</p>
+            <code>
+                new UIPopup('.show-popup', {
+                    contentEl: '.js-popup'
+                });
+            </code>
+            <p>Здесь .show-popup - кнопка, класс - js-popup -  элемент, который хранит контент попапа</p>
+            <p>Клик вне попапа или клик на крестике  - закроет попап.</p>
+            <button class="show-popup">Открыть popup</button>
+        </div>
+        <div class="text" id="params">
+            <h2>Параметры</h2>
+            <p>Для работы с css-классами можно воспользоваться как готовым файлом UIPopup.css, так и написать свой, определив следующие классы:</p>
+            <ol>
+                <li>
+                    Оболочку попапа:
+                    <ol>
+                        <li>.popup-wrapper - оболочка попапа</li>
+                        <li>.popup-wrapper_fade - модификатор оболочки для отображения затемнения экрана</li>
+                    </ol>
+                </li>
+                <li>
+                    Блок попапа
+                    <ol>
+                        <li>.popup - блок попапа</li>
+                        <li>.popup__content - элемент попапа, хранящий контент</li>
+                        <li>.popup__close - элемент попапа, отвечающий за кнопку закрытия</li>
+                    </ol>
+                </li>
+            </ol>
+            <p>Конструктор принимает два аргумента - первый аргумент - селектор или jQuery объект, который попап будет считать активным элементом и при нажатии на этот элемент будет показывать попап</p>
+            <p>Второй аргумент - объект со следующими параметрами:</p>
+            <code>
+        isFadeScreen - необходимо ли затемнять экран, вокруг popup (по умолчанию false),
+
+        isCloseByClick - закрывать ли popup при клике вне попапа (по умолчанию true),
+
+        isCloseButton - использовать ли кнопку для закрытия popup (по умолчанию true),
+
+        contentEl - контент popupа, задается селектор, либо jQuery объект.
+            Если был задан селектор, то DOM нода будет перенесена в контент попапа
+            </code>
+        </div>
+        <div class="text" id="methods">
+            <h2>Методы</h2>
+            <p>UIPopup поддерживает один метод и одно событие:</p>
+            <code>
+        trigger - триггерит дропдаун, либо скрывая, либо показывая попап
+
+        trigger:popup - событие, которое слушает активный элемент и аналогично триггерит попап
+            </code>
+        </div>
+    </div>
     <div class="g-hidden">
         <div class="text js-popup">
             <h2>UIPopup</h2>
             <p>UIPopup - Это виджет, позволяющий выводить html содержимое во viewport.</p>
             <p>Данный popup занимает определенный размер экрана, указанный в стилях .popup</p>
-            <p>Для работы с css-классами можно воспользоваться как готовым файлом UIPopup.css, так и написать свой, определив блок .popup и элемент .popup__content</p>
+            <p>Для работы с css-классами можно воспользоваться как готовым файлом UIPopup.css, так и написать свой, определив следующие классы:</p>
+            <ol>
+                <li>
+                    Оболочку попапа:
+                    <ol>
+                        <li>.popup-wrapper - оболочка попапа</li>
+                        <li>.popup-wrapper_fade - модификатор оболочки для отображения затемнения экрана</li>
+                    </ol>
+                </li>
+                <li>
+                    Блок попапа
+                    <ol>
+                        <li>.popup - блок попапа</li>
+                        <li>.popup__content - элемент попапа, хранящий контент</li>
+                        <li>.popup__close - элемент попапа, отвечающий за кнопку закрытия</li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+        <div class="text js-popup-fade">
+            <h2>UIPopup</h2>
+            <p>UIPopup - Это виджет, позволяющий выводить html содержимое во viewport.</p>
+            <p>Данный popup занимает определенный размер экрана, указанный в стилях .popup</p>
+            <p>Для работы с css-классами можно воспользоваться как готовым файлом UIPopup.css, так и написать свой, определив следующие классы:</p>
+            <ol>
+                <li>
+                    Оболочку попапа:
+                    <ol>
+                        <li>.popup-wrapper - оболочка попапа</li>
+                        <li>.popup-wrapper_fade - модификатор оболочки для отображения затемнения экрана</li>
+                    </ol>
+                </li>
+                <li>
+                    Блок попапа
+                    <ol>
+                        <li>.popup - блок попапа</li>
+                        <li>.popup__content - элемент попапа, хранящий контент</li>
+                        <li>.popup__close - элемент попапа, отвечающий за кнопку закрытия</li>
+                    </ol>
+                </li>
+            </ol>
         </div>
     </div>
 </body>
