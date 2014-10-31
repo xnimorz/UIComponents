@@ -14,6 +14,10 @@ html, body {
     color: #333;
 }
 
+.text {
+    line-height: 1.2;
+}
+
 .head {
     background-color: #fefefe;
     box-shadow: 0 5px 12px 0 rgba(0, 0, 0, .5);
@@ -88,6 +92,11 @@ li {
     list-style: none;
 }
 
+ol li {
+    list-style: inherit;
+    line-height: 1.5;
+}
+
 .list {
     margin-left: -40px;
 }
@@ -104,4 +113,8 @@ code {
 
 .links-list li{
     list-style: circle;
+}
+
+.g-hidden {
+    display: none;
 }
