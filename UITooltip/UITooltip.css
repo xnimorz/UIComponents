@@ -1,0 +1,25 @@
+.UITooltip {
+    display: inline-block;
+    padding: 2px 5px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    position: absolute;
+}
+
+.UITooltip:before {
+    content: ' ';
+    height: 0;
+    position: absolute;
+    width: 0;
+
+    border: 10px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.8);
+
+    top: -20px;
+    left: 50%;
+    margin-left: -10px;
+}
+
+.UITooltip_hidden {
+    display: none;
+}
