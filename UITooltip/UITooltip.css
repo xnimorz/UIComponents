@@ -1,0 +1,20 @@
+.tooltip {
+    display: inline-block;
+    padding: 2px 6px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    position: absolute;
+    border-radius: 3px;
+}
+
+    .tooltip:before {
+        content: '';
+        height: 0;
+        position: absolute;
+        width: 0;
+        border: 6px solid transparent;
+        border-bottom-color: rgba(0, 0, 0, 0.8);
+        top: -12px;
+        left: 50%;
+        margin-left: -10px;
+    }
