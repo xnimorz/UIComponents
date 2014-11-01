@@ -3,31 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>Tooltip</title>
-    <link type="text/css" rel="stylesheet" href="example.css">
+    <link type="text/css" rel="stylesheet" href="../demo-files/main-page.css">
     <link type="text/css" rel="stylesheet" href="UITooltip.css">
-    <script src="jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="http://yandex.st/jquery/2.0.3/jquery.min.js"></script>
+    <script src="../demo-files/clicker.js"></script>
     <script src="UITooltip.js"></script>
     <script src="example.js"></script>
 </head>
 <body>
-    <div class="block" data-tooltip="tooltip text11">
-        Some text of block element 11
+    <div class="head">
+        <a href="../" class="head__back">К списку</a>
+        <div class="header">
+            <div class="header__title">UITooltip</div>
+            <ui class="header__list links">
+                <li class="links__item"><a href="#about" class="link">Описание</a></li>
+                <li class="links__item"><a href="#quick" class="link">Быстрый старт</a></li>
+                <li class="links__item"><a href="#params" class="link">Параметры</a></li>
+                <li class="links__item"><a href="#usage" class="link">Использование</a></li>
+                <li class="links__item"><a href="https://github.com/xnimorz/UIComponents/tree/master/UITooltip" target="_blank" class="link">GitHub</a></li>
+            </ui>
+        </div>
+        <a href="https://github.com/xnimorz/UIComponents/tree/master/UITooltip" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
     </div>
-    <div class="block js-tooltip">
-        Some text of block element 12
-    </div>
-    <div class="block">
-        Some text of block element 13
+    <div class="head-wrapper"></div>
+    <div class="content">
+        <div class="text" id="about">
+            <h2>Описание</h2>
+            <p>UITooltip - компонент, позволяющий выводить дополнительную информацию при наведении курсора на активный элемент</p>
+            <p>На данный момент компонент обладает тривиальной логикой (отображение только вниз, центрирование посередине)</p>
+            <p>Кроме инициализации из js, существует возможность инициализации тултипа непосредственно из html (навешиванием data-tooltip аттрибута)</p>
+        </div>
+        <div class="text" id="quick">
+            <h2>Быстрый старт</h2>
+            <p>Пример тултипа, с инициализацией из html:</p>
+            <code>
+                &lt;button data-tooltip="tooltip example"&gt;
+                    Кнопка с тултипом
+                &lt;/button&gt;
+            </code>
+            <p></p>
+            <button data-tooltip="tooltip example">
+                Кнопка с тултипом
+            </button>
+            <p>Пример тултипа, с инициализацией из js:</p>
+            <code>
+                new UITooltip('.js-tooltip', {content: 'js tooltip content', timeout: 100})
+            </code>
+            <p></p>
+            <button class="js-tooltip">
+                Кнопка
+            </button>
+        </div>
+        <div class="text" id="params">
+            <h2>Параметры</h2>
+            <p>При задании тултипа в html - необходимо задать аттрибут data-tooltip, который принимает строку - контент тултипа.</p>
+            <p>При задании тултипа через js - необходимо вызвать конструктор, который принимает 2 аргумента. </p>
+            <p>Первый аргумент - селектор активного элемента, на который и будет навешан тултип</p>
+            <p>Второй аргумент - объект, содержащий параметры тултипа:</p>
+            <code>
+        {String} content - контент тултипа
+        {Number} timeout - время задержки перед появлением тултипа (по умолчанию 100мс)
+            </code>
+        </div>
+        <div class="text" id="usage">
+            <h2>Использование</h2>
+            <p>Предполагается 2 способа использование тултипа:</p>
+            <ol>
+                <li>Изначальные подсказки для элементом интерфейса (можно задавать в html)</li>
+                <li>Динамически создаваемый контент-подсказок (инициализация в js)</li>
+            </ol>
+        </div>
     </div>
 
-    <div class="block line" data-tooltip="tooltip text22222222222222222222222222222222222222222222222222222222222222222222222222222">
-        Some text of block element 21
-    </div>
-    <div class="block js-tooltip">
-        Some text of block element 22
-    </div>
-    <div class="block">
-        Some text of block element 23
-    </div>
 </body>
 </html>
