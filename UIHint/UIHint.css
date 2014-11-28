@@ -1,4 +1,4 @@
-.tooltip {
+.hint {
     display: inline-block;
     padding: 2px 6px;
     background: rgba(0, 0, 0, 0.8);
@@ -7,7 +7,7 @@
     border-radius: 3px;
 }
 
-    .tooltip:before {
+    .hint:before {
         content: '';
         height: 0;
         position: absolute;
