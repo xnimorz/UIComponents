@@ -64,7 +64,7 @@
         this.options = $.extend({}, defaults, options);
         this.$el = $(el);
         this.trigger = false;
-        this.checkClose = this.checkClose.bind(this);
+        this._checkClose = this._checkClose.bind(this);
 
         this.$content = $(templates.dropdownContent);
         this.$content.html(this.options.content || this.$el.attr('data-dropdown-content'));
@@ -83,11 +83,11 @@
         this.$target = this.options.target ? $(this.options.target) : this.$el.parent();
         this.$target.append(this.$dropdown);
 
-        this.$el.on('click', this.open.bind(this));
+        this._bindFunctions();
     }
 
     UIDropdown.prototype = {
-        checkClose: function(e) {
+        _checkClose: function(e) {
             if (this.$dropdown[0] !== e.target && e.target !== this.$el[0]) {
                 this.close();
             }
@@ -114,77 +114,84 @@
                 });
             }
 
-            this['show' + this.options.position[0].toUpperCase() + this.options.position.slice(1)](size);
-            $('body').on('click', this.checkClose);
+            this['_show' + this.options.position[0].toUpperCase() + this.options.position.slice(1)](size);
+            $('body').on('click', this._checkClose);
             this.$dropdown.on('click', function(e) {
                 e.stopPropagation();
             });
         },
 
-        showTop: function(size) {
+        _showTop: function(size) {
             this.$dropdown.css({
                 position: 'absolute',
-                top: (!this.options.target ? this.$el.position().top : this.$el.offset().top) - size.height - constants.dropdownOffset,
-                left: this.calculateLeft('bottom', size)
+                top: (!this.options.target ? this.$el.position().top : this.$el.offset().top) -
+                                             size.height - constants.dropdownOffset,
+                left: this._calculateLeft('bottom', size)
             });
         },
 
-        showBottom: function(size) {
+        _showBottom: function(size) {
             this.$dropdown.css({
                 position: 'absolute',
-                top: (!this.options.target ? this.$el.position().top : this.$el.offset().top) + this.$el.height() + constants.dropdownOffset,
-                left: this.calculateLeft('top', size)
+                top: (!this.options.target ? this.$el.position().top : this.$el.offset().top) +
+                                             this.$el.height() + constants.dropdownOffset,
+                left: this._calculateLeft('top', size)
             });
         },
 
-        showRight: function(size) {
+        _showRight: function(size) {
             this.$dropdown.css({
                 position: 'absolute',
-                left: (!this.options.target ? this.$el.position().left : this.$el.offset().left) + this.$el.width() + constants.dropdownOffset,
-                top: this.calculateTop('left', size)
+                left: (!this.options.target ? this.$el.position().left : this.$el.offset().left) +
+                                              this.$el.width() + constants.dropdownOffset,
+                top: this._calculateTop('left', size)
             });
         },
 
-        showLeft: function(size) {
+        _showLeft: function(size) {
             this.$dropdown.css({
                 position: 'absolute',
-                left: (!this.options.target ? this.$el.position().left : this.$el.offset().left) - size.width - constants.dropdownOffset,
-                top: this.calculateTop('right', size)
+                left: (!this.options.target ? this.$el.position().left : this.$el.offset().left) -
+                                              size.width - constants.dropdownOffset,
+                top: this._calculateTop('right', size)
             });
         },
 
-        calculateLeft: function(direction, size) {
+        _calculateLeft: function(direction, size) {
             var position = this.options.arrow || 'middle';
             var arrowWidth = 0;
             if (this.$arrow) {
                 this.$arrow.addClass('dropdown__arrow_direction_' + direction);
                 this.$arrow.css({
                     top: direction === 'bottom' ? size.height : - this.$arrow.outerHeight(),
-                    left: this.calculateVerticalArrow(position, size)
+                    left: this._calculateVerticalArrow(position, size)
                 });
                 arrowWidth = this.$arrow.outerWidth();
             }
             if (position === 'start') {
-                return (!this.options.target ? this.$el.position().left : this.$el.offset().left) - arrowWidth / 2;
+                return (!this.options.target ? this.$el.position().left : this.$el.offset().left) -
+                                               arrowWidth / 2;
             }
             var elWidth = parseInt(this.$el.css('width'), 10);
             if (position === 'middle') {
                 var leftDelta = elWidth / 2;
-                return (!this.options.target ? this.$el.position().left : this.$el.offset().left) + leftDelta - size.width / 2;
+                return (!this.options.target ? this.$el.position().left : this.$el.offset().left) +
+                                               leftDelta - size.width / 2;
             }
             if (position === 'end') {
-                return (!this.options.target ? this.$el.position().left : this.$el.offset().left) + elWidth - size.width + arrowWidth / 2;
+                return (!this.options.target ? this.$el.position().left : this.$el.offset().left) +
+                                               elWidth - size.width + arrowWidth / 2;
             }
         },
 
-        calculateTop: function(direction, size) {
+        _calculateTop: function(direction, size) {
             var position = this.options.arrow || 'middle';
             var arrowHeight = 0;
             if (this.$arrow) {
                 this.$arrow.addClass('dropdown__arrow_direction_' + direction);
                 this.$arrow.css({
                     left: direction === 'right' ? size.width - 1 : - this.$arrow.outerWidth(),
-                    top: this.calculateHorizontalArrow(position, size)
+                    top: this._calculateHorizontalArrow(position, size)
                 });
                 arrowHeight = this.$arrow.outerHeight();
             }
@@ -194,24 +201,26 @@
             var elHeight = parseInt(this.$el.css('height'), 10);
             if (position === 'middle') {
                 var topDelta = elHeight / 2;
-                return (!this.options.target ? this.$el.position().top : this.$el.offset().top) + topDelta - size.height / 2;
+                return (!this.options.target ? this.$el.position().top : this.$el.offset().top) +
+                                               topDelta - size.height / 2;
             }
             if (position === 'end') {
-                return (!this.options.target ? this.$el.position().top : this.$el.offset().top) + elHeight - size.height + arrowHeight /2;
+                return (!this.options.target ? this.$el.position().top : this.$el.offset().top) +
+                                               elHeight - size.height + arrowHeight / 2;
             }
         },
 
         close: function() {
             this.$dropdown.hide();
             this.trigger = false;
-            $('body').off('click', this.checkClose);
+            $('body').off('click', this._checkClose);
         },
 
         changeContent: function(e, content) {
             this.$content.html(content || e);
         },
 
-        calculateVerticalArrow: function(direction, size) {
+        _calculateVerticalArrow: function(direction, size) {
             if (direction === 'start') {
                 return constants.arrowOffset;
             }
@@ -221,7 +230,7 @@
             return (size.width - this.$arrow.outerWidth()) / 2;
         },
 
-        calculateHorizontalArrow: function(direction, size) {
+        _calculateHorizontalArrow: function(direction, size) {
             if (direction === 'start') {
                 return constants.arrowOffset;
             }
@@ -231,12 +240,12 @@
             return (size.height - this.$arrow.outerHeight()) / 2;
         },
 
-        bindFunctions: function() {
+        _bindFunctions: function() {
             var open = this.open.bind(this);
             this.$el.on('click', open);
-            this.$el.on('open:dropdown', open);
-            this.$el.on('close:dropdown', this.close.bind(this));
-            this.$el.on('change:dropdown', this.changeContent.bind(this));
+            this.$el.on('open.dropdown', open);
+            this.$el.on('close.dropdown', this.close.bind(this));
+            this.$el.on('change.dropdown', this.changeContent.bind(this));
         },
 
         constructor: UIDropdown

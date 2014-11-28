@@ -28,15 +28,18 @@
 
     function UIPopup(el, options) {
         var settings = $.extend({}, defaults, options);
-
         var $contentEl = $(settings.contentEl);
+
         $contentEl.hide();
+
         this.$popupWrapper = $(template.popupWraper);
         settings.isFadeScreen && this.$popupWrapper.addClass(cssClasses.fade);
+
         this.$popup = $(template.popup);
         var $content = $(template.content);
         var $el = $(el);
         var $close = $(template.close);
+
         settings.isCloseButton && this.$popup.append($close);
         this.$popupWrapper.append(this.$popup.append($content.append($contentEl))).hide().appendTo('body');
         this._isShown = false;
