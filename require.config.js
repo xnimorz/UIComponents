@@ -2,38 +2,38 @@ require.config({
     packages: [
         {
             name: 'UIComponents/UIDropdown',
-            location: 'UIDropdown/UIDropdown',
-            main: 'Dropdown'
+            location: 'UIDropdown',
+            main: 'UIDropdown'
         },
         {
             name: 'UIComponents/UICarriage',
-            location: 'UICarriage/UICarriage',
-            main: 'Carriage'
+            location: 'UICarriage',
+            main: 'UICarriage'
         },
         {
             name: 'UIComponents/UIPopup',
-            location: 'UIPopup/UIPopup',
-            main: 'Popup'
+            location: 'UIPopup',
+            main: 'UIPopup'
         },
         {
             name: 'UIComponents/UICalendar',
-            location: 'UICalendar/UICalendar',
-            main: 'Calendar'
+            location: 'UICalendar',
+            main: 'UICalendar'
         },
         {
             name: 'UIComponents/UIFormStorage',
-            location: 'UIFormStorage/UIFormStorage',
-            main: 'FormStorage'
+            location: 'UIFormStorage',
+            main: 'UIFormStorage'
         },
         {
             name: 'UIComponents/UIHint',
-            location: 'UIHint/UIHint',
-            main: 'Hint'
+            location: 'UIHint',
+            main: 'UIHint'
         },
         {
             name: 'UIComponents/UIPageScrolling',
-            location: 'UIPageScrolling/UIPageScrolling',
-            main: 'PageScrolling'
+            location: 'UIPageScrolling',
+            main: 'UIPageScrolling'
         }
     ]
 });
