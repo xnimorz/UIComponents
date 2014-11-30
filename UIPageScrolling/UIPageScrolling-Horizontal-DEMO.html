@@ -3,17 +3,28 @@
 <head>
     <meta content="text/html; charset=utf-8">
     <title>On Page Scroll Demo</title>
-    <script type="text/javascript" src="http://yandex.st/jquery/2.0.3/jquery.min.js"></script>
-    <script type="text/javascript" src="UIPageScrolling.js"></script>
+    <script src="../vendor/require.js"></script>
+    <script src="../vendor/jquery.js"></script>
+    <script src="../require.config.js"></script>
     <script>
         $(function() {
-
-            new UIPageScrolling($(".main"), {
-                isVertical : false,
-                sectionsControl:".page-control__item",
-                captureTouch: true
+            require.config({
+                baseUrl: '../'
             });
+            require(
+                    [
+                        'jquery',
+                        'UIComponents/UIPageScrolling'
+                    ],
+                    function($, UIPageScrolling) {
+                        UIPageScrolling.create($(".main"), {
+                            isVertical : false,
+                            sectionsControl:".page-control__item",
+                            captureTouch: true
 
+                        });
+                    }
+            );
         })
     </script>
     <link rel="stylesheet" href="../demo-files/page-scrolling.css" type="text/css">
