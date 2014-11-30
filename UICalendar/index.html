@@ -5,30 +5,42 @@
     <title>Text Input Demo</title>
 	<link rel="stylesheet" type="text/css" href="UICalendar.css"/>
     <link rel="stylesheet" type="text/css" href="../demo-files/main-page.css"/>
-    <script type="text/javascript" src="http://yandex.st/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript" src="UICalendar.js"></script>
+    <script src="../vendor/require.js"></script>
+    <script src="../vendor/jquery.js"></script>
+    <script src="../require.config.js"></script>
     <script type="text/javascript" src="../demo-files/clicker.js"></script>
       <script>
-
-
-          ///Пример использования календаря.
-
-          var ExampleCalendar,ExampleCalendar2,test,eventTest;
-          $(function()
-          {
-
-              new UICalendar('.test-calendar');
-              var calendar = new UICalendar("#myCalendar", false, "year", true);
-              new UICalendar("#myCalendar2", false, "year", false, 1000);
-              $('.js-button').on('click', function() {
-                  console.log(calendar.getSelectedDates());
-              });
-              var eventCal = new UICalendar('#CalendarWithEvent');
-              var date = new Date();
-              date.setDate(date.getDate() - 1);
-              eventCal.addEvents('событие', date);
-
+          require.config({
+              baseUrl: '../'
           });
+          require(
+                  [
+                      'jquery',
+                      'UIComponents/UICalendar'
+                  ],
+                  function($, UICalendar) {
+                      ///Пример использования календаря.
+
+                      var ExampleCalendar,ExampleCalendar2,test,eventTest;
+                      $(function()
+                      {
+
+                          UICalendar.create('.test-calendar');
+                          var calendar = UICalendar.create("#myCalendar", false, "year", true);
+                          UICalendar.create("#myCalendar2", false, "year", false, 1000);
+                          $('.js-button').on('click', function() {
+                              console.log(calendar.getSelectedDates());
+                          });
+                          var eventCal = UICalendar.create('#CalendarWithEvent');
+                          var date = new Date();
+                          date.setDate(date.getDate() - 1);
+                          eventCal.addEvents('событие', date);
+
+                      });
+                  }
+          );
+
+
       </script>
 </head>
 <body class="page">
