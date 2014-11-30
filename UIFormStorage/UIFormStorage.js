@@ -1,9 +1,3 @@
-/**
- * UIFormStorage.js v1.2
- * JQuery plugin
- * by Nikita Mostovoy
- */
-
 (function($) {
     'use strict';
     /**
@@ -23,13 +17,14 @@
     /**
      * Плагин для сохранения изменений на форме и восстановления после перезагрузки страницы
      * Используется localStorage
+     * @param {String} el - form selector
      * @param {JSON} settings
      */
-    $.fn.UIFormStorage = function (settings) {
+     function UIFormStorage(el, settings) {
         var options = $.extend({}, defaults, settings);
         var storageNamespace = 'UIFStorage#';
         var filter = ':input[data-id]:not([data-recover="false"]):not([type="password"])';
-        var $parent = $(this);
+        var $parent = $(el);
 
         /**
          * надстройка над localStorage
@@ -86,7 +81,7 @@
          * @returns {*|HTMLElement}
          * @constructor
          */
-        $.fn.UIFormStorageClear = function (clearForm) {
+        this.clear = function (clearForm) {
             var $field;
             for (var i in localStorage.storage) {
                 if (i.match(storageNamespace)) {
@@ -110,7 +105,7 @@
         /**
          * Сохранение данных при изменении в localStorage
          */
-        return $(this).on('input change', filter, function () {
+        $parent.on('input change', filter, function () {
             var $this = $(this);
             var value;
             var name;
@@ -137,5 +132,7 @@
             options.onSave(this);
         });
 
-    };
+    }
+
+    window.UIFormStorage = UIFormStorage;
 })(window.jQuery);

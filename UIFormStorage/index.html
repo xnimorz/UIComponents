@@ -9,10 +9,10 @@
     <script type="text/javascript" src="../demo-files/clicker.js"></script>
     <script>
         window.onload = function () {
-            $('.test-form').UIFormStorage();
+            var UIForm = new UIFormStorage('.test-form');
 
             $("button[data-js='reset']").bind('click keypress',function (e) {
-               $('.test-form').UIFormStorageClear();
+               UIForm.clear();
             });
         }
     </script>
