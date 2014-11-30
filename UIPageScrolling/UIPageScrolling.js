@@ -1,11 +1,3 @@
-/**
- * UIPageScrolling.js v1.0
- *
- * JQuery plugin
- *
- * by Nikita Mostovoy
- */
-
 (function($) {
     /**
      * Стандарные настройки
@@ -35,13 +27,13 @@
 
     /**
      * Создаем прокрутку по заданному div
+     * @param {String} el - selector
      * @param settings - польховательские настройки
-     * @returns {*|HTMLElement} JQuery object
      */
-    $.fn.UIPageScrolling = function (settings) {
+     function UIPageScrolling(el, settings) {
         var options = $.extend({}, defaults, settings),
             index = 0,
-            current = $(this),
+            current = $(el),
             maxIndex = 0,
             lockNext = false,
             lockPrev = false;
@@ -49,74 +41,74 @@
         /**
          * reset mouse events
          */
-        function unbindMouseEvents() {
-            current.unbind("mousemove")
-                .unbind("mouseup")
-                .bind("mousedown", mouseDownEvent);
+        var unbindMouseEvents = function() {
+            current.off("mousemove")
+                .off("mouseup")
+                .on("mousedown", mouseDownEvent.bind(this));
         };
 
         /**
          * mouse down and move events
          */
-        function mouseDownEvent() {
+        var mouseDownEvent = function() {
             var lastClient = -1;
-            current.bind("mousemove", function(e) {
+            current.on("mousemove", function(e) {
                 var delta;
-                if (lastClient == -1) {
+                if (lastClient === -1) {
                     lastClient = options.isVertical? e.clientY : e.clientX;
                 }
                 delta = lastClient - (options.isVertical? e.clientY : e.clientX);
                 if (delta > 150) {
-                    current.moveNext();
+                    this.moveNext();
                 }
                 if (delta < -150) {
-                    current.movePrevious();
+                    this.movePrevious();
                 }
-            })
-                .bind("mouseup", unbindMouseEvents)
-                .unbind("mousedown");
-        };
+            }.bind(this))
+                .on("mouseup", unbindMouseEvents.bind(this))
+                .off("mousedown");
+        }.bind(this);
 
         /**
          * touch event
          */
-        function touchStartEvent(e) {
+        var touchStartEvent = function(e) {
             e = window.event || e.originalEvent;
             var lastClient = options.isVertical? e.touches[0].pageY : e.touches[0].pageX;
-            current.bind("touchmove", function(e) {
+            current.on("touchmove", function(e) {
                     e = window.event || e.originalEvent;
                     var delta = lastClient - (options.isVertical? e.touches[0].pageY : e.touches[0].pageX);
                     if (delta >= 50) {
-                        current.moveNext();
+                        this.moveNext();
                      }
                      if (delta <= -50) {
-                         current.movePrevious();
+                         this.movePrevious();
                      }
                     if (Math.abs(delta) >= 50) {
-                        current.unbind("touchmove");
+                        current.off("touchmove");
                     }
-                });
-        }
+                }.bind(this)
+            );
+        }.bind(this);
 
         /**
          * Перевод слайда к заданному
-         * @param position - позиция (в процентах)
-         * @param options - опции
          * @param index - индекс целевого слайда
-         * @returns {*|HTMLElement}
          */
-         function transformPageTo(index) {
+         this._transformPageTo = function(index) {
 
-            var position = index * 100,
-                positionX = 0,
-                positionY = 0;
+            var position = index * 100;
+            var positionX = 0;
+            var positionY = 0;
 
             $('.ui-page-scrolling-section_active').removeClass('ui-page-scrolling-section_active');
             $('.ui-page-scrolling-control_active').removeClass('ui-page-scrolling-control_active');
 
             $('.ui-page-scrolling-control[data-index=' + index + ']').addClass('ui-page-scrolling-control_active');
             $('.ui-page-scrolling-section[data-index=' + index + ']').addClass('ui-page-scrolling-section_active');
-            if (options.beforeMoveFunc instanceof Function) options.beforeMoveFunc(index);
+            if (options.beforeMoveFunc instanceof Function) {
+                options.beforeMoveFunc(index);
+            }
 
             if (position > 0) {
                 position = -position;
@@ -128,7 +120,7 @@
                 positionX = position;
             }
 
-            $(this).css({
+            current.css({
                 "-webkit-transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
                 "-webkit-transition": "all " + options.time + "ms " + options.easing,
                 "-moz-transform": "translate3d(" + positionX + "%, " + positionY + "%, 0)",
@@ -140,48 +132,58 @@
             })
                 .one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function() {
                     options.lockManager();
-                    if (options.afterMoveFunc instanceof Function) options.afterMoveFunc(index);
+                    if (options.afterMoveFunc instanceof Function) {
+                        options.afterMoveFunc(index);
+                    }
                 });
-        }
-
-        transformPageTo = transformPageTo.bind(this);
+        };
 
         /**
          * переход на слайд по заданному индексу
          * @param index
          */
-        $.fn.moveTo = function(index) {
-            if (index < 0 || index > maxIndex) throw new Error("Index must be smaller than count of existing pages and greater than 0");
-            transformPageTo(index);
+        this.moveTo = function(index) {
+            if (index < 0 || index > maxIndex) {
+                throw new Error("Index must be smaller than count of existing pages and greater than 0");
+            }
+            this._transformPageTo(index);
         };
 
         /**
          * Переход на следующий слайд
          */
-        $.fn.moveNext = function() {
-            if (lockNext) return;
+        this.moveNext = function() {
+            if (lockNext) {
+                return;
+            }
             var lastIndex = $('.ui-page-scrolling-section_active').attr('data-index');
             lastIndex++;
-            if (lastIndex > maxIndex && options.isCyclic) lastIndex = 0;
+            if (lastIndex > maxIndex && options.isCyclic) {
+                lastIndex = 0;
+            }
             if (lastIndex <= maxIndex) {
                 lockNext = true;
                 lockPrev = false;
-                $(this).moveTo(lastIndex);
+                this.moveTo(lastIndex);
             }
         };
 
         /**
          * Переход на предыдущий слайд
          */
-        $.fn.movePrevious = function() {
-            if (lockPrev) return;
+        this.movePrevious = function() {
+            if (lockPrev) {
+                return;
+            }
             var lastIndex = $('.ui-page-scrolling-section_active').attr('data-index');
             lastIndex--;
-            if (lastIndex < 0 && options.isCyclic) lastIndex = maxIndex;
+            if (lastIndex < 0 && options.isCyclic) {
+                lastIndex = maxIndex;
+            }
             if (lastIndex >= 0) {
                 lockNext = false;
                 lockPrev = true;
-                $(this).moveTo(lastIndex);
+                this.moveTo(lastIndex);
             }
         };
 
@@ -189,7 +191,7 @@
          * Обработка нажатия клавиши
          * @param {Event} e
          */
-        function processKeyEvent(e) {
+        this._processKeyEvent = function(e) {
             switch (e.keyCode) {
                 case 38:
                 case 37:
@@ -202,24 +204,26 @@
                     $(this).moveNext();
                     break;
             }
-        }
-
-        processKeyEvent = processKeyEvent.bind(this);
+        };
 
         /**
          * Работа с колесом мышки
          * @param e
          */
-        function processMouseWheel(e) {
+        this._processMouseWheel = function(e) {
               var event = window.event || e.originalEvent,
                   delta = event.wheelDelta || (-120) * event.detail,
                   topDelta = 200;
-              if (event.wheelDelta) topDelta = 10;
-              if (delta < -topDelta) $(this).moveNext();
-              if (delta > topDelta) $(this).movePrevious()
-        }
-
-        processMouseWheel = processMouseWheel.bind(this);
+              if (event.wheelDelta) {
+                  topDelta = 10;
+              }
+              if (delta < -topDelta) {
+                  this.moveNext();
+              }
+              if (delta > topDelta) {
+                  this.movePrevious();
+              }
+        };
 
         /**
          * убирает блокировки на скроллинг
@@ -244,36 +248,35 @@
         maxIndex = index-1;
 
         //Настройка переключателей (если есть)
+        var self = this;
         index = 0;
         if (options.sectionsControl) {
             $(options.sectionsControl)
                 .addClass("ui-page-scrolling-control").each(function () {
-                    $(this).attr('data-index', index++).bind("click keypress", function () {
-                        current.moveTo($(this).attr('data-index'));
+                    $(this).attr('data-index', index++).on("click keypress", function () {
+                        self.moveTo($(this).attr('data-index'));
                     });
                 });
         }
 
         //захват мыши и касаний
         if (options.captureTouch) {
-            current.bind("mousedown", mouseDownEvent);
-            current.bind("touchstart", touchStartEvent);
+            current.on("mousedown", mouseDownEvent.bind(this));
+            current.on("touchstart", touchStartEvent.bind(this));
         }
 
         //Стандартная настройка
         current.addClass('ui-page-scrolling-main')
-            .bind("mousewheel DOMMouseScroll", processMouseWheel);
+            .on("mousewheel DOMMouseScroll", this._processMouseWheel.bind(this));
 
-        transformPageTo(0);
+        this._transformPageTo(0);
 
         //захват нажатий клавиш
         if (options.captureKeyboard) {
-            $(window).bind("keydown", processKeyEvent);
+            $(window).on("keydown", this._processKeyEvent.bind(this));
         }
-
-        return $(this);
     }
 
-
+    window.UIPageScrolling = UIPageScrolling;
 
 })(window.jQuery);

@@ -3,12 +3,12 @@
 <head>
     <meta content="text/html; charset=utf-8">
     <title>On Page Scroll Demo</title>
-    <script type="text/javascript" src="http://yandex.st/jquery/2.0.3/jquery.min.js"></script>
+    <script src="../vendor/jquery.js"></script>
     <script type="text/javascript" src="UIPageScrolling.js"></script>
     <script>
         $(function() {
 
-            $(".main").UIPageScrolling({
+            new UIPageScrolling($(".main"), {
                 sectionsControl:".page-control__item",
                 captureTouch: true
 
