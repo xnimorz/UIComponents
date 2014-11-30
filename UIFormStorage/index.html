@@ -9,11 +9,22 @@
     <script type="text/javascript" src="../demo-files/clicker.js"></script>
     <script>
         window.onload = function () {
-            var UIForm = new UIFormStorage('.test-form');
-
-            $("button[data-js='reset']").bind('click keypress',function (e) {
-               UIForm.clear();
+            require.config({
+                baseUrl: '../'
             });
+            require(
+                [
+                    'jquery',
+                    'UIComponents/UIFormStorage'
+                ],
+                function($, UIFormStorage) {
+                    var UIForm = UIFormStorage.create('.test-form');
+
+                    $("button[data-js='reset']").bind('click keypress',function () {
+                       UIForm.clear();
+                    });
+                }
+            );
         }
     </script>
 </head>
