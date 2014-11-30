@@ -1,5 +1,5 @@
 define(
-    'UIComponents/UIHint',
+    'UIComponents/UIFormStorage',
     ['jquery'],
     function($) {
         'use strict';
