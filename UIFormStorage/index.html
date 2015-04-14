@@ -4,24 +4,35 @@
     <title>UI Form Storage</title>
     <link rel="stylesheet" type="text/css" href="../demo-files/form-storage.css">
     <link rel="stylesheet" type="text/css" href="../demo-files/main-page.css">
-    <script type="text/javascript" src="http://yandex.st/jquery/2.0.3/jquery.min.js"></script>
-    <script type="text/javascript" src="UIFormStorage.js"></script>
+    <script src="../vendor/require.js"></script>
+    <script src="../vendor/jquery.js"></script>
+    <script src="../require.config.js"></script>
     <script type="text/javascript" src="../demo-files/clicker.js"></script>
     <script>
         window.onload = function () {
-            $('.test-form').UIFormStorage();
-
-            $("button[data-js='reset']").bind('click keypress',function (e) {
-               $('.test-form').UIFormStorageClear();
+            require.config({
+                baseUrl: '../'
             });
+            require(
+                [
+                    'jquery',
+                    'UIComponents/UIFormStorage'
+                ],
+                function($, UIFormStorage) {
+                    var UIForm = UIFormStorage.create('.test-form');
+
+                    $("button[data-js='reset']").bind('click keypress',function () {
+                       UIForm.clear();
+                    });
+                }
+            );
         }
     </script>
 </head>
 <body class="page">
     <div class="head">
-        <a href="../" class="head__back">К списку</a>
         <div class="header">
-            <div class="header__title">UIFormStorage</div>
+            <a href="../" class="header__title">UIFormStorage</a>
             <ui class="header__list links">
                 <li class="links__item"><a href="#about" class="link">Описание</a></li>
                 <li class="links__item"><a href="#quick" class="link">Быстрый старт</a></li>

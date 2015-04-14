@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="../vendor/require.js"></script>
+    <script src="../vendor/jquery.js"></script>
+    <script src="../require.config.js"></script>
+    <script src="example.js"></script>
+    <script src="../demo-files/clicker.js"></script>
+    <link rel="stylesheet" href="../demo-files/style.css">
+    <link rel="stylesheet" href="../demo-files/UICarriage.css">
+    <link rel="stylesheet" href="../demo-files/main-page.css">
+</head>
+<body class="page">
+    <div class="head">
+        <div class="header">
+            <a href="../" class="header__title">UIScroll</a>
+            <ui class="header__list links">
+                <li class="links__item"><a href="#about" class="link">Описание</a></li>
+                <li class="links__item"><a href="#quick" class="link">Быстрый старт</a></li>
+                <li class="links__item"><a href="#examples" class="link">Примеры</a></li>
+                <li class="links__item"><a href="#params" class="link">Параметры</a></li>
+                <li class="links__item"><a href="https://github.com/xnimorz/UIComponents/tree/master/UIScroll" target="_blank" class="link">GitHub</a></li>
+            </ui>
+        </div>
+        <a href="https://github.com/xnimorz/UIComponents/tree/master/UIScroll" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    </div>
+    <div class="head-wrapper"></div>
+    <div class="content">
+        <div class="text" id="about">
+            <h2>Описание</h2>
+            <p>Компонент, модифицирующий <a href="/UIComponents/UICarriage/">UICarriage</a> и предлагающий быстрое создание скроллинга для контента.</p>
+            <p>Поддерживается как вертикальный, так и горизонтальный скроллинг.</p>
+            <p>Главная особенность - возможность кастомизировать скролл любым удобным образом. </p>
+        </div>
+        <div class="text" id="quick">
+            <h2>Быстрый старт</h2>
+            <code>
+                UIScroll.create([HTMLElement || jQuery], params)
+            </code>
+            <p>Например:</p>
+            <code>UIScroll.create($('.some-carriage-selector'), {$target: $('.some-content-selector')})</code>
+            <p>Попробуйте:</p>
+            <div class="some-scroll-block some-scroll-block_full js-simple-scroll-target">
+                <div>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum, nunc at rhoncus condimentum, nulla massa varius lacus, vitae porta lacus sapien non augue. Donec est mi, pharetra in facilisis quis, pellentesque et magna. Nullam cursus augue eu iaculis dapibus. Donec eu eros maximus lacus elementum finibus nec vel libero. Etiam lacinia elementum semper. Donec scelerisque venenatis turpis, ut volutpat massa tincidunt non. Etiam sodales mattis odio, id eleifend mauris pellentesque sed. Nam magna nibh, semper eget egestas vel, bibendum at nisi. Pellentesque auctor, neque quis vestibulum molestie, dolor augue malesuada ex, eu consectetur tellus augue non diam. Pellentesque at mi tincidunt, vehicula eros vel, mollis velit. Quisque semper ultricies leo consectetur efficitur. Duis ut ipsum rutrum ex convallis tempor. In purus urna, iaculis id erat congue, venenatis fermentum neque. Duis porttitor tincidunt orci id dapibus. Sed quis urna sed massa tristique tempus.
+
+                    Proin blandit finibus enim, eget feugiat sapien posuere ac. Mauris ac fringilla dolor. Nam sodales varius tristique. Duis non neque pretium, venenatis mauris quis, imperdiet diam. Nulla nec nibh vestibulum, molestie diam feugiat, luctus neque. Duis placerat sit amet tortor sed ultrices. Pellentesque in ex tellus. Donec enim ipsum, tempus ut mi id, pellentesque sodales massa. Integer dapibus imperdiet ex vel sodales. Nunc laoreet odio vitae convallis mollis. Pellentesque laoreet vestibulum libero, sit amet elementum massa hendrerit in.
+
+                    Sed eget pulvinar nisi. Sed tincidunt arcu ac sapien tincidunt, eu porta mauris euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean auctor erat eget nunc facilisis lobortis vitae posuere sem. Etiam leo urna, egestas vitae elementum vel, dignissim vel diam. Sed quis volutpat metus, a facilisis sapien. Quisque in risus varius, hendrerit magna nec, blandit nisl. Duis aliquam accumsan magna id pharetra. In nibh mauris, gravida eget orci at, sagittis tincidunt mauris. Aliquam a eros quis ex tristique rhoncus. Aenean nec posuere nulla, ac ultricies elit.
+
+                    Nulla facilisi. Maecenas eros justo, tincidunt consequat purus vitae, facilisis convallis urna. Suspendisse tempor posuere nisl, ut lacinia tellus elementum eu. Vestibulum venenatis ante ligula, a vehicula dui interdum at. Quisque ac scelerisque nibh, ac consequat augue. Vivamus eu viverra arcu, non pharetra nulla. In imperdiet blandit mauris sit amet tincidunt. Phasellus eu augue nunc. Duis posuere vestibulum gravida. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus suscipit placerat. Sed non blandit nibh. Quisque ut tincidunt tortor, a convallis arcu. Praesent efficitur scelerisque dui sed vulputate. Aliquam a maximus erat.
+
+                    Ut pellentesque tempor bibendum. Curabitur quis fermentum ex. Aenean tempus nibh eu lacus imperdiet, eget congue ipsum dapibus. Etiam ullamcorper magna id justo aliquam pulvinar. Sed dictum tellus non ligula viverra, lobortis luctus ex mollis. Vivamus magna augue, tristique eget fermentum vel, pretium non nisi. Aliquam tempor vehicula rhoncus. Vestibulum pharetra malesuada urna at posuere. Integer aliquam turpis vel enim aliquet imperdiet. Phasellus sollicitudin, nisl vitae semper aliquet, lectus risus consectetur turpis, ut rutrum metus elit vitae felis. Proin finibus id urna ut ultrices.
+
+                    Ut aliquam dui ante, quis interdum ligula tristique nec. Vestibulum mattis tristique risus. Sed nec eleifend arcu, nec efficitur arcu. Donec fermentum nisi et fermentum posuere. Vivamus id nisl augue. Interdum et malesuada fames ac ante ipsum primis in faucibus. Donec lorem justo, consectetur in odio finibus, pellentesque aliquet sem. Pellentesque euismod urna non neque varius porta. Aenean sollicitudin, magna ac fermentum suscipit, orci tortor mattis metus, viverra bibendum mauris ipsum et nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nisl leo, hendrerit eu nisl quis, pharetra condimentum nulla. Morbi non volutpat orci. Mauris eleifend volutpat nisl, quis ultricies felis. Mauris vehicula est eu lobortis porttitor. Curabitur et ante neque.
+
+                    Nunc iaculis dapibus dui, eget faucibus lacus molestie nec. Quisque mattis ultrices pulvinar. Sed blandit massa ac felis pretium ultricies. Nulla faucibus scelerisque eros consequat sagittis. Cras semper vel quam id feugiat. Donec tincidunt eget felis sed pulvinar. Aliquam ullamcorper urna convallis dui congue auctor. Quisque volutpat fermentum purus, ac pharetra nunc lacinia non.
+
+                    Morbi erat velit, luctus ut nunc sit amet, posuere facilisis lorem. Nunc justo turpis, fermentum at hendrerit et, elementum non sapien. Integer ac blandit nulla. Nulla convallis nibh eu quam facilisis pharetra. Nam accumsan dapibus mi vel euismod. In sollicitudin dui ut iaculis egestas. Donec at maximus purus.
+
+                    Integer elementum lorem non tempor posuere. Mauris odio erat, rutrum nec ipsum a, dapibus ultricies tellus. Morbi viverra tellus augue, in accumsan tellus iaculis sed. Etiam id orci tempor, luctus nulla vitae, maximus orci. Aenean a viverra arcu. Aenean posuere, tellus sed sagittis convallis, sapien mi eleifend nunc, nec fermentum nisl mauris pretium lectus. Fusce non feugiat felis. Phasellus id vulputate libero. Nunc tincidunt quam magna, ac cursus massa semper sed. Pellentesque tristique leo a libero accumsan imperdiet. Sed porttitor, odio sit amet efficitur volutpat, mauris libero pellentesque est, id interdum neque odio eget nisl. Sed et ipsum sed nisl pellentesque accumsan in nec tellus. Mauris at turpis fermentum, porttitor eros in, pharetra nibh. Proin sed elit nec arcu tempus rutrum a nec odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi ornare ultricies posuere.
+
+                    Nunc sed enim tellus. Quisque convallis eleifend diam. Curabitur accumsan pellentesque tempor. Phasellus efficitur lacus magna, at blandit mi mattis eu. Morbi turpis felis, pharetra sit amet diam eu, condimentum molestie sapien. Suspendisse elementum lacinia est nec sollicitudin. Praesent imperdiet urna quis maximus porta. Duis justo orci, lacinia vel ipsum quis, ultrices interdum metus. Nam in malesuada leo. Praesent ultricies metus mauris, sodales porttitor dolor scelerisque sit amet. Etiam mi ante, pellentesque lobortis accumsan vitae, rhoncus a nisl. Pellentesque ut dictum dolor. Sed vel cursus est. Curabitur mattis lorem purus, id mollis velit dapibus vitae.
+
+                    Aenean a imperdiet nunc, id rutrum odio. Sed congue viverra scelerisque. Donec nec sem ipsum. Nullam malesuada turpis quis libero pulvinar molestie. Aliquam vel ipsum facilisis, tristique enim eu, rutrum mi. In hac habitasse platea dictumst. Suspendisse at vehicula nibh, sit amet faucibus turpis. Nam eu libero at arcu mattis tempus et sed orci. Aliquam scelerisque ultrices turpis, nec maximus nibh suscipit a. Pellentesque suscipit facilisis turpis. Mauris interdum feugiat posuere. Proin commodo ut nulla eget euismod. Etiam egestas malesuada fermentum. Morbi fringilla ipsum faucibus, laoreet massa et, vehicula erat. Morbi imperdiet est facilisis mattis suscipit.
+
+                    Suspendisse ut tempus nisl. Nulla ultricies nec magna non sodales. In eget sapien congue, egestas orci sit amet, fringilla nisl. Etiam in nisl a metus lobortis vehicula ac a neque. Cras congue quam in dui dictum, vel mattis mauris vehicula. Nunc maximus vel velit feugiat ornare. Nulla tincidunt metus eu neque pretium, eu eleifend tellus tempor. Quisque semper luctus libero, ut interdum sem egestas ac. Sed rhoncus libero lectus, id egestas nibh rhoncus id.
+
+                    Nullam placerat aliquet egestas. Pellentesque ac porta nibh, sed ultricies lectus. Nullam ultricies, mi sed rhoncus efficitur, lacus tortor suscipit est, sed tristique erat turpis quis purus. Aenean eget massa dignissim, tincidunt risus vel, finibus libero. Suspendisse porta faucibus leo, eget efficitur enim. Donec malesuada, velit ut accumsan luctus, libero diam volutpat quam, a condimentum neque lectus eget metus. Pellentesque et dui mauris.
+
+                    In dolor tortor, scelerisque imperdiet ultrices vel, laoreet at tellus. Integer ut leo id nibh sodales eleifend ut vitae ante. Morbi feugiat turpis in sapien pellentesque, euismod finibus sapien ultrices. Maecenas quis semper augue. Morbi condimentum arcu nec eros laoreet, tincidunt suscipit lectus tempor. Cras venenatis, velit id egestas hendrerit, nunc nisi laoreet eros, eu bibendum lacus lorem sed felis. Sed id auctor purus, vel mattis lorem. Nam eu quam eget augue tempus dictum vel nec nunc. Donec at dui elementum dui fringilla ornare.
+
+                    Donec fermentum ante turpis, eu aliquam enim ultricies sed. Integer vel tellus enim. Praesent vel tempus lectus. Praesent accumsan arcu eget fringilla sagittis. Nulla neque nulla, sagittis eget urna sit amet, congue iaculis justo. Nam aliquet pulvinar velit, non varius massa iaculis sagittis. Sed tempor justo nec elit varius sodales. Integer sodales vestibulum lectus vel tincidunt.
+
+                    Duis eget odio elit. Fusce ac nulla felis. Vestibulum tempor nisi vel faucibus pulvinar. Nunc sit amet urna viverra, accumsan urna at, egestas ipsum. In aliquam ligula luctus, condimentum lectus at, auctor arcu. In hac habitasse platea dictumst. Cras interdum lacinia felis eget eleifend.
+
+                    Pellentesque placerat, justo sit amet congue maximus, felis turpis consectetur nisi, ut viverra nisl lorem in sem. Sed posuere ligula a magna convallis tincidunt. Phasellus ultrices pulvinar nunc, et hendrerit tortor posuere venenatis. Sed eget velit condimentum, facilisis nisl eu, tincidunt risus. Nunc scelerisque facilisis est feugiat rhoncus. Nunc malesuada at metus id mollis. Proin a semper lacus.
+
+                    In auctor sapien sed quam tristique tincidunt at sed felis. Maecenas purus sapien, pharetra at augue eget, maximus elementum quam. Duis ullamcorper tortor nec turpis lobortis, vel lobortis dui varius. Vestibulum id lectus magna. Aenean volutpat ultricies eros et pharetra. Ut sed est pellentesque felis interdum gravida eu id arcu. Vivamus maximus lorem ut lorem ultrices, ut efficitur ligula hendrerit.
+
+                    Donec tristique lorem at viverra porttitor. Phasellus finibus nisi sit amet neque tincidunt mollis. Maecenas a nulla dapibus, tincidunt tortor sit amet, tincidunt massa. Mauris leo dolor, commodo in feugiat quis, vulputate sed ipsum. Nullam facilisis molestie congue. Fusce eros libero, lacinia et maximus quis, porta quis sapien. Aliquam ultricies accumsan eros vel ultrices. Suspendisse porttitor, erat vel sollicitudin semper, lacus sapien sagittis lorem, vel sodales leo sapien quis sapien. Duis lacus nulla, blandit eget hendrerit vel, fringilla in lacus. Donec varius elit ullamcorper massa gravida consequat. Aenean sagittis tempor tortor eu tempus. Pellentesque congue iaculis consequat. Morbi consequat odio erat, et hendrerit ipsum gravida tincidunt. Etiam neque nibh, lacinia in mi et, posuere accumsan nisi. Sed neque ex, convallis nec scelerisque vitae, dapibus sed tellus. Proin venenatis ac enim at euismod.
+
+                    In vel placerat nisi. Cras volutpat nibh sit amet vehicula venenatis. Vestibulum eu neque non libero porta lacinia et sed eros. Sed mattis varius mattis. Ut dignissim, magna vel imperdiet lobortis, enim magna tincidunt sapien, porta cursus risus dui a lectus. Donec ac ipsum a urna laoreet ullamcorper in id augue. Etiam sit amet ligula nisl. Duis congue convallis ligula eget venenatis. Etiam a lobortis mi. Proin et orci ante. Fusce eleifend egestas luctus. Praesent faucibus, nisi eget vestibulum molestie, sapien lorem facilisis justo, et sollicitudin nibh eros eu est. Proin consectetur enim ac volutpat venenatis. Cras condimentum elit magna, molestie egestas dolor interdum non. Maecenas orci tortor, volutpat et est congue, tincidunt pharetra orci.
+
+                    Nunc leo risus, porta volutpat odio id, placerat vehicula ex. Donec quis euismod dui. Duis sit amet tempus ligula. Integer eleifend enim in condimentum rhoncus. In a imperdiet nisi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam ut eros neque.
+
+                    Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In fringilla felis in mollis vestibulum. Donec a lacus condimentum arcu aliquet vestibulum. In hendrerit et dui vel scelerisque. Nunc a dui leo. Fusce id elit mi. Donec rhoncus dolor nulla, at sagittis urna faucibus vitae. Praesent congue nisl ut sapien iaculis accumsan. Integer fringilla augue purus, eu gravida quam malesuada vel. Aliquam pellentesque tortor non massa lobortis, non tristique mauris semper. Fusce pretium elit non enim molestie sodales. Aliquam nulla sapien, varius in consequat id, posuere quis urna. Sed ac ante quis mi ultricies malesuada at a ex. Donec elit mi, molestie eu tincidunt sed, sollicitudin cursus urna.
+
+                    Aliquam bibendum varius ex, porttitor malesuada felis mattis eget. Quisque vitae neque orci. Aliquam erat volutpat. Phasellus et metus convallis, facilisis eros et, feugiat tellus. Aliquam ac lectus non neque volutpat condimentum pharetra nec ligula. Praesent consectetur felis nec condimentum pulvinar. Ut posuere orci ac eros maximus, ultricies volutpat justo luctus. Suspendisse potenti. In vitae fermentum mauris. Duis vel luctus nisi.
+
+                    Curabitur gravida eget quam quis vehicula. Ut dui turpis, tempor id sollicitudin ultrices, suscipit et lectus. Duis non justo nec nisi iaculis pharetra. Aliquam tempus tellus ut velit laoreet varius. Aliquam sit amet dui in dolor lacinia molestie at pretium ligula. Etiam elementum mollis tempus. Vivamus ornare et lectus eget tincidunt. Pellentesque faucibus bibendum lectus, quis sodales eros tincidunt sed. Suspendisse pulvinar ut felis et porttitor. Ut lobortis quam mollis urna tempus dictum. Nulla sodales dolor purus, a pharetra ipsum vestibulum nec. Nam vel ornare est. Sed accumsan diam a magna pharetra, id tempus nibh pharetra. Ut a condimentum orci, a elementum dui. Nulla facilisi. Suspendisse faucibus efficitur feugiat.
+
+                    Praesent volutpat justo vel dolor facilisis viverra. Proin est neque, sodales ut vestibulum eget, fermentum sed ligula. Suspendisse interdum lobortis nulla, sit amet posuere risus convallis et. Maecenas scelerisque, nisi ut porta lacinia, neque odio pretium nibh, id luctus mi felis sed felis. Donec quis porta sem, sed facilisis sem. Nulla mattis ex in nulla congue pharetra. Donec luctus congue iaculis.
+
+                    Praesent in tempus sapien. Sed id auctor metus. Phasellus interdum tortor eget mauris consectetur, non pellentesque dolor gravida. Suspendisse eget fermentum nibh. Sed mattis tincidunt rutrum. Phasellus magna urna, molestie at molestie a, consectetur quis orci. Sed molestie lorem vel purus accumsan vulputate. Maecenas pellentesque magna at nisl sodales vehicula. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam eget lacinia eros, nec facilisis risus. Donec et laoreet nulla. Ut erat risus, consectetur a rutrum eu, aliquam a arcu.
+
+                    Cras tempor orci at massa euismod pulvinar. Pellentesque in neque nulla. Fusce sit amet interdum mauris, et vehicula massa. Nam cursus tellus non felis vestibulum dictum. Donec varius quis odio at faucibus. Vestibulum egestas, justo nec laoreet dignissim, mi nisi feugiat tellus, vel viverra metus nibh vel purus. Ut laoreet nisi in dictum fermentum. Phasellus id turpis dui. Quisque mollis sagittis erat, eu consequat massa volutpat non. Nam id gravida lacus. Nulla rutrum dui erat, imperdiet pellentesque leo venenatis sit amet. Cras imperdiet auctor nulla, mollis tristique dui sodales a. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+                    Nullam consequat libero justo, non mattis metus semper in. Sed luctus quam vitae erat varius, id elementum turpis aliquet. Integer laoreet dolor vitae tellus pulvinar, sit amet sodales sapien lacinia. Pellentesque commodo enim vitae convallis pulvinar. Proin pellentesque placerat nunc a sagittis. Curabitur sit amet tristique tellus. Fusce eleifend felis nec dolor bibendum porttitor. Aenean lacinia tempus lectus eget pulvinar. In hac habitasse platea dictumst. Praesent mollis nunc in quam varius, in ornare neque rutrum. Proin viverra sem scelerisque, pellentesque purus vitae, pellentesque ligula. Morbi non odio ultrices, ultrices dui viverra, aliquam erat. Donec non volutpat felis. Praesent facilisis erat vitae dui aliquet porta. Duis mattis fringilla sem vitae congue. Integer tristique euismod eros ac ullamcorper.
+
+                    Mauris finibus metus sit amet nisl cursus sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam massa ex, ullamcorper eu libero eget, vehicula facilisis libero. Nam semper mi maximus, vulputate augue id, posuere ipsum. Mauris eget velit mollis, feugiat dolor et, gravida tellus. Curabitur vehicula vestibulum odio iaculis tempus. Vivamus in ornare nunc. Cras ultrices, purus sit amet pulvinar lobortis, metus quam dapibus tortor, a tincidunt felis orci sed eros. Duis lorem odio, ultrices vitae ligula in, laoreet sollicitudin urna. Nam in elit sed felis dignissim convallis sit amet ac sem. Ut quam massa, elementum nec varius sed, gravida eget ante.
+
+                    Nunc nec dictum odio, in condimentum nunc. Donec condimentum nunc nec nisl hendrerit dapibus. Curabitur finibus, metus id accumsan feugiat, massa mi molestie nibh, id auctor elit tortor nec ante. Nulla at ultrices augue. Fusce sed posuere magna. Suspendisse a elementum eros, eu accumsan nunc. Sed ac efficitur nulla. In molestie, arcu non pharetra faucibus, mi tellus facilisis lectus, ut finibus mauris felis sit amet mi. In congue odio vel fermentum volutpat.
+
+                    Cras et ipsum sed tortor porttitor pharetra. Nam egestas ex nec mollis laoreet. In vel convallis quam, quis luctus urna. Fusce volutpat tellus non sapien euismod auctor. Vivamus accumsan mattis vulputate. Ut hendrerit congue mi, quis porta nibh luctus et. Ut sapien tortor, luctus eu hendrerit eu, faucibus id nibh. Praesent porttitor leo erat, id imperdiet metus vehicula eget. Maecenas arcu sem, maximus at fermentum finibus, finibus sed lorem. Vestibulum imperdiet et turpis non posuere. Cras elementum pretium orci, in malesuada tellus ultrices condimentum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean odio quam, laoreet non ultricies ut, sagittis eget neque. Proin sit amet ultrices nunc, vitae mattis est. Maecenas varius magna volutpat, scelerisque urna non, sodales erat. Aliquam erat volutpat.
+
+                    Aliquam commodo aliquam dignissim. Praesent eget risus varius turpis dictum volutpat. Integer fringilla nisl in odio pharetra pellentesque. Etiam convallis mattis mauris, eget eleifend arcu dictum in. Etiam euismod est nec tellus scelerisque posuere. Suspendisse fringilla dolor non convallis fringilla. Sed semper turpis non ex gravida, at convallis ligula gravida. Sed at tincidunt libero. Suspendisse posuere tempor nibh eget blandit. Maecenas vel venenatis enim. Vivamus erat quam, sollicitudin eu rhoncus eu, sollicitudin at lectus.
+
+                    Maecenas ac lectus efficitur, tristique purus ultrices, laoreet nibh. Morbi egestas nisl tellus, id condimentum dolor aliquam rutrum. Curabitur tempus id sem nec congue. Nulla et finibus augue. Aliquam nibh nibh, posuere et orci non, consequat tincidunt velit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean id massa ut purus molestie consequat. Maecenas sollicitudin molestie accumsan. Nulla at orci dignissim, blandit sapien ut, ultrices massa. Donec a iaculis nulla. Integer tortor lacus, congue vestibulum eleifend sit amet, euismod sit amet dolor. Etiam erat lorem, blandit eget justo in, varius venenatis velit. Proin maximus nunc eros, vitae finibus ex varius non. Cras porttitor est non elit accumsan, scelerisque finibus dolor laoreet. Maecenas pellentesque porttitor turpis vel facilisis.
+
+                    Integer sed tellus tincidunt, scelerisque nisl vel, fringilla eros. Etiam augue mi, venenatis hendrerit efficitur ut, faucibus sed nisl. Vestibulum malesuada dolor at egestas pellentesque. Vestibulum ultricies porta eros sed egestas. Vestibulum maximus maximus risus, a feugiat nisi tincidunt in. Pellentesque ullamcorper sem at tellus molestie, in pellentesque elit rhoncus. Proin tempor eleifend felis ac consequat. Morbi scelerisque dictum urna a sagittis. Pellentesque eu dapibus dui. Donec laoreet tempor ante, ac finibus arcu auctor at. Integer volutpat sem vel leo egestas sodales.
+
+                    Pellentesque facilisis ut lacus aliquam accumsan. Nullam ligula lectus, posuere sed magna posuere, tincidunt mollis sem. Nulla pellentesque nisi a sem elementum, non aliquet mi maximus. Nunc consectetur nisi nec risus pretium bibendum. Vivamus consectetur tempor nisl, ullamcorper ultricies diam vulputate ac. Pellentesque magna risus, consequat non justo ut, gravida aliquam dui. Duis vel ex mi. Suspendisse laoreet eget leo id scelerisque. Sed tellus velit, sollicitudin eu magna a, tempus dignissim ex. Duis ante enim, volutpat sit amet ipsum quis, egestas laoreet nisi. Curabitur non molestie est, vitae vehicula enim. Vestibulum sed risus pretium, dictum tortor vitae, varius metus. Proin condimentum orci ac ante lobortis, non sollicitudin magna blandit.
+
+                    Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur efficitur id dui scelerisque elementum. Duis ultricies tellus a ligula euismod, in rutrum dolor lobortis. Mauris arcu elit, dignissim nec ipsum eget, elementum porta ligula. Aliquam fringilla dui sit amet varius varius. Nulla facilisi. Ut fringilla tellus at dui laoreet, sed vehicula justo imperdiet.
+
+                    Aliquam sit amet feugiat neque, sit amet varius nisl. Pellentesque eget nisi a nibh pulvinar vehicula sit amet eget dolor. Maecenas fermentum, felis in vulputate finibus, libero nulla cursus nisl, eget aliquam leo ipsum placerat tellus. Vestibulum sed mattis quam. Pellentesque placerat vehicula libero at vehicula. Nunc mollis vel elit id fermentum. Sed quis porttitor neque. Nam metus nunc, faucibus in malesuada in, sollicitudin ornare magna. Sed dapibus enim non consequat laoreet. Mauris sed purus tincidunt nibh malesuada consectetur. Integer cursus felis mauris, nec tincidunt erat dignissim nec. Nulla pretium elit vitae tortor volutpat, vel eleifend est commodo. Sed in magna elit.
+
+                    Aenean diam augue, finibus vel molestie elementum, ultrices et justo. Suspendisse vel erat ipsum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse leo massa, faucibus eu auctor quis, luctus egestas elit. Pellentesque venenatis metus sed lectus aliquet fringilla. Nullam eu massa suscipit leo venenatis ornare vel nec urna. Nam volutpat laoreet augue nec consectetur. In hac habitasse platea dictumst. Aenean a eros id ligula vestibulum pretium in vitae orci. Etiam varius pharetra rutrum. Praesent et tortor diam. Ut sit amet lorem dolor. Aliquam erat volutpat. Nunc sagittis sed metus id dictum.
+
+                    Integer vitae risus tellus. Cras ante odio, dapibus et velit quis, cursus fringilla turpis. Etiam tincidunt ligula et dolor sagittis, nec vestibulum risus mollis. Curabitur consectetur mi sit amet massa vulputate iaculis. Nulla facilisi. Aliquam sit amet mattis est. Sed hendrerit molestie sem eu ultrices. Vestibulum nec rhoncus nisl. Curabitur dignissim orci id ante faucibus, nec vehicula est dictum. Nullam viverra massa mauris, sit amet volutpat libero ultrices ac. In sollicitudin quis lectus a ullamcorper. Phasellus ut vehicula metus, quis scelerisque neque. Pellentesque euismod euismod est, at hendrerit ante. Duis tincidunt, dui ac faucibus dictum, felis est ornare dui, vel euismod nunc erat vel ligula. Mauris a magna quis ipsum tempor interdum at at diam. Duis euismod tempor orci.
+
+                    Sed tincidunt felis elit. Quisque elit magna, tincidunt at dui eget, suscipit consequat sapien. Ut mollis nisl eget egestas placerat. Phasellus tincidunt quam in vestibulum rutrum. Nulla quam velit, accumsan eu diam ac, fringilla efficitur eros. Aliquam nec dolor ut tellus accumsan consectetur. Maecenas enim nisi, feugiat vel elit nec, imperdiet efficitur eros.
+                </div>
+            </div>
+            <div class="some-scroll-block-carriage js-simple-some-page-ui-scroll">
+                <div class="some-scroll-block-carriage-cursor">
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <p>Код примера:</p>
+            <div class="code">
+                var scroll2 = UIScroll.create($('.js-simple-some-page-ui-scroll'), {
+                    $target: $('.js-simple-scroll-target')
+                });
+            </div>
+        </div>
+
+        <div class="text" id="examples">
+            <p><h2>Примеры</h2></p>
+            <textarea class="js-textarea some-textarea">Введите сюда длинный текст, для того, чтобы появился скролл (Например, можно выделить весь текст и вставить его сюда)</textarea>
+
+            <div class="some-scroll-block js-scroll-target">
+                <div class="js-scroll">Введите сюда длинный текст, для того, чтобы появился скролл (Например, можно выделить весь текст и вставить его сюда)</div>
+            </div>
+            <div class="some-scroll-block-carriage js-some-page-ui-scroll">
+                <div class="some-scroll-block-carriage-cursor">
+                </div>
+            </div>
+            <div style="clear: both"></div>
+            <script src="https://gist.github.com/xnimorz/2b8070239f001a5d9c96.js"></script>
+        </div>
+
+        <div class="text" id="params">
+            <h2>Параметры и методы</h2>
+            <p>UIScroll является расширением компонента UICarriage и предоставляет "наружу" один метод:</p>
+            <ul>
+                <li>resize - оповещает компонент о том, что размеры области для скролла могли измениться и поэтому необходимо пересчитать показатели</li>
+            </ul>
+
+            <p>Параметры для uiCarriage.scroll:</p>
+            <ul>
+                <li>{Boolean} hideOnLeave - скрывать ли скрол, если мышь уходит за область видимости контента (по умолчанию true)</li>
+                <li>{String} scrollEndEvent - Событие генерируемое при окончании скролла (по умолчанию 'scroll:stop')</li>
+                <li>{String} scrollEvent - Событие генерируемое при скролле (по умолчанию 'scroll:move')</li>
+                <li>{Boolean} isHorizontal - горизонтальный ли скролл (по умолчанию false)</li>
+                <li>{JQuery} $target - jQuery объект элемента, контент которого должен скролиться. Должен содержать в себе один элемент который и будет скроллиться</li>
+                <li>{Number} minSize - минимальный размер скроллинга (по умолчанию 30)</li>
+                <li>{Boolean} preventScroll - событие скролла не будет скроллить контент (запрещает стандартное поведение)</li>
+            </ul>
+
+            <p>UIScroll, по умолчанию, при окончании сколла триггерит событие 'scroll:stop' и при движении 'scroll:move' на элементе-инициализаторе</p>
+            <p></p>
+        </div>
+    </div>
+
+</body>
+</html>

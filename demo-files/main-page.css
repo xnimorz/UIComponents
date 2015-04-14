@@ -51,6 +51,8 @@ html, body {
     .header__title {
         font-size: 30px;
         display: inline-block;
+        text-decoration: none;
+        color: #333;
     }
 
     .header__list {
