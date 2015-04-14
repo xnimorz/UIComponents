@@ -6,6 +6,11 @@ require.config({
             main: 'UIDropdown'
         },
         {
+            name: 'UIComponents/UIScroll',
+            location: 'UIScroll',
+            main: 'UIScroll'
+        },
+        {
             name: 'UIComponents/UICarriage',
             location: 'UICarriage',
             main: 'UICarriage'

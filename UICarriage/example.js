@@ -6,7 +6,7 @@ require(
         'jquery',
         'UIComponents/UICarriage'
     ],
-    function($, uiCarriage) {
+    function($, UICarriage) {
         'use strict';
 
         $(function() {
@@ -14,7 +14,7 @@ require(
                 console.log(eventArgs);
             });
 
-            uiCarriage.carriage(
+            UICarriage.create(
                 $('.js-fast-start'),
                 {
                     maxOffset: 390,
@@ -30,7 +30,7 @@ require(
                     $('.js-input-mouse-up').html(args.value);
                 });
 
-            uiCarriage.carriage(
+            UICarriage.create(
                 $('.js-input-linear-carriage'),
                 {
                     maxOffset: 390,
@@ -44,7 +44,7 @@ require(
                 $('.js-input-linear-segments').val(args.value);
             });
 
-            uiCarriage.carriage(
+            UICarriage.create(
                 $('.js-input-linear-segments-carriage'),
                 {
                     maxOffset: 390,
@@ -61,7 +61,7 @@ require(
                 $('.js-input-segments').val(args.value);
             });
 
-            uiCarriage.carriage(
+            UICarriage.create(
                 $('.js-input-segments-carriage'),
                 {
                     maxOffset: 390,
@@ -80,7 +80,7 @@ require(
                 $('.js-start-value').val(args.value);
             })
 
-            uiCarriage.carriage(
+            UICarriage.create(
                 $('.js-start-value-carriage'),
                 {
                     maxOffset: 390,
@@ -98,7 +98,7 @@ require(
                 });
             })
 
-            uiCarriage.carriage(
+            UICarriage.create(
                 $('.js-some-page'),
                 {
                     maxOffset: 400,
@@ -114,7 +114,7 @@ require(
                     $('.js-steps-end').html(args.value);
                 });
 
-            uiCarriage.carriage(
+            UICarriage.create(
                 $('.js-steps-line'),
                 {
                     maxOffset: 350,
@@ -138,7 +138,7 @@ require(
                     $('.js-auto-steps-end').html(args.value);
                 });
 
-            uiCarriage.carriage(
+            UICarriage.create(
                 $('.js-auto-steps-line'),
                 {
                     maxOffset: 390,
@@ -159,7 +159,7 @@ require(
                 });
             });
 
-            var pageScrollCarriage = uiCarriage.carriage(
+            var pageScrollCarriage = UICarriage.create(
                 pageScroll,
                 {
                     maxOffset: 400,
@@ -203,7 +203,7 @@ require(
                 .on('carriage:end', function (e, args) {
                     $('.js-buttons-steps-end').html(args.value);
                 })
-            var stepsCarriage = uiCarriage.carriage(
+            var stepsCarriage = UICarriage.create(
                 buttonsSteps,
                 {
                     maxOffset: 400,
@@ -236,8 +236,8 @@ require(
             })
                 .on('carriage:end', function (e, args) {
                     $('.js-buttons-end').html(args.value);
-                })
-            var buttonsCarriage = uiCarriage.carriage(
+                });
+            var buttonsCarriage = UICarriage.create(
                 buttons,
                 {
                     maxOffset: 400,
@@ -262,16 +262,6 @@ require(
                 buttonsCarriage.next();
             });
 
-
-            //uiScroll
-            var scroll = uiCarriage.scroll($('.js-some-page-ui-scroll'), {
-                $target: $('.js-scroll-target')
-            });
-
-            $('.js-textarea').on('keyup', function () {
-                $('.js-scroll').html($(this).val())
-                scroll.resize();
-            });
         });
     }
 );

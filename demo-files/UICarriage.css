@@ -113,6 +113,11 @@ ul {
     word-break: break-all;
 }
 
+.some-scroll-block_full {
+    width: 60%;
+    line-height: 1.5;
+}
+
 .some-scroll-block-carriage {
     height: 412px;
     top: 10px;
@@ -164,3 +169,6 @@ ul {
     margin-left: 180px;
 }
 
+.clearfix {
+    clear: both;
+}

@@ -13,9 +13,8 @@
 </head>
 <body class="page">
     <div class="head">
-        <a href="../" class="head__back">К списку</a>
         <div class="header">
-            <div class="header__title">UICarriage</div>
+            <a href="../" class="header__title">UICarriage</a>
             <ui class="header__list links">
                 <li class="links__item"><a href="#about" class="link">Описание</a></li>
                 <li class="links__item"><a href="#fast" class="link">Быстрый старт</a></li>
@@ -50,7 +49,6 @@
                     <li><a class="link" href="#auto-steps">Использование пошагового скроллинга c автогенерацией шага</a></li>
                     <li><a class="link" href="#buttons">Использование каретки и кнопок переключения между сегментами</a></li>
                     <li><a class="link" href="#buttons-steps">Использование пошаговой каретки и кнопок переключения между сегментами, использование цикличного переключения</a></li>
-                    <li><a class="link" href="#page-scroll">Скролл блоков с использованием uiScroll</a></li>
                 </ul>
             </li>
         </ul>
@@ -297,7 +295,7 @@
                 </div>
             </div>
             <div style="clear: both"></div>
-            <b>Заметим, что данный пример скрола - демонстрация вохможностей объекта UICarriage. Для работы со скролом существует класс UIScroll, рассматриваемый ниже. Данный класс добавляет uiCarriage поведение для скролла элементов</b>
+            <b>Заметим, что данный пример скрола - демонстрация вохможностей объекта UICarriage. Для работы со скролом существует класс <a href="/UIComponents/UIScroll">UIScroll</a>, рассматриваемый ниже. Данный класс добавляет uiCarriage поведение для скролла элементов</b>
             <script src="https://gist.github.com/xnimorz/11299187.js"></script>
 
             <i>Размер 3825 взят по принципу: реальный размер внутреннего содержимого - 400px (высота отображаемая по умолчанию)</br>
@@ -347,38 +345,6 @@
             <p>move end: <span class="js-buttons-steps-end"></span></p>
             <p>Код примера:</p>
             <script src="https://gist.github.com/xnimorz/e3f3b22a00d874fae9da.js"></script>
-
-            <p><h2 id="UIScroll">UIScroll</h2></p>
-            <p>UICarriage.js содержит модуль, который позволяет обрабатывать определенный юзкейс - скролл. Иногда, недостаточно использовать overflow: scroll для своей работы, так как необходим пользовательский скролл (который будет анимирован определенным образом, либо размещен в нестандартном месте)</p>
-            <p>Для такой задачи можно воспользоваться встроенным в uiCarriage модулем - scroll. Этот модуль является оберткой для uiCarriage и работает через нее, выставляя в виде интерфейса следующий метод:</p>
-            <ul>
-                <li>resize - оповещает компонент о том, что размеры области для скролла могли измениться и поэтому необходимо пересчитать показатели</li>
-            </ul>
-
-            <p>Параметры для uiCarriage.scroll:</p>
-            <ul>
-                <li>{Boolean} hideOnLeave - скрывать ли скрол, если мышь уходит за область видимости контента (по умолчанию true)</li>
-                <li>{String} scrollEndEvent - Событие генерируемое при окончании скролла (по умолчанию 'scroll:stop')</li>
-                <li>{String} scrollEvent - Событие генерируемое при скролле (по умолчанию 'scroll:move')</li>
-                <li>{Boolean} isHorizontal - горизонтальный ли скролл (по умолчанию false)</li>
-                <li>{JQuery} $target - jQuery объект элемента, контент которого должен скролиться. Должен содержать в себе один элемент который и будет скроллиться</li>
-                <li>{Number} minSize - минимальный размер скроллинга (по умолчанию 30)</li>
-                <li>{Boolean} preventScroll - событие скролла не будет скроллить контент (запрещает стандартное поведение)</li>
-            </ul>
-
-            <p><h3 id="page-scroll">Скролл с использованием uiScroll</h3></p>
-            <textarea class="js-textarea some-textarea">Введите сюда длинный текст, для того, чтобы появился скролл</textarea>
-
-            <div class="some-scroll-block js-scroll-target">
-                <div class="js-scroll">Введите сюда длинный текст, для того, чтобы появился скролл</div>
-            </div>
-            <div class="some-scroll-block-carriage js-some-page-ui-scroll">
-                <div class="some-scroll-block-carriage-cursor">
-                </div>
-            </div>
-            <div style="clear: both"></div>
-            <script src="https://gist.github.com/xnimorz/2b8070239f001a5d9c96.js"></script>
-
 
             <p><h3><a href="https://github.com/xnimorz/UIComponents/tree/master/UICarriage" target="_blank">Fork me on GitHub!</a></h3></p>
         </div>
